@@ -1,0 +1,11 @@
+.idea
+.vscode
+node_modules
+bmb_packages
+bower_components
+aura-output
+**/dist
+reports
+tmp
+build
+.eslintrc.js
