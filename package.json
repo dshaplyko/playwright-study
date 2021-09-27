@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "postinstall": "npx playwright install",
-    "clean": "rimraf ./common/*.xml && rimraf ./common/results && rimraf ./build",
+    "pretest": "rimraf ./common/*.xml && rimraf ./common/results && rimraf ./build",
     "test": "playwright test",
     "lint": "eslint . --format table --fix --color"
   },
@@ -29,6 +29,12 @@
     "@typescript-eslint/eslint-plugin": "^4.15.0",
     "@typescript-eslint/parser": "^4.15.0",
     "typescript": "^4.4.3",
-    "eslint": "^7.9.0"
+    "eslint": "^7.9.0",
+    "husky": "^4.3.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint -- --fix"
+    }
   }
 }
