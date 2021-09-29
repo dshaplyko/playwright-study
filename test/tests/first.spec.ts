@@ -1,8 +1,13 @@
 // example.spec.ts
 import { test, expect } from "@playwright/test";
-
-test("my test", async ({ page }) => {
-  await page.goto("");
-  const name = await page.innerText(".navbar__title");
-  expect(name).toBe("Playwright");
+import { BasePage } from "../po/pages/Base.page";
+let basePage: BasePage;
+test.describe("My test suite", () => {
+  test.beforeEach(async ({ page }) => {
+    basePage = new BasePage(page);
+    await basePage.goto();
+  });
+  test("First test", async () => {
+    expect(await basePage.header.getText()).toBe("Please load data");
+  });
 });
