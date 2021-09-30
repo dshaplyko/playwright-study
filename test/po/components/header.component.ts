@@ -1,4 +1,6 @@
-import { expect, Locator, Page } from "@playwright/test";
+import {
+  expect, Locator, Page,
+} from "@playwright/test";
 
 export default class Header {
   readonly locator: Locator;

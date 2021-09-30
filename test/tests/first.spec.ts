@@ -1,5 +1,7 @@
 // example.spec.ts
-import { test, expect, FetchResponse, FetchRequest } from "@playwright/test";
+import {
+  test, expect, FetchResponse, FetchRequest,
+} from "@playwright/test";
 import { BasePage } from "../po/pages/base.page";
 let basePage: BasePage;
 
