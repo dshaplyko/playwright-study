@@ -1,7 +1,7 @@
 // playwright.config.ts
 import { PlaywrightTestConfig } from "@playwright/test";
 import path from "path";
-const baseURL: string = "http://ttt.tttt.com:7171";
+const baseURL = "http://ecsc00a01c5c.epam.com:7171";
 
 const config: PlaywrightTestConfig = {
   use: {
@@ -11,6 +11,7 @@ const config: PlaywrightTestConfig = {
       height: 720,
     },
     ignoreHTTPSErrors: true,
+    screenshot: "only-on-failure",
     video: "retain-on-failure",
     trace: "retain-on-failure",
   },
