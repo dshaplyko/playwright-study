@@ -1,6 +1,5 @@
-import {
-  expect, Locator, Page,
-} from "@playwright/test";
+/* eslint-disable require-await */
+import { Locator, Page } from "@playwright/test";
 
 export default class LeftPanel {
   readonly locator: Locator;

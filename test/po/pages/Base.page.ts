@@ -1,5 +1,5 @@
 // playwright-dev-page.ts
-import { expect, Locator, Page } from "@playwright/test";
+import { Page } from "@playwright/test";
 import Header from "../components/header.component";
 import LeftPanel from "../components/leftPanel.component";
 
