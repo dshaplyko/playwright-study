@@ -1,5 +1,7 @@
 // example.spec.ts
-import { test, expect, Page } from "@playwright/test";
+import {
+  test, expect, Page,
+} from "@playwright/test";
 import { Portfolio } from "../po/pages/Portfolio.page";
 import { LoginPage } from "../po/pages/Login.page";
 import { TEST_USER } from "../config/constants";

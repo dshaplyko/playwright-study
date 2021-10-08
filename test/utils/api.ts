@@ -1,4 +1,6 @@
-import { BrowserContext, Page, FetchResponse } from "@playwright/test";
+import {
+  BrowserContext, Page, FetchResponse,
+} from "@playwright/test";
 import { loginRequestBody } from "../config/constants";
 
 export class Api {
