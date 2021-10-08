@@ -11,14 +11,14 @@ export class BasePage {
   }
 
   get header() {
-    return new Header(this.page, ".initial-view");
+    return new Header(this.page.locator("[ng-controller='TradeAsSideMenuController as sidemenu']"));
   }
 
   get leftPanel() {
     return new LeftPanel(this.page, ".side-bar");
   }
 
-  async goto() {
-    await this.page.goto("/");
+  async goto(url: string) {
+    await this.page.goto(url);
   }
 }

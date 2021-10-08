@@ -1,7 +1,8 @@
 // playwright.config.ts
 import { PlaywrightTestConfig } from "@playwright/test";
+import { BASE_URL } from "./test/config/constants";
 import path from "path";
-const baseURL = "http://ecsc00a01c5c.epam.com:7171";
+const baseURL = BASE_URL || "https://trade-sg.oslsandbox.com";
 
 const config: PlaywrightTestConfig = {
   use: {
@@ -15,7 +16,7 @@ const config: PlaywrightTestConfig = {
     video: "retain-on-failure",
     trace: "retain-on-failure",
   },
-  retries: 3,
+  retries: 1,
   reporter: [
     ["list"],
     [

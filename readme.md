@@ -1,4 +1,4 @@
-# playwright-seed-project
+# Platform WEB UI E2E tests
 
 ##### Table of Contents
 

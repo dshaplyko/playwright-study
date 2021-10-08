@@ -1,14 +1,18 @@
 /* eslint-disable require-await */
-import { Locator, Page } from "@playwright/test";
+import { Locator } from "@playwright/test";
+import { Field } from "../components/basic/field";
 
 export default class Header {
   readonly locator: Locator;
 
-  constructor(page: Page, locator: string) {
-    this.locator = page.locator(locator);
+  readonly portfolioLink: Field;
+
+  constructor(locator: Locator) {
+    this.locator = locator;
+    this.portfolioLink = new Field(this.locator.locator("a[href*='user']"));
   }
 
-  async getText(): Promise<string> {
-    return this.locator.innerText();
-  }
+  // async getText(): Promise<string> {
+  //   return this.locator.innerText();
+  // }
 }

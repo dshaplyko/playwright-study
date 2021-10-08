@@ -1,21 +1,26 @@
 // example.spec.ts
-import {
-  test, expect, FetchResponse,
-} from "@playwright/test";
-import { BasePage } from "../po/pages/base.page";
-let basePage: BasePage;
+import { test, expect, Page } from "@playwright/test";
+import { Portfolio } from "../po/pages/Portfolio.page";
+import { LoginPage } from "../po/pages/Login.page";
+import { TEST_USER } from "../config/constants";
+let page: Page;
+let loginPage: LoginPage;
+let portfolio: Portfolio;
 
-test.describe("My test suite", () => {
-  test.beforeEach(async ({ page }) => {
-    basePage = new BasePage(page);
-    await basePage.goto();
+test.describe("Login Test Suite", () => {
+  test.beforeAll(async ({ browser }) => {
+    page = await browser.newPage();
+    loginPage = new LoginPage(page);
+    portfolio = new Portfolio(page);
+    await loginPage.goto();
+    await loginPage.login(TEST_USER.email, TEST_USER.password);
   });
-  test("First test", async ({ page }) => {
-    console.log(await basePage.leftPanel.getSectionTexts());
-    const response: FetchResponse = await page._request.get("https://jsonplaceholder.typicode.com/posts", {
-      timeout: 5000,
-    });
-    console.log(JSON.parse(await response.text()));
-    expect(await basePage.header.getText()).toBe("Please load data");
+
+  test("> should login with valid credentials", async () => {
+    console.log(await portfolio.header.portfolioLink.getText());
+  });
+
+  test("> should login with valid credentials-2", async () => {
+    await expect(portfolio.totalBalance).toBeVisible();
   });
 });
