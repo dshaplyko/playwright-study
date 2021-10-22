@@ -9,7 +9,7 @@ export class Element {
 
   async waitForVisible() {
     try {
-      await this.el.elementHandle();
+      await this.el.waitFor();
     } catch (err) {
       throw err;
     }

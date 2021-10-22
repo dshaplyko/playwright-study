@@ -1,6 +1,4 @@
-import {
-  BrowserContext, Page, FetchResponse,
-} from "@playwright/test";
+import { BrowserContext, Page } from "@playwright/test";
 import {
   loginRequestBody, SG_CONFIG, SG_USER,
 } from "../config";
@@ -22,7 +20,7 @@ export class Api {
 
   async loginViaApi(baseUrl: string) {
     await this.page.goto("/user");
-    const response: FetchResponse = await this.page._request.post(`${baseUrl}/moon/v1/login`, {
+    const response: any = await this.page.request.post(`${baseUrl}/moon/v1/login`, {
       timeout: API_TIMEOUT,
       data: JSON.stringify(loginRequestBody),
     });

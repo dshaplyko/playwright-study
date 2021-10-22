@@ -139,3 +139,66 @@ export const configOptionsMap = [
     cashOut: true,
   },
 ];
+
+export const configWidgetsMap = [
+  {
+    testName: "should disable Digital Assets and FIAT Currencies widgets",
+    config: {
+      portfolio: {
+        showAssetsBox: false,
+      },
+    },
+    yourPortfolio: true,
+    digitalAssets: false,
+    fiatCurrencies: false,
+    chart: true,
+    tradingButtons: true,
+    holdingList: true,
+    yourConsole: true,
+  },
+  {
+    testName: "should disable Your Portfolio widget",
+    config: {
+      features: {
+        dashboardTotalBalance: false,
+      },
+    },
+    yourPortfolio: false,
+    digitalAssets: true,
+    fiatCurrencies: true,
+    chart: true,
+    tradingButtons: true,
+    holdingList: true,
+    yourConsole: true,
+  },
+  {
+    testName: "should disable All Widgets",
+    config: {
+      portfolio: {
+        showBalanceBox: false,
+      },
+    },
+    yourPortfolio: false,
+    digitalAssets: false,
+    fiatCurrencies: false,
+    chart: true,
+    tradingButtons: true,
+    holdingList: true,
+    yourConsole: true,
+  },
+  {
+    testName: "should disable All except of Feature Highlight Component",
+    config: {
+      portfolio: {
+        showAsset: false,
+      },
+    },
+    yourPortfolio: false,
+    digitalAssets: false,
+    fiatCurrencies: false,
+    chart: false,
+    tradingButtons: false,
+    holdingList: false,
+    yourConsole: true,
+  },
+];

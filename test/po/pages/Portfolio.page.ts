@@ -55,7 +55,7 @@ export class PortfolioPage extends BasePage {
       case "your console":
         return new FeatureHighlight(this.page.locator("[data-test-id='your-console']"));
       case "upgrade your account":
-        return new FeatureHighlight(this.page.locator("[data-test-id='enable-2-factor-security']"));
+        return new FeatureHighlight(this.page.locator("[data-test-id='upgrade-your-account']"));
       case "account box":
         return new FeatureHighlight(this.page.locator("[data-test-id='get-premium']"));
     }

@@ -1,32 +1,32 @@
 import { test } from "@playwright/test";
-import { LoginPage } from "../po/pages/Login.page";
+import { App } from "../po/pages";
 import { TEST_USER } from "../config/constants";
 import { verifyPageUrlContains, expectElementVisibility } from "../utils";
-let loginPage: LoginPage;
+let app: App;
 
 test.describe("Login Test Suite", () => {
   test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-    await loginPage.goto();
+    app = new App(page);
+    await app.loginPage.goto();
   });
 
   test("> login page should contain needed elements @smoke", async () => {
-    await expectElementVisibility(loginPage.emailField, true);
-    await expectElementVisibility(loginPage.passwordField, true);
-    await expectElementVisibility(loginPage.loginButton, true);
+    await expectElementVisibility(app.loginPage.emailField, true);
+    await expectElementVisibility(app.loginPage.passwordField, true);
+    await expectElementVisibility(app.loginPage.loginButton, true);
   });
 
   test("> should login with valid credentials", async ({ page }) => {
-    await loginPage.emailField.type(TEST_USER.email);
-    await loginPage.passwordField.type(TEST_USER.password);
-    await loginPage.loginButton.click();
-    await verifyPageUrlContains(page, "portfolio");
+    await app.loginPage.emailField.type(TEST_USER.email);
+    await app.loginPage.passwordField.type(TEST_USER.password);
+    await app.loginPage.loginButton.click();
+    await verifyPageUrlContains(page, app.portfolioPage.url);
   });
 
   test("> should be able to logout", async ({ page }) => {
-    await loginPage.login();
-    await loginPage.header.profile.click();
-    await loginPage.profile.logout.click();
-    await verifyPageUrlContains(page, "signin");
+    await app.loginPage.login();
+    await app.loginPage.header.profile.click();
+    await app.loginPage.profile.logout.click();
+    await verifyPageUrlContains(page, app.loginPage.url);
   });
 });
