@@ -1,32 +1,33 @@
 // playwright-dev-page.ts
 import { Page, Locator } from "@playwright/test";
 import { BasePage } from "./Base.page";
-import { Element } from "../components/basic/element";
-import { Field } from "../components/basic/field";
+import { TEST_USER } from "../../config";
 
 export class LoginPage extends BasePage {
   readonly url: string;
 
-  readonly emailField: Field;
+  readonly emailField: Locator;
 
-  readonly passwordField: Field;
+  readonly passwordField: Locator;
 
   readonly loginButton: Locator;
-
-  readonly someButton: Element;
 
   constructor(page: Page, url = "/signin") {
     super(page);
     this.url = url;
-    this.emailField = new Field(this.page.locator("#email"));
-    this.passwordField = new Field(this.page.locator("#password"));
-    this.loginButton = this.page.locator("button[type='submit']");
+    this.emailField = this.page.locator("#sign-in-username");
+    this.passwordField = this.page.locator("#sign-in-password");
+    this.loginButton = this.page.locator("[data-test-id='button-login']");
   }
 
-  async login(email: string, password: string): Promise<void> {
+  async login(email: string = TEST_USER.email, password: string = TEST_USER.password): Promise<void> {
+    await this.goto();
     await this.emailField.type(email);
     await this.passwordField.type(password);
     await this.loginButton.click();
+    await this.page.waitForURL(/portfolio/, {
+      waitUntil: "domcontentloaded",
+    });
   }
 
   async goto() {

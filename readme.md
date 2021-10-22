@@ -3,7 +3,9 @@
 ##### Table of Contents
 
 [1 - Description](#description)  
-[2 - Installation](#installation)
+[2 - Installation](#installation)  
+[3 - How to Run test scenarios](#how_to_run)  
+[4 - Configure BaseUrl for particular Test Suite](#configure_base_url)
 
 <a name="description"/>
 
@@ -22,4 +24,22 @@
 ```sh
 1. npm i
 2. npm test (to run all the tests)
+```
+
+<a name="how_to_run"/>
+
+## 3 - How to Run test scenarios
+
+```sh
+1. npm test ./tests/login.spec.ts -> to run only one spec file
+2. npm test -- --headed -> enable headed mode
+3. npm test -- --grep="@smoke"  -> to run Smoke test only
+```
+
+<a name="configure_base_url"/>
+
+## 4 - Configure BaseUrl for a particulat Test Suite
+
+```sh
+test.use({ baseURL: 'https://playwright.dev' })
 ```

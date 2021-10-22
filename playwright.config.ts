@@ -2,11 +2,10 @@
 import { PlaywrightTestConfig } from "@playwright/test";
 import { BASE_URL } from "./test/config/constants";
 import path from "path";
-const baseURL = BASE_URL || "https://trade-sg.oslsandbox.com";
 
 const config: PlaywrightTestConfig = {
   use: {
-    baseURL,
+    baseURL: BASE_URL,
     viewport: {
       width: 1280,
       height: 720,
@@ -16,7 +15,9 @@ const config: PlaywrightTestConfig = {
     video: "retain-on-failure",
     trace: "retain-on-failure",
   },
-  retries: 1,
+  workers: 1,
+  // retries: 1,
+  timeout: 120000,
   reporter: [
     ["list"],
     [

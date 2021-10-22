@@ -1,40 +1,32 @@
 {
-  "name": "playwright-study",
-  "version": "1.0.0",
+  "name": "platform-web-ui-e2e",
+  "version": "1.0.1",
   "description": "Test project for the Playwright Automated Testing",
-  "main": "index.js",
   "scripts": {
     "build": "tsc",
     "postinstall": "npx playwright install",
     "pretest": "rimraf ./common/*.xml && rimraf ./common/results && rimraf ./build",
     "test": "playwright test",
-    "lint": "eslint . --format table --fix --color"
+    "test:smoke": "npm test -- --grep='@smoke'",
+    "lint": "eslint . --format table --fix --color",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dshaplyko/playwright-study.git"
+    "url": "git+https://gitlab.com/_bcgroup/platform/core_svcs/platform-web-ui-e2e.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dshaplyko/playwright-study/issues"
-  },
-  "homepage": "https://github.com/dshaplyko/playwright-study#readme",
+  "author": "Dzmitry_Shaplyka@epam.com",
+  "license": "MIT",
   "devDependencies": {
-    "@playwright/test": "^1.15.0"
+    "@playwright/test": "1.16.0"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^4.15.0",
     "@typescript-eslint/parser": "^4.15.0",
-    "eslint": "^7.9.0",
-    "husky": "^4.3.0",
+    "eslint": "^7.32.0",
+    "husky": "^7.0.2",
     "rimraf": "^3.0.2",
     "typescript": "^4.4.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint"
-    }
   }
 }

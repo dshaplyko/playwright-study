@@ -1,13 +1,21 @@
 import { Locator } from "@playwright/test";
 
 export class Element {
-  readonly locator: Locator;
+  readonly el: Locator;
 
   constructor(locator: Locator) {
-    this.locator = locator;
+    this.el = locator;
   }
 
-  clickMe() {
-    return this.locator.click();
+  async waitForVisible() {
+    try {
+      await this.el.elementHandle();
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  getText(): Promise<string> {
+    return this.el.innerText();
   }
 }
