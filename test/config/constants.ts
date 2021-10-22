@@ -1,7 +1,7 @@
 export const BASE_URL = "http://localhost:4200";
 export const TEST_USER = {
-  email: process.ENV.PASS,
-  password: process.ENV.EMAIL,
+  email: process.env.PASS,
+  password: process.env.EMAIL,
 };
 
 export const loginRequestBody = {
