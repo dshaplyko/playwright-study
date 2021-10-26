@@ -5,33 +5,33 @@ import { State } from "../../../config";
 export class TradingButtons extends Element {
   readonly buttons: Locator;
 
-  readonly paymentIn: Locator;
+  readonly paymentIn: Element;
 
-  readonly paymentOut: Locator;
+  readonly paymentOut: Element;
 
-  readonly transferFunds: Locator;
+  readonly transferFunds: Element;
 
-  readonly exchange: Locator;
+  readonly exchange: Element;
 
-  readonly leverage: Locator;
+  readonly leverage: Element;
 
-  readonly IRFQ: Locator;
+  readonly IRFQ: Element;
 
-  readonly buy: Locator;
+  readonly buy: Element;
 
-  readonly cashOut: Locator;
+  readonly cashOut: Element;
 
   constructor(locator: Locator) {
     super(locator);
     this.buttons = this.el.locator("a");
-    this.paymentIn = this.el.locator("[data-test-id='payment-in']");
-    this.paymentOut = this.el.locator("[data-test-id='payment-out']");
-    this.transferFunds = this.el.locator("[data-test-id='transfer-funds']");
-    this.exchange = this.el.locator("[data-test-id='exchange']");
-    this.leverage = this.el.locator("[data-test-id='leverage']");
-    this.IRFQ = this.el.locator("[data-test-id='irfq']");
-    this.buy = this.el.locator("[data-test-id='buy']");
-    this.cashOut = this.el.locator("[data-test-id='cash-out']");
+    this.paymentIn = new Element(this.el.locator("[data-test-id='payment-in']"));
+    this.paymentOut = new Element(this.el.locator("[data-test-id='payment-out']"));
+    this.transferFunds = new Element(this.el.locator("[data-test-id='transfer-funds']"));
+    this.exchange = new Element(this.el.locator("[data-test-id='exchange']"));
+    this.leverage = new Element(this.el.locator("[data-test-id='leverage']"));
+    this.IRFQ = new Element(this.el.locator("[data-test-id='irfq']"));
+    this.buy = new Element(this.el.locator("[data-test-id='buy']"));
+    this.cashOut = new Element(this.el.locator("[data-test-id='cash-out']"));
   }
 
   async checkButtonsState(state: State): Promise<void> {

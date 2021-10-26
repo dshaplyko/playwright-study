@@ -16,19 +16,23 @@ test.describe("Portfolio Test Suite - Trade SG Config @jira(PWU-22)", () => {
     await app.loginPage.login();
   });
 
-  test("> should display main components @smoke", async () => {
+  test.afterAll(async () => {
+    await page.close();
+  });
+
+  test("should display main components @smoke", async () => {
     await expectElementVisibility(app.portfolioPage.quickTips, true);
     await expectElementVisibility(app.portfolioPage.holdingList.el, true);
     await expectElementVisibility(app.portfolioPage.chart.el, true);
     await expectElementVisibility(app.portfolioPage.getFeatureHighlight("your console").el, true);
     await expectElementVisibility(app.portfolioPage.getFeatureHighlight("account box").el, false);
     await expectElementVisibility(app.portfolioPage.tradingButtons.el, true);
-    await expectElementVisibility(app.portfolioPage.tradingButtons.IRFQ, true);
+    await expectElementVisibility(app.portfolioPage.tradingButtons.IRFQ.el, true);
     await app.portfolioPage.holdingList.checkColumnVisibility(PortfolioColumns.BROKERAGE, true);
   });
 
   portfolioMap.forEach(({ tname, widget, text }) => {
-    test(`> should display ${tname} widget @smoke`, async () => {
+    test(`should display ${tname} widget @smoke`, async () => {
       await expectElementVisibility(app.portfolioPage.getWidget(EnumWidget[widget]).el, true);
       await expectElementVisibility(app.portfolioPage.getWidget(EnumWidget[widget]).currency, true);
       await expectElementVisibility(app.portfolioPage.getWidget(EnumWidget[widget]).totalBalance, true);
@@ -36,13 +40,13 @@ test.describe("Portfolio Test Suite - Trade SG Config @jira(PWU-22)", () => {
     });
   });
 
-  test("> should calculate Total Balance through widgets", async () => {
+  test("should calculate Total Balance through widgets", async () => {
     const sumBalance: number = await app.portfolioPage.calculateTotalBalance();
     const totalBalance: number = await app.portfolioPage.getWidget(EnumWidget.YOUR_PORTFOLIO).getTotalBalance();
     expect(Math.trunc(sumBalance)).toBeLessThanOrEqual(Math.trunc(totalBalance));
   });
 
-  test("> sum of Digital Assets and FIAT currencies should be 100%", async () => {
+  test("sum of Digital Assets and FIAT currencies should be 100%", async () => {
     const digitalAssetsPercentage: number = await app.portfolioPage
       .getWidget(EnumWidget.DIGITAL_ASSETS)
       .getPercentage();
@@ -53,24 +57,28 @@ test.describe("Portfolio Test Suite - Trade SG Config @jira(PWU-22)", () => {
     expect(sumPercentage).toEqual(PERCENTAGE);
   });
 
-  test("> should enable trading buttons after clicking on a Table row", async () => {
+  test("should enable trading buttons after clicking on a Table row", async () => {
     await app.portfolioPage.tradingButtons.checkButtonsState(State.DISABLED);
     await app.portfolioPage.holdingList.clickRow(1);
-    await app.portfolioPage.tradingButtons.checkButtonsState(State.ENABLED);
+    await app.portfolioPage.tradingButtons.paymentIn.toBeDisabled(false);
+    await app.portfolioPage.tradingButtons.paymentOut.toBeDisabled(false);
+    await app.portfolioPage.tradingButtons.exchange.toBeDisabled();
+    await app.portfolioPage.tradingButtons.transferFunds.toBeDisabled(false);
+    await app.portfolioPage.tradingButtons.IRFQ.toBeDisabled(false);
   });
 
-  test.describe("> Clicking links", () => {
+  test.describe("Clicking links", () => {
     test.beforeEach(async () => {
       await app.portfolioPage.goto();
     });
 
-    test("> should redirect to Funds page after clicking quick tips link", async () => {
+    test("should redirect to Funds page after clicking quick tips link", async () => {
       await app.portfolioPage.quickTipsLink.click();
       await verifyPageUrlContains(page, "funds");
     });
 
     quickLinksMap.forEach(({ link, pageTo }) => {
-      test(`> should redirect to ${pageTo} after clicking ${link} `, async () => {
+      test(`should redirect to ${pageTo} after clicking ${link} `, async () => {
         test.slow();
         await app.portfolioPage.getQuickLink(link).click();
         await verifyPageUrlContains(page, pageTo);
@@ -78,23 +86,27 @@ test.describe("Portfolio Test Suite - Trade SG Config @jira(PWU-22)", () => {
     });
   });
 
-  test.describe("> Holding list", () => {
+  test.describe("Holding list", () => {
     test.beforeAll(async () => {
       await app.portfolioPage.goto();
     });
 
-    test("> should calculate Total Percentage through holding list", async () => {
-      const totalPercantage: number = await app.portfolioPage.holdingList.calculateTotalPercentage();
-      expect(totalPercantage).toEqual(PERCENTAGE);
+    test.afterAll(async () => {
+      await page.close();
     });
 
-    test("> should calculate Total Balance through holding list", async () => {
+    test("should calculate Total Percentage through holding list", async () => {
+      const totalPercentage: number = await app.portfolioPage.holdingList.calculateTotalPercentage();
+      expect(totalPercentage).toEqual(PERCENTAGE);
+    });
+
+    test("should calculate Total Balance through holding list", async () => {
       const totalBalanceHoldingList: number = await app.portfolioPage.holdingList.calculateTotalBalance();
       const totalBalance: number = await app.portfolioPage.getWidget(EnumWidget.YOUR_PORTFOLIO).getTotalBalance();
       expect(Math.trunc(totalBalanceHoldingList)).toBeLessThanOrEqual(Math.trunc(totalBalance));
     });
 
-    test("> should reflect info on Chart in the Trading panel", async () => {
+    test("should reflect info on Chart from the Trading panel", async () => {
       const count: number = await app.portfolioPage.holdingList.getRowsCount();
       await app.portfolioPage.checkTradingAndChartConjuction(count);
     });

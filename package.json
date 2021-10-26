@@ -1,7 +1,7 @@
 {
-  "name": "playwright-study",
+  "name": "platform-web-ui-e2e",
   "version": "1.0.2",
-  "description": "Playwright study project",
+  "description": "Platform UI E2E Test Scenarios",
   "scripts": {
     "build": "tsc",
     "postinstall": "npx playwright install",
@@ -11,6 +11,10 @@
     "lint": "eslint . --format table --fix --color",
     "prepare": "husky install"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/_bcgroup/platform/core_svcs/platform-web-ui-e2e.git"
+  },
   "keywords": [],
   "author": "Dzmitry_Shaplyka@epam.com",
   "license": "MIT",
@@ -18,11 +22,11 @@
     "@playwright/test": "^1.16.0"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.15.0",
-    "@typescript-eslint/parser": "^4.15.0",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
     "eslint": "^7.32.0",
-    "husky": "^7.0.2",
+    "husky": "^7.0.4",
     "rimraf": "^3.0.2",
-    "typescript": "^4.4.3"
+    "typescript": "^4.4.4"
   }
 }

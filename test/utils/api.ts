@@ -1,31 +1,29 @@
-import { BrowserContext, Page } from "@playwright/test";
+import { Page } from "@playwright/test";
 import {
   loginRequestBody, SG_CONFIG, SG_USER,
 } from "../config";
-const API_TIMEOUT = 10000;
 
 export class Api {
-  readonly context: BrowserContext;
-
   readonly page: Page;
 
-  constructor(context: BrowserContext, page: Page) {
-    this.context = context;
+  constructor(page: Page) {
     this.page = page;
-  }
-
-  getCookie() {
-    return this.context.cookies();
   }
 
   async loginViaApi(baseUrl: string) {
     await this.page.goto("/user");
     const response: any = await this.page.request.post(`${baseUrl}/moon/v1/login`, {
-      timeout: API_TIMEOUT,
       data: JSON.stringify(loginRequestBody),
     });
     const json: any = await response.json();
+    await this.page.request.post(`${baseUrl}/moon/v1/login`, {
+      data: JSON.stringify(loginRequestBody),
+    });
     await this.page.evaluate(`window.localStorage.setItem('authToken', '${json.authToken}')`);
+    await this.page.goto("/portfolio");
+    await this.page.waitForURL(/portfolio/, {
+      waitUntil: "domcontentloaded",
+    });
   }
 
   async mockConfig(config: any): Promise<void> {

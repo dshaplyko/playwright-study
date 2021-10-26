@@ -15,7 +15,7 @@ const config: PlaywrightTestConfig = {
     video: "retain-on-failure",
     trace: "retain-on-failure",
   },
-  workers: 1,
+  workers: 2,
   // retries: 1,
   timeout: 120000,
   reporter: [
