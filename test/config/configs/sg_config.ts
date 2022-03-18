@@ -3621,43 +3621,2226 @@ export const SG_USER = {
   status: "OK",
   i18nParams: [],
   data: {
-    cashCcy: "JPY",
+    cashCcy: "HKD",
     verifyAccountType: "personal",
     passwordChangeRequired: false,
-    username: "customerdemo+epam@osl.com",
+    username: "andy.wong@osl.com",
     verificationState: "VERIFIED",
     verifyRequestState: true,
     secretKeyActivated: false,
     isTwoFactorRequired: false,
     eCheck: false,
-    jurisdictionSupported: false,
+    jurisdictionSupported: true,
     hasAcceptedTermsConditions: true,
     countrySelectRequired: false,
-    country: "GBR",
-    firstName: "",
-    lastName: "",
+    country: "HKG",
+    firstName: "Andy",
+    lastName: "Wong",
     betaFeatures: false,
-    betaFeatureList: {
-      MGUITradePage: true,
-    },
+    betaFeatureList: [],
     unionPaySupported: false,
-    roles: ["ROLE_RFQ_USER", "ROLE_WHITELABEL_ADMIN", "ROLE_USER"],
-    isPartner: false,
+    roles: [
+      "ROLE_USER",
+      "ROLE_NONCUST_DEBIT",
+      "ROLE_NONCUST_CREDIT",
+      "ROLE_RFQ_USER",
+      "ROLE_DEVELOPER",
+      "ROLE_SUPER_ADMIN",
+      "ROLE_WHITELABEL_ADMIN",
+    ],
+    isPartner: true,
     isVIP: false,
-    isTrusted: false,
+    isTrusted: true,
     isSiteOwner: false,
-    timeZone: "Europe/London",
+    timeZone: "Asia/Hong_Kong",
     declarationFormFilled: false,
     depositRestricted: false,
     depositFiatRestricted: false,
-    withdrawalRestricted: true,
+    withdrawalRestricted: false,
     withdrawalFiatRestricted: false,
     transferFundRestricted: false,
     tradeRestricted: true,
     leverageRestricted: false,
-    rfqRestricted: false,
+    rfqRestricted: true,
     registrationSuccessful: true,
     isByPassPrefunding: false,
     isPtsEnabled: false,
+    accountGroups: [
+      {
+        uuid: "0397fa57-63fa-4607-a784-344efbf3e064",
+        name: "subaccount.default-account-group-name",
+        ownerUuid: "0397fa57-63fa-4607-a784-344efbf3e064",
+        ownerName: "andy.wong@osl.com",
+        natural: true,
+        owned: true,
+        ownerProfile: {
+          cashCcy: "HKD",
+          verifyAccountType: "personal",
+          passwordChangeRequired: false,
+          username: "andy.wong@osl.com",
+          verificationState: "VERIFIED",
+          verifyRequestState: true,
+          secretKeyActivated: false,
+          isTwoFactorRequired: false,
+          eCheck: false,
+          jurisdictionSupported: true,
+          hasAcceptedTermsConditions: true,
+          countrySelectRequired: false,
+          country: "HKG",
+          firstName: "Andy",
+          lastName: "Wong",
+          betaFeatures: false,
+          betaFeatureList: [],
+          unionPaySupported: false,
+          roles: [
+            "ROLE_USER",
+            "ROLE_NONCUST_DEBIT",
+            "ROLE_NONCUST_CREDIT",
+            "ROLE_RFQ_USER",
+            "ROLE_DEVELOPER",
+            "ROLE_SUPER_ADMIN",
+            "ROLE_WHITELABEL_ADMIN",
+          ],
+          isPartner: true,
+          isVIP: false,
+          isTrusted: true,
+          isSiteOwner: false,
+          timeZone: "Asia/Hong_Kong",
+          declarationFormFilled: false,
+          depositRestricted: false,
+          depositFiatRestricted: false,
+          withdrawalRestricted: false,
+          withdrawalFiatRestricted: false,
+          transferFundRestricted: false,
+          tradeRestricted: true,
+          leverageRestricted: false,
+          rfqRestricted: true,
+          registrationSuccessful: true,
+          isByPassPrefunding: false,
+          isPtsEnabled: false,
+        },
+      },
+      {
+        uuid: "47c7cc9d-6e53-4e93-a57c-de0232379106",
+        name: "AccountGroup2",
+        ownerUuid: "0397fa57-63fa-4607-a784-344efbf3e064",
+        ownerName: "andy.wong@osl.com",
+        natural: false,
+        owned: true,
+        ownerProfile: {
+          cashCcy: "HKD",
+          verifyAccountType: "personal",
+          passwordChangeRequired: false,
+          username: "andy.wong@osl.com",
+          verificationState: "VERIFIED",
+          verifyRequestState: true,
+          secretKeyActivated: false,
+          isTwoFactorRequired: false,
+          eCheck: false,
+          jurisdictionSupported: true,
+          hasAcceptedTermsConditions: true,
+          countrySelectRequired: false,
+          country: "HKG",
+          firstName: "Andy",
+          lastName: "Wong",
+          betaFeatures: false,
+          betaFeatureList: [],
+          unionPaySupported: false,
+          roles: [
+            "ROLE_USER",
+            "ROLE_NONCUST_DEBIT",
+            "ROLE_NONCUST_CREDIT",
+            "ROLE_RFQ_USER",
+            "ROLE_DEVELOPER",
+            "ROLE_SUPER_ADMIN",
+            "ROLE_WHITELABEL_ADMIN",
+          ],
+          isPartner: true,
+          isVIP: false,
+          isTrusted: true,
+          isSiteOwner: false,
+          timeZone: "Asia/Hong_Kong",
+          declarationFormFilled: false,
+          depositRestricted: false,
+          depositFiatRestricted: false,
+          withdrawalRestricted: false,
+          withdrawalFiatRestricted: false,
+          transferFundRestricted: false,
+          tradeRestricted: true,
+          leverageRestricted: false,
+          rfqRestricted: true,
+          registrationSuccessful: true,
+          isByPassPrefunding: false,
+          isPtsEnabled: false,
+        },
+      },
+      {
+        uuid: "b7a1ee9c-d306-46b0-b2d4-85d4ed6e53c4",
+        name: "testGroup2",
+        ownerUuid: "1d6e1b18-4548-4f65-b5b2-7004905d3fa8",
+        ownerName: "andy.wong+2fa@osl.com",
+        natural: false,
+        owned: false,
+        ownerProfile: {
+          cashCcy: "HKD",
+          verifyAccountType: "personal",
+          passwordChangeRequired: false,
+          username: "andy.wong+2fa@osl.com",
+          verificationState: "VERIFIED",
+          verifyRequestState: true,
+          secretKeyActivated: true,
+          isTwoFactorRequired: true,
+          eCheck: false,
+          jurisdictionSupported: true,
+          hasAcceptedTermsConditions: true,
+          countrySelectRequired: false,
+          country: "HKG",
+          firstName: "Andy",
+          lastName: "Wong",
+          betaFeatures: false,
+          betaFeatureList: [],
+          unionPaySupported: false,
+          roles: ["ROLE_RFQ_USER", "ROLE_USER_SEARCH", "ROLE_USER_VIEWER", "ROLE_USER"],
+          isPartner: false,
+          isVIP: false,
+          isTrusted: false,
+          isSiteOwner: false,
+          timeZone: "Asia/Hong_Kong",
+          declarationFormFilled: false,
+          depositRestricted: false,
+          depositFiatRestricted: false,
+          withdrawalRestricted: false,
+          withdrawalFiatRestricted: false,
+          transferFundRestricted: false,
+          tradeRestricted: false,
+          leverageRestricted: false,
+          rfqRestricted: false,
+          registrationSuccessful: true,
+          isByPassPrefunding: false,
+          isPtsEnabled: false,
+        },
+      },
+      {
+        uuid: "33864f40-64ff-4032-9514-868b44b6ef03",
+        name: "accountGroup3",
+        ownerUuid: "0397fa57-63fa-4607-a784-344efbf3e064",
+        ownerName: "andy.wong@osl.com",
+        natural: false,
+        owned: true,
+        ownerProfile: {
+          cashCcy: "HKD",
+          verifyAccountType: "personal",
+          passwordChangeRequired: false,
+          username: "andy.wong@osl.com",
+          verificationState: "VERIFIED",
+          verifyRequestState: true,
+          secretKeyActivated: false,
+          isTwoFactorRequired: false,
+          eCheck: false,
+          jurisdictionSupported: true,
+          hasAcceptedTermsConditions: true,
+          countrySelectRequired: false,
+          country: "HKG",
+          firstName: "Andy",
+          lastName: "Wong",
+          betaFeatures: false,
+          betaFeatureList: [],
+          unionPaySupported: false,
+          roles: [
+            "ROLE_USER",
+            "ROLE_NONCUST_DEBIT",
+            "ROLE_NONCUST_CREDIT",
+            "ROLE_RFQ_USER",
+            "ROLE_DEVELOPER",
+            "ROLE_SUPER_ADMIN",
+            "ROLE_WHITELABEL_ADMIN",
+          ],
+          isPartner: true,
+          isVIP: false,
+          isTrusted: true,
+          isSiteOwner: false,
+          timeZone: "Asia/Hong_Kong",
+          declarationFormFilled: false,
+          depositRestricted: false,
+          depositFiatRestricted: false,
+          withdrawalRestricted: false,
+          withdrawalFiatRestricted: false,
+          transferFundRestricted: false,
+          tradeRestricted: true,
+          leverageRestricted: false,
+          rfqRestricted: true,
+          registrationSuccessful: true,
+          isByPassPrefunding: false,
+          isPtsEnabled: false,
+        },
+      },
+      {
+        uuid: "182e9d3a-b647-4fb9-8184-7aecdf325adf",
+        name: "AccountGroup4",
+        ownerUuid: "0397fa57-63fa-4607-a784-344efbf3e064",
+        ownerName: "andy.wong@osl.com",
+        natural: false,
+        owned: true,
+        ownerProfile: {
+          cashCcy: "HKD",
+          verifyAccountType: "personal",
+          passwordChangeRequired: false,
+          username: "andy.wong@osl.com",
+          verificationState: "VERIFIED",
+          verifyRequestState: true,
+          secretKeyActivated: false,
+          isTwoFactorRequired: false,
+          eCheck: false,
+          jurisdictionSupported: true,
+          hasAcceptedTermsConditions: true,
+          countrySelectRequired: false,
+          country: "HKG",
+          firstName: "Andy",
+          lastName: "Wong",
+          betaFeatures: false,
+          betaFeatureList: [],
+          unionPaySupported: false,
+          roles: [
+            "ROLE_USER",
+            "ROLE_NONCUST_DEBIT",
+            "ROLE_NONCUST_CREDIT",
+            "ROLE_RFQ_USER",
+            "ROLE_DEVELOPER",
+            "ROLE_SUPER_ADMIN",
+            "ROLE_WHITELABEL_ADMIN",
+          ],
+          isPartner: true,
+          isVIP: false,
+          isTrusted: true,
+          isSiteOwner: false,
+          timeZone: "Asia/Hong_Kong",
+          declarationFormFilled: false,
+          depositRestricted: false,
+          depositFiatRestricted: false,
+          withdrawalRestricted: false,
+          withdrawalFiatRestricted: false,
+          transferFundRestricted: false,
+          tradeRestricted: true,
+          leverageRestricted: false,
+          rfqRestricted: true,
+          registrationSuccessful: true,
+          isByPassPrefunding: false,
+          isPtsEnabled: false,
+        },
+      },
+      {
+        uuid: "ec2d441b-4b56-4107-8c56-12abc335387a",
+        name: "AccountGroup5",
+        ownerUuid: "0397fa57-63fa-4607-a784-344efbf3e064",
+        ownerName: "andy.wong@osl.com",
+        natural: false,
+        owned: true,
+        ownerProfile: {
+          cashCcy: "HKD",
+          verifyAccountType: "personal",
+          passwordChangeRequired: false,
+          username: "andy.wong@osl.com",
+          verificationState: "VERIFIED",
+          verifyRequestState: true,
+          secretKeyActivated: false,
+          isTwoFactorRequired: false,
+          eCheck: false,
+          jurisdictionSupported: true,
+          hasAcceptedTermsConditions: true,
+          countrySelectRequired: false,
+          country: "HKG",
+          firstName: "Andy",
+          lastName: "Wong",
+          betaFeatures: false,
+          betaFeatureList: [],
+          unionPaySupported: false,
+          roles: [
+            "ROLE_USER",
+            "ROLE_NONCUST_DEBIT",
+            "ROLE_NONCUST_CREDIT",
+            "ROLE_RFQ_USER",
+            "ROLE_DEVELOPER",
+            "ROLE_SUPER_ADMIN",
+            "ROLE_WHITELABEL_ADMIN",
+          ],
+          isPartner: true,
+          isVIP: false,
+          isTrusted: true,
+          isSiteOwner: false,
+          timeZone: "Asia/Hong_Kong",
+          declarationFormFilled: false,
+          depositRestricted: false,
+          depositFiatRestricted: false,
+          withdrawalRestricted: false,
+          withdrawalFiatRestricted: false,
+          transferFundRestricted: false,
+          tradeRestricted: true,
+          leverageRestricted: false,
+          rfqRestricted: true,
+          registrationSuccessful: true,
+          isByPassPrefunding: false,
+          isPtsEnabled: false,
+        },
+      },
+    ],
+  },
+};
+
+export const SG_NEXT_STEPS = {
+  data: {
+    kind: "nextSteps",
+    fields: "items",
+    items: ["NEW_SITE_CONSOLE", "ENABLE_TWO_FACTOR", "DEPOSIT_COIN"],
+  },
+};
+
+export const SG_DEPOSIT_METADATA = {
+  timestamp: "1638880650977",
+  data: [
+    {
+      fiats: ["EUR", "JPY", "SGD", "HKD", "USD", "AUD"],
+      coins: [
+        "BCH",
+        "AAVE",
+        "BAND",
+        "BAT",
+        "CEL",
+        "COMP",
+        "CRV",
+        "DAI",
+        "ENJ",
+        "GRT",
+        "KNC",
+        "LINK",
+        "LRC",
+        "MANA",
+        "MKR",
+        "NMR",
+        "OAX",
+        "OGN",
+        "OMG",
+        "ONE",
+        "SNX",
+        "SRM",
+        "UNI",
+        "YFI",
+        "BTC",
+        "ETH",
+        "XRP",
+        "LTC",
+        "FTM",
+        "FTT",
+        "MATIC",
+        "PAX",
+        "SHIB",
+        "SUSHI",
+        "TUSD",
+        "USDC",
+        "USDT",
+      ],
+      depositMethods: {
+        EUR: [
+          {
+            value: "BANK_WIRE",
+            i18n: "Bank Wire",
+            min: 100.0,
+            max: 10000000,
+            feeTiersEnum: "OSLSG_FEE_TIER_DEFAULT",
+            depositFeeAbs: 0e-8,
+            depositFeePer: 0e-8,
+            isRequestable: true,
+          },
+        ],
+        JPY: [
+          {
+            value: "BANK_WIRE",
+            i18n: "Bank Wire",
+            min: 100.0,
+            max: 10000000,
+            feeTiersEnum: "DEFAULT",
+            depositFeeAbs: 1050.0,
+            depositFeePer: 0e-8,
+            isRequestable: false,
+          },
+        ],
+        SGD: [
+          {
+            value: "BANK_WIRE",
+            i18n: "Bank Wire",
+            min: 140.0,
+            max: 136000000.0,
+            feeTiersEnum: "OSLSG_FEE_TIER_DEFAULT",
+            depositFeeAbs: 0e-8,
+            depositFeePer: 0e-8,
+            isRequestable: false,
+          },
+        ],
+        HKD: [
+          {
+            value: "BANK_WIRE",
+            i18n: "Bank Wire",
+            min: 100.0,
+            max: 10000000,
+            feeTiersEnum: "DEFAULT",
+            depositFeeAbs: 80.0,
+            depositFeePer: 0e-8,
+            isRequestable: false,
+          },
+        ],
+        USD: [
+          {
+            value: "BANK_WIRE",
+            i18n: "Bank Wire",
+            min: 100.0,
+            max: 100000000.0,
+            feeTiersEnum: "OSLSG_FEE_TIER_DEFAULT",
+            depositFeeAbs: 0e-8,
+            depositFeePer: 0e-8,
+            isRequestable: false,
+          },
+          {
+            value: "SIGNET_BANK",
+            i18n: "Signet Transfer",
+            min: 100.0,
+            max: 100000000.0,
+            feeTiersEnum: "OSLSG_FEE_TIER_DEFAULT",
+            depositFeeAbs: 0e-8,
+            depositFeePer: 0e-8,
+            isRequestable: false,
+          },
+        ],
+        AUD: [
+          {
+            value: "BANK_WIRE",
+            i18n: "Bank Wire",
+            min: 100.0,
+            max: 10000000,
+            feeTiersEnum: "OSLSG_FEE_TIER_DEFAULT",
+            depositFeeAbs: 0e-8,
+            depositFeePer: 0e-8,
+            isRequestable: false,
+          },
+        ],
+      },
+      depositFeesMsgArgs: [9.0, 0.0, 0.0, 0.0, 0.0, 2.5, 0.0, 2.5],
+      eCheckBanks: {},
+      fiatStrings: ["EUR", "JPY", "SGD", "HKD", "USD", "AUD"],
+      coinStrings: [
+        "BCH",
+        "AAVE",
+        "BAND",
+        "BAT",
+        "CEL",
+        "COMP",
+        "CRV",
+        "DAI",
+        "ENJ",
+        "GRT",
+        "KNC",
+        "LINK",
+        "LRC",
+        "MANA",
+        "MKR",
+        "NMR",
+        "OAX",
+        "OGN",
+        "OMG",
+        "ONE",
+        "SNX",
+        "SRM",
+        "UNI",
+        "YFI",
+        "BTC",
+        "ETH",
+        "XRP",
+        "LTC",
+        "FTM",
+        "FTT",
+        "MATIC",
+        "PAX",
+        "SHIB",
+        "SUSHI",
+        "TUSD",
+        "USDC",
+        "USDT-ERC20",
+      ],
+      provinces: [
+        {
+          key: "Anhui",
+          value: "34",
+          city: [
+            {
+              key: "Hefei",
+              value: "3401",
+            },
+            {
+              key: "Wuhu",
+              value: "3402",
+            },
+            {
+              key: "Bengbu",
+              value: "3403",
+            },
+            {
+              key: "Huainan",
+              value: "3404",
+            },
+            {
+              key: "Ma\u0027anshan",
+              value: "3405",
+            },
+            {
+              key: "Huaibei",
+              value: "3406",
+            },
+            {
+              key: "Tongling",
+              value: "3407",
+            },
+            {
+              key: "Anqing",
+              value: "3408",
+            },
+            {
+              key: "Huangshan",
+              value: "3410",
+            },
+            {
+              key: "Chuzhou",
+              value: "3411",
+            },
+            {
+              key: "Fuyang",
+              value: "3412",
+            },
+            {
+              key: "Suzhou",
+              value: "3413",
+            },
+            {
+              key: "Chaohu",
+              value: "3414",
+            },
+            {
+              key: "Lu\u0027an",
+              value: "3415",
+            },
+            {
+              key: "Bozhou",
+              value: "3416",
+            },
+            {
+              key: "Chizhou",
+              value: "3417",
+            },
+            {
+              key: "Xuancheng",
+              value: "3418",
+            },
+          ],
+        },
+        {
+          key: "Beijing",
+          value: "11",
+          city: [
+            {
+              key: "Beijing",
+              value: "1101",
+            },
+          ],
+        },
+        {
+          key: "Chongqing",
+          value: "50",
+          city: [
+            {
+              key: "Chongqing",
+              value: "5001",
+            },
+          ],
+        },
+        {
+          key: "Fujian",
+          value: "35",
+          city: [
+            {
+              key: "Fuzhou",
+              value: "3501",
+            },
+            {
+              key: "Xiamen",
+              value: "3502",
+            },
+            {
+              key: "Putian",
+              value: "3503",
+            },
+            {
+              key: "Sanming",
+              value: "3504",
+            },
+            {
+              key: "Quanzhou",
+              value: "3505",
+            },
+            {
+              key: "Zhangzhou",
+              value: "3506",
+            },
+            {
+              key: "Nanping",
+              value: "3507",
+            },
+            {
+              key: "Longyan",
+              value: "3508",
+            },
+            {
+              key: "Ningde",
+              value: "3509",
+            },
+          ],
+        },
+        {
+          key: "Gansu",
+          value: "62",
+          city: [
+            {
+              key: "Lanzhou",
+              value: "6201",
+            },
+            {
+              key: "Jiayuguan",
+              value: "6202",
+            },
+            {
+              key: "Jinchang",
+              value: "6203",
+            },
+            {
+              key: "Baiyin",
+              value: "6204",
+            },
+            {
+              key: "Tianshui",
+              value: "6205",
+            },
+            {
+              key: "Wuwei",
+              value: "6206",
+            },
+            {
+              key: "Zhangye",
+              value: "6207",
+            },
+            {
+              key: "Pingliang",
+              value: "6208",
+            },
+            {
+              key: "Jiuquan",
+              value: "6209",
+            },
+            {
+              key: "Qingyang",
+              value: "6210",
+            },
+            {
+              key: "Dingxi",
+              value: "6224",
+            },
+            {
+              key: "Longnan",
+              value: "6226",
+            },
+            {
+              key: "Linxia Hui Autonomous Prefecture",
+              value: "6229",
+            },
+            {
+              key: "Gannan Tibetan Autonomous Prefecture",
+              value: "6230",
+            },
+          ],
+        },
+        {
+          key: "Guangdong",
+          value: "44",
+          city: [
+            {
+              key: "Guangzhou",
+              value: "4401",
+            },
+            {
+              key: "Shaoguan",
+              value: "4402",
+            },
+            {
+              key: "Shenzhen",
+              value: "4403",
+            },
+            {
+              key: "Zhuhai",
+              value: "4404",
+            },
+            {
+              key: "Shantou",
+              value: "4405",
+            },
+            {
+              key: "Foshan",
+              value: "4406",
+            },
+            {
+              key: "Jiangmen",
+              value: "4407",
+            },
+            {
+              key: "Zhanjiang",
+              value: "4408",
+            },
+            {
+              key: "Maoming",
+              value: "4409",
+            },
+            {
+              key: "Zhaoqing",
+              value: "4412",
+            },
+            {
+              key: "Huizhou",
+              value: "4413",
+            },
+            {
+              key: "Meizhou",
+              value: "4414",
+            },
+            {
+              key: "Shanwei",
+              value: "4415",
+            },
+            {
+              key: "Heyuan",
+              value: "4416",
+            },
+            {
+              key: "Yangjiang",
+              value: "4417",
+            },
+            {
+              key: "Qingyuan",
+              value: "4418",
+            },
+            {
+              key: "Dongguan",
+              value: "4419",
+            },
+            {
+              key: "Zhongshan",
+              value: "4420",
+            },
+            {
+              key: "Chaozhou",
+              value: "4451",
+            },
+            {
+              key: "Jieyang",
+              value: "4452",
+            },
+            {
+              key: "Yunfu",
+              value: "4453",
+            },
+          ],
+        },
+        {
+          key: "Guangxi Zhuang Autonomous Region",
+          value: "45",
+          city: [
+            {
+              key: "Nanning",
+              value: "4501",
+            },
+            {
+              key: "Liuzhou",
+              value: "4502",
+            },
+            {
+              key: "Guilin",
+              value: "4503",
+            },
+            {
+              key: "Wuzhou",
+              value: "4504",
+            },
+            {
+              key: "Beihai",
+              value: "4505",
+            },
+            {
+              key: "Fangchenggang",
+              value: "4506",
+            },
+            {
+              key: "Qinzhou",
+              value: "4507",
+            },
+            {
+              key: "Guigang",
+              value: "4508",
+            },
+            {
+              key: "Yulin",
+              value: "4509",
+            },
+            {
+              key: "Baise",
+              value: "4510",
+            },
+            {
+              key: "Hezhou",
+              value: "4511",
+            },
+            {
+              key: "Hechi",
+              value: "4512",
+            },
+            {
+              key: "Chongzuo",
+              value: "4521",
+            },
+            {
+              key: "Laibin",
+              value: "4522",
+            },
+          ],
+        },
+        {
+          key: "Guizhou",
+          value: "52",
+          city: [
+            {
+              key: "Guiyang",
+              value: "5201",
+            },
+            {
+              key: "Liupanshui",
+              value: "5202",
+            },
+            {
+              key: "Zunyi",
+              value: "5203",
+            },
+            {
+              key: "Anshun",
+              value: "5204",
+            },
+            {
+              key: "Tongren",
+              value: "5222",
+            },
+            {
+              key: "Qianxinan Buyei and Miao Autonomous Prefecture",
+              value: "5223",
+            },
+            {
+              key: "Bijie",
+              value: "5224",
+            },
+            {
+              key: "Qiandongnan Miao and Dong Autonomous Prefecture",
+              value: "5226",
+            },
+            {
+              key: "Qiannan Buyei and Miao Autonomous Prefecture",
+              value: "5227",
+            },
+          ],
+        },
+        {
+          key: "Hainan",
+          value: "46",
+          city: [
+            {
+              key: "Haikou",
+              value: "4601",
+            },
+            {
+              key: "Sanya",
+              value: "4602",
+            },
+          ],
+        },
+        {
+          key: "Hebei",
+          value: "13",
+          city: [
+            {
+              key: "Shijiazhuang",
+              value: "1301",
+            },
+            {
+              key: "Tangshan",
+              value: "1302",
+            },
+            {
+              key: "Qinhuangdao",
+              value: "1303",
+            },
+            {
+              key: "Handan",
+              value: "1304",
+            },
+            {
+              key: "Xingtai",
+              value: "1305",
+            },
+            {
+              key: "Baoding",
+              value: "1306",
+            },
+            {
+              key: "Zhangjiakou",
+              value: "1307",
+            },
+            {
+              key: "Chengde",
+              value: "1308",
+            },
+            {
+              key: "Cangzhou",
+              value: "1309",
+            },
+            {
+              key: "Langfang",
+              value: "1310",
+            },
+            {
+              key: "Hengshui",
+              value: "1311",
+            },
+          ],
+        },
+        {
+          key: "Heilongjiang",
+          value: "23",
+          city: [
+            {
+              key: "Harbin",
+              value: "2301",
+            },
+            {
+              key: "Qiqihar",
+              value: "2302",
+            },
+            {
+              key: "Jixi",
+              value: "2303",
+            },
+            {
+              key: "Hegang",
+              value: "2304",
+            },
+            {
+              key: "Shuangyashan",
+              value: "2305",
+            },
+            {
+              key: "Daqing",
+              value: "2306",
+            },
+            {
+              key: "Yichun",
+              value: "2307",
+            },
+            {
+              key: "Jiamusi",
+              value: "2308",
+            },
+            {
+              key: "Qitaihe",
+              value: "2309",
+            },
+            {
+              key: "Mudanjiang",
+              value: "2310",
+            },
+            {
+              key: "Heihe",
+              value: "2311",
+            },
+            {
+              key: "Suihua",
+              value: "2312",
+            },
+            {
+              key: "Da Hinggan Ling Prefecture",
+              value: "2327",
+            },
+          ],
+        },
+        {
+          key: "Henan",
+          value: "41",
+          city: [
+            {
+              key: "Zhengzhou",
+              value: "4101",
+            },
+            {
+              key: "Kaifeng",
+              value: "4102",
+            },
+            {
+              key: "Luoyang",
+              value: "4103",
+            },
+            {
+              key: "Pingdingshan",
+              value: "4104",
+            },
+            {
+              key: "Anyang",
+              value: "4105",
+            },
+            {
+              key: "Hebi",
+              value: "4106",
+            },
+            {
+              key: "Xinxiang",
+              value: "4107",
+            },
+            {
+              key: "Jiaozuo",
+              value: "4108",
+            },
+            {
+              key: "Puyang",
+              value: "4109",
+            },
+            {
+              key: "Xuchang",
+              value: "4110",
+            },
+            {
+              key: "Luohe",
+              value: "4111",
+            },
+            {
+              key: "Sanmenxia",
+              value: "4112",
+            },
+            {
+              key: "Nanyang",
+              value: "4113",
+            },
+            {
+              key: "Shangqiu",
+              value: "4114",
+            },
+            {
+              key: "Xinyang",
+              value: "4115",
+            },
+            {
+              key: "Zhoukou",
+              value: "4116",
+            },
+            {
+              key: "Zhumadian",
+              value: "4117",
+            },
+          ],
+        },
+        {
+          key: "Hubei",
+          value: "42",
+          city: [
+            {
+              key: "Wuhan",
+              value: "4201",
+            },
+            {
+              key: "Huangshi",
+              value: "4202",
+            },
+            {
+              key: "Shiyan",
+              value: "4203",
+            },
+            {
+              key: "Yichang",
+              value: "4205",
+            },
+            {
+              key: "Xiangyang",
+              value: "4206",
+            },
+            {
+              key: "Ezhou",
+              value: "4207",
+            },
+            {
+              key: "Jingmen",
+              value: "4208",
+            },
+            {
+              key: "Xiaogan",
+              value: "4209",
+            },
+            {
+              key: "Jingzhou",
+              value: "4210",
+            },
+            {
+              key: "Huanggang",
+              value: "4211",
+            },
+            {
+              key: "Xianning",
+              value: "4212",
+            },
+            {
+              key: "Suizhou",
+              value: "4213",
+            },
+            {
+              key: "Enshi Tujia and Miao Autonomous Prefecture",
+              value: "4228",
+            },
+            {
+              key: "Others",
+              value: "4290",
+            },
+          ],
+        },
+        {
+          key: "Hunan",
+          value: "43",
+          city: [
+            {
+              key: "Changsha",
+              value: "4301",
+            },
+            {
+              key: "Zhuzhou",
+              value: "4302",
+            },
+            {
+              key: "Xiangtan",
+              value: "4303",
+            },
+            {
+              key: "Hengyang",
+              value: "4304",
+            },
+            {
+              key: "Shaoyang",
+              value: "4305",
+            },
+            {
+              key: "Yueyang",
+              value: "4306",
+            },
+            {
+              key: "Changde",
+              value: "4307",
+            },
+            {
+              key: "Zhangjiajie",
+              value: "4308",
+            },
+            {
+              key: "Yiyang",
+              value: "4309",
+            },
+            {
+              key: "Chenzhou",
+              value: "4310",
+            },
+            {
+              key: "Yongzhou",
+              value: "4311",
+            },
+            {
+              key: "Huaihua",
+              value: "4312",
+            },
+            {
+              key: "Loudi",
+              value: "4313",
+            },
+            {
+              key: "Xiangxi Tujia and Miao Autonomous Prefecture",
+              value: "4331",
+            },
+          ],
+        },
+        {
+          key: "Inner Mongolia Autonomous Region",
+          value: "15",
+          city: [
+            {
+              key: "Hohhot",
+              value: "1501",
+            },
+            {
+              key: "Baotou",
+              value: "1502",
+            },
+            {
+              key: "Wuhai",
+              value: "1503",
+            },
+            {
+              key: "Chifeng",
+              value: "1504",
+            },
+            {
+              key: "Tongliao",
+              value: "1505",
+            },
+            {
+              key: "Ordos",
+              value: "1506",
+            },
+            {
+              key: "Hulunbuir",
+              value: "1507",
+            },
+            {
+              key: "Hinggan League",
+              value: "1522",
+            },
+            {
+              key: "Xilingol League",
+              value: "1525",
+            },
+            {
+              key: "Ulanqab League",
+              value: "1526",
+            },
+            {
+              key: "Bayan Nur League",
+              value: "1528",
+            },
+            {
+              key: "Alxa League",
+              value: "1529",
+            },
+          ],
+        },
+        {
+          key: "Jiangsu",
+          value: "32",
+          city: [
+            {
+              key: "Nanjing",
+              value: "3201",
+            },
+            {
+              key: "Wuxi",
+              value: "3202",
+            },
+            {
+              key: "Xuzhou",
+              value: "3203",
+            },
+            {
+              key: "Changzhou",
+              value: "3204",
+            },
+            {
+              key: "Suzhou",
+              value: "3205",
+            },
+            {
+              key: "Nantong",
+              value: "3206",
+            },
+            {
+              key: "Lianyungang",
+              value: "3207",
+            },
+            {
+              key: "Huai\u0027an",
+              value: "3208",
+            },
+            {
+              key: "Yancheng",
+              value: "3209",
+            },
+            {
+              key: "Yangzhou",
+              value: "3210",
+            },
+            {
+              key: "Zhenjiang",
+              value: "3211",
+            },
+            {
+              key: "Taizhou",
+              value: "3212",
+            },
+            {
+              key: "Suqian",
+              value: "3213",
+            },
+          ],
+        },
+        {
+          key: "Jiangxi",
+          value: "36",
+          city: [
+            {
+              key: "Nanchang",
+              value: "3601",
+            },
+            {
+              key: "Jingdezhen",
+              value: "3602",
+            },
+            {
+              key: "Pingxiang",
+              value: "3603",
+            },
+            {
+              key: "Jiujiang",
+              value: "3604",
+            },
+            {
+              key: "Xinyu",
+              value: "3605",
+            },
+            {
+              key: "Yingtan",
+              value: "3606",
+            },
+            {
+              key: "Ganzhou",
+              value: "3607",
+            },
+            {
+              key: "Ji\u0027an",
+              value: "3608",
+            },
+            {
+              key: "Yichun",
+              value: "3609",
+            },
+            {
+              key: "Fuzhou",
+              value: "3610",
+            },
+            {
+              key: "Shangrao",
+              value: "3611",
+            },
+          ],
+        },
+        {
+          key: "Jilin",
+          value: "22",
+          city: [
+            {
+              key: "Changchun",
+              value: "2201",
+            },
+            {
+              key: "Jilin",
+              value: "2202",
+            },
+            {
+              key: "Siping",
+              value: "2203",
+            },
+            {
+              key: "Liaoyuan",
+              value: "2204",
+            },
+            {
+              key: "Tonghua",
+              value: "2205",
+            },
+            {
+              key: "Baishan",
+              value: "2206",
+            },
+            {
+              key: "Songyuan",
+              value: "2207",
+            },
+            {
+              key: "Baicheng",
+              value: "2208",
+            },
+            {
+              key: "Yanbian Korean Autonomous Prefecture",
+              value: "2224",
+            },
+          ],
+        },
+        {
+          key: "Liaoning",
+          value: "21",
+          city: [
+            {
+              key: "Shenyang",
+              value: "2101",
+            },
+            {
+              key: "Dalian",
+              value: "2102",
+            },
+            {
+              key: "Anshan",
+              value: "2103",
+            },
+            {
+              key: "Fushun",
+              value: "2104",
+            },
+            {
+              key: "Benxi",
+              value: "2105",
+            },
+            {
+              key: "Dandong",
+              value: "2106",
+            },
+            {
+              key: "Jinzhou",
+              value: "2107",
+            },
+            {
+              key: "Yingkou",
+              value: "2108",
+            },
+            {
+              key: "Fuxin",
+              value: "2109",
+            },
+            {
+              key: "Liaoyang",
+              value: "2110",
+            },
+            {
+              key: "Panjin",
+              value: "2111",
+            },
+            {
+              key: "Tieling",
+              value: "2112",
+            },
+            {
+              key: "Chaoyang",
+              value: "2113",
+            },
+            {
+              key: "Huludao",
+              value: "2114",
+            },
+          ],
+        },
+        {
+          key: "Ningxia Hui Autonomous Region",
+          value: "64",
+          city: [
+            {
+              key: "Yinchuan",
+              value: "6401",
+            },
+            {
+              key: "Shizuishan",
+              value: "6402",
+            },
+            {
+              key: "Wuzhong",
+              value: "6403",
+            },
+            {
+              key: "Guyuan",
+              value: "6404",
+            },
+          ],
+        },
+        {
+          key: "Qinghai",
+          value: "63",
+          city: [
+            {
+              key: "Xining",
+              value: "6301",
+            },
+            {
+              key: "Haidong",
+              value: "6321",
+            },
+            {
+              key: "Haibei Tibetan Autonomous Prefecture",
+              value: "6322",
+            },
+            {
+              key: "Huangnan Tibetan Autonomous Prefecture",
+              value: "6323",
+            },
+            {
+              key: "Hainan Tibetan Autonomous Prefecture",
+              value: "6325",
+            },
+            {
+              key: "Golog Tibetan Autonomous Prefecture",
+              value: "6326",
+            },
+            {
+              key: "Yushu Tibetan Autonomous Prefecture",
+              value: "6327",
+            },
+            {
+              key: "Haixi Mongol and Tibetan Autonomous Prefecture",
+              value: "6328",
+            },
+          ],
+        },
+        {
+          key: "Shaanxi",
+          value: "61",
+          city: [
+            {
+              key: "Xi\u0027an",
+              value: "6101",
+            },
+            {
+              key: "Tongchuan",
+              value: "6102",
+            },
+            {
+              key: "Baoji",
+              value: "6103",
+            },
+            {
+              key: "Xianyang",
+              value: "6104",
+            },
+            {
+              key: "Weinan",
+              value: "6105",
+            },
+            {
+              key: "Yan\u0027an",
+              value: "6106",
+            },
+            {
+              key: "Hanzhong",
+              value: "6107",
+            },
+            {
+              key: "Yulin",
+              value: "6108",
+            },
+            {
+              key: "Ankang",
+              value: "6109",
+            },
+            {
+              key: "Shangluo",
+              value: "6110",
+            },
+          ],
+        },
+        {
+          key: "Shandong",
+          value: "37",
+          city: [
+            {
+              key: "Jinan",
+              value: "3701",
+            },
+            {
+              key: "Qingdao",
+              value: "3702",
+            },
+            {
+              key: "Zibo",
+              value: "3703",
+            },
+            {
+              key: "Zaozhuang",
+              value: "3704",
+            },
+            {
+              key: "Dongying",
+              value: "3705",
+            },
+            {
+              key: "Yantai",
+              value: "3706",
+            },
+            {
+              key: "Weifang",
+              value: "3707",
+            },
+            {
+              key: "Jining",
+              value: "3708",
+            },
+            {
+              key: "Tai\u0027an",
+              value: "3709",
+            },
+            {
+              key: "Weihai",
+              value: "3710",
+            },
+            {
+              key: "Rizhao",
+              value: "3711",
+            },
+            {
+              key: "Laiwu",
+              value: "3712",
+            },
+            {
+              key: "Linyi",
+              value: "3713",
+            },
+            {
+              key: "Dezhou",
+              value: "3714",
+            },
+            {
+              key: "Liaocheng",
+              value: "3715",
+            },
+            {
+              key: "Binzhou",
+              value: "3716",
+            },
+            {
+              key: "Heze",
+              value: "3717",
+            },
+          ],
+        },
+        {
+          key: "Shanghai",
+          value: "31",
+          city: [
+            {
+              key: "Shanghai",
+              value: "3101",
+            },
+          ],
+        },
+        {
+          key: "Shanxi",
+          value: "14",
+          city: [
+            {
+              key: "Taiyuan",
+              value: "1401",
+            },
+            {
+              key: "Datong",
+              value: "1402",
+            },
+            {
+              key: "Yangquan",
+              value: "1403",
+            },
+            {
+              key: "Changzhi",
+              value: "1404",
+            },
+            {
+              key: "Jincheng",
+              value: "1405",
+            },
+            {
+              key: "Shuozhou",
+              value: "1406",
+            },
+            {
+              key: "Jinzhong",
+              value: "1407",
+            },
+            {
+              key: "Yùnchéng",
+              value: "1408",
+            },
+            {
+              key: "Xinzhou",
+              value: "1409",
+            },
+            {
+              key: "Linfen",
+              value: "1410",
+            },
+            {
+              key: "Lüliang",
+              value: "1423",
+            },
+          ],
+        },
+        {
+          key: "Sichuan",
+          value: "51",
+          city: [
+            {
+              key: "Chengdu",
+              value: "5101",
+            },
+            {
+              key: "Zigong",
+              value: "5103",
+            },
+            {
+              key: "Panzhihua",
+              value: "5104",
+            },
+            {
+              key: "Luzhou",
+              value: "5105",
+            },
+            {
+              key: "Deyang",
+              value: "5106",
+            },
+            {
+              key: "Mianyang",
+              value: "5107",
+            },
+            {
+              key: "Guangyuan",
+              value: "5108",
+            },
+            {
+              key: "Suining",
+              value: "5109",
+            },
+            {
+              key: "Neijiang",
+              value: "5110",
+            },
+            {
+              key: "Leshan",
+              value: "5111",
+            },
+            {
+              key: "Nanchong",
+              value: "5113",
+            },
+            {
+              key: "Meishan",
+              value: "5114",
+            },
+            {
+              key: "Yibin",
+              value: "5115",
+            },
+            {
+              key: "Guang\u0027an",
+              value: "5116",
+            },
+            {
+              key: "Dazhou",
+              value: "5117",
+            },
+            {
+              key: "Ya\u0027an",
+              value: "5118",
+            },
+            {
+              key: "Bazhong",
+              value: "5119",
+            },
+            {
+              key: "Ziyang",
+              value: "5120",
+            },
+            {
+              key: "Ngawa Tibetan and Qiang Autonomous Prefecture",
+              value: "5132",
+            },
+            {
+              key: "Garzê Tibetan Autonomous Prefecture",
+              value: "5133",
+            },
+            {
+              key: "Liangshan Yi Autonomous Prefecture",
+              value: "5134",
+            },
+          ],
+        },
+        {
+          key: "Tianjin",
+          value: "12",
+          city: [
+            {
+              key: "Tianjin",
+              value: "1201",
+            },
+          ],
+        },
+        {
+          key: "Tibet",
+          value: "54",
+          city: [
+            {
+              key: "Lhasa",
+              value: "5401",
+            },
+            {
+              key: "Chamdo Prefecture",
+              value: "5421",
+            },
+            {
+              key: "Lhoka (Shannan) Prefecture",
+              value: "5422",
+            },
+            {
+              key: "Shigatse Prefecture",
+              value: "5423",
+            },
+            {
+              key: "Nagqu Prefecture",
+              value: "5424",
+            },
+            {
+              key: "Ngari Prefecture",
+              value: "5425",
+            },
+            {
+              key: "Nyingchi Prefecture",
+              value: "5426",
+            },
+          ],
+        },
+        {
+          key: "Xinjiang Uyghur Autonomous Region",
+          value: "65",
+          city: [
+            {
+              key: "Ürümqi",
+              value: "6501",
+            },
+            {
+              key: "Karamay",
+              value: "6502",
+            },
+            {
+              key: "Turpan",
+              value: "6521",
+            },
+            {
+              key: "Kumul Prefecture",
+              value: "6522",
+            },
+            {
+              key: "Changji Hui Autonomous Prefecture",
+              value: "6523",
+            },
+            {
+              key: "Bortala Mongol Autonomous Prefecture",
+              value: "6527",
+            },
+            {
+              key: "Bayingolin Mongol Autonomous Prefecture",
+              value: "6528",
+            },
+            {
+              key: "Aksu Prefecture",
+              value: "6529",
+            },
+            {
+              key: "Kizilsu Kirghiz Autonomous Prefecture",
+              value: "6530",
+            },
+            {
+              key: "Kashgar Prefecture",
+              value: "6531",
+            },
+            {
+              key: "Hotan Prefecture",
+              value: "6532",
+            },
+            {
+              key: "Ili Kazakh Autonomous Prefecture",
+              value: "6540",
+            },
+            {
+              key: "Tacheng Prefecture",
+              value: "6542",
+            },
+            {
+              key: "Altay Prefecture",
+              value: "6543",
+            },
+            {
+              key: "Others",
+              value: "6590",
+            },
+          ],
+        },
+        {
+          key: "Yunnan",
+          value: "53",
+          city: [
+            {
+              key: "Kunming",
+              value: "5301",
+            },
+            {
+              key: "Qujing",
+              value: "5303",
+            },
+            {
+              key: "Yuxi",
+              value: "5304",
+            },
+            {
+              key: "Baoshan",
+              value: "5305",
+            },
+            {
+              key: "Zhaotong",
+              value: "5306",
+            },
+            {
+              key: "Chuxiong Yi Autonomous Prefecture",
+              value: "5323",
+            },
+            {
+              key: "Honghe Hani and Yi Autonomous Prefecture",
+              value: "5325",
+            },
+            {
+              key: "Wenshan Zhuang and Miao Autonomous Prefecture",
+              value: "5326",
+            },
+            {
+              key: "Pu\u0027er",
+              value: "5327",
+            },
+            {
+              key: "Xishuangbanna Dai Autonomous Prefecture",
+              value: "5328",
+            },
+            {
+              key: "Dali Bai Autonomous Prefecture",
+              value: "5329",
+            },
+            {
+              key: "Dehong Dai and Jingpo Autonomous Prefecture",
+              value: "5331",
+            },
+            {
+              key: "Lijiang",
+              value: "5332",
+            },
+            {
+              key: "Nujiang Lisu Autonomous Prefecture",
+              value: "5333",
+            },
+            {
+              key: "Dêqên Tibetan Autonomous Prefecture",
+              value: "5334",
+            },
+            {
+              key: "Lincang",
+              value: "5335",
+            },
+          ],
+        },
+        {
+          key: "Zhejiang",
+          value: "33",
+          city: [
+            {
+              key: "Hangzhou",
+              value: "3301",
+            },
+            {
+              key: "Ningbo",
+              value: "3302",
+            },
+            {
+              key: "Wenzhou",
+              value: "3303",
+            },
+            {
+              key: "Jiaxing",
+              value: "3304",
+            },
+            {
+              key: "Huzhou",
+              value: "3305",
+            },
+            {
+              key: "Shaoxing",
+              value: "3306",
+            },
+            {
+              key: "Jinhua",
+              value: "3307",
+            },
+            {
+              key: "Quzhou",
+              value: "3308",
+            },
+            {
+              key: "Zhoushan",
+              value: "3309",
+            },
+            {
+              key: "Taizhou",
+              value: "3310",
+            },
+            {
+              key: "Lishui",
+              value: "3311",
+            },
+          ],
+        },
+      ],
+      chnBanks: [
+        {
+          value: "Agricultural_Bank_of_China",
+          key: "Agricultural Bank of China",
+          code: "abc",
+        },
+        {
+          value: "Bank_of_Beijing",
+          key: "Bank of Beijing",
+          code: "bccb",
+        },
+        {
+          value: "Bank_of_China",
+          key: "Bank of China",
+          code: "boc",
+        },
+        {
+          value: "Bank_of_Communications",
+          key: "Bank of Communications (China)",
+          code: "boco",
+        },
+        {
+          value: "Bank_of_Shanghai",
+          key: "Bank of Shanghai",
+          code: "shb",
+        },
+        {
+          value: "China_CITIC_Bank",
+          key: "China CITIC Bank",
+          code: "ecitic",
+        },
+        {
+          value: "China_Construction_Bank",
+          key: "China Construction Bank",
+          code: "ccb",
+        },
+        {
+          value: "China_Everbright_Bank",
+          key: "China Everbright Bank",
+          code: "ceb",
+        },
+        {
+          value: "China_Guangfa_Bank",
+          key: "China Guangfa Bank",
+          code: "gdb",
+        },
+        {
+          value: "China_Merchants_Bank",
+          key: "China Merchants Bank",
+          code: "cmb",
+        },
+        {
+          value: "China_Minsheng_Banking_Corp",
+          key: "China Minsheng Banking Corp",
+          code: "cmbc",
+        },
+        {
+          value: "Hua_Xia_Bank",
+          key: "Hua Xia Bank (China)",
+          code: "hxb",
+        },
+        {
+          value: "Industrial_Bank_Co",
+          key: "Industrial Bank Co (China)",
+          code: "cib",
+        },
+        {
+          value: "Industrial_and_Commercial_Bank_of_China",
+          key: "Industrial and Commercial Bank of China",
+          code: "icbc",
+        },
+        {
+          value: "Postal_Savings_Bank_of_China",
+          key: "Postal Savings Bank of China",
+          code: "psbc",
+        },
+        {
+          value: "Shanghai_Pudong_Development_Bank",
+          key: "Shanghai Pudong Development Bank",
+          code: "spdb",
+        },
+        {
+          value: "Shenzhen_Development_Bank",
+          key: "Shenzhen Development Bank (China)",
+          code: "sdb",
+        },
+      ],
+      jurisdiction: true,
+      jpnAccountType: ["SAVING", "CHECKING", "DEPOSIT"],
+    },
+  ],
+  event: "depositMetaData",
+};
+
+export const SG_TRANSACTION_METADATA = {
+  apiVersion: "1.0.0",
+  timestamp: 1639642433,
+  data: {
+    success: true,
+    metaData: {
+      balance: "11.17341390",
+      min: "0.02000000",
+      max: "11.17341390",
+      networkFee: 0.001,
+      limit: "400.00000000",
+      utilised: "1.61599250",
+      maxOriginal: "11.6744139",
+    },
+  },
+};
+
+export const SG_SUBMIT_MIN_ERROR = {
+  apiVersion: "1.0.0",
+  timestamp: 1640333331,
+  error: {
+    errors: {
+      amount: {
+        i18n: "validation.error.default.invalid.min.message",
+        params: {
+          param0: "80.00",
+        },
+      },
+    },
+  },
+};
+
+export const SG_SUBMIT_MAX_ERROR = {
+  apiVersion: "1.0.0",
+  timestamp: 1640333331,
+  error: {
+    errors: {
+      amount: {
+        i18n: "validation.error.default.invalid.max.message",
+        params: {
+          param0: "500000.00",
+        },
+      },
+    },
   },
 };

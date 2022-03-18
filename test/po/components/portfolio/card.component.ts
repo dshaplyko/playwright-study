@@ -8,7 +8,7 @@ export class Card extends Element {
 
   constructor(locator: Locator) {
     super(locator);
-    this.percentage = this.el.locator("[data-test-id='card-row-distribution'] span").nth(1);
+    this.percentage = this.el.locator("[data-test-id='portfolio-card-row-distribution-percentage']");
     this.currency = this.el.locator("[data-test-id='card-row-currency']");
   }
 

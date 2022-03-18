@@ -1,12 +1,13 @@
 import { Locator } from "@playwright/test";
-import { Element } from "../basic/element";
+import { Table } from "../general/table.component";
+import { Logger } from "../../../logger/logger";
+import { ACTIVITY_COLUMNS } from "../../../config";
+const logger = new Logger("Transaction Activity");
 
-export class TransactionActivity extends Element {
-  readonly rows: Locator;
-
+export class TransactionActivity extends Table {
   readonly method: Locator;
 
-  readonly statuses: Locator;
+  readonly status: Locator;
 
   readonly amount: Locator;
 
@@ -16,20 +17,38 @@ export class TransactionActivity extends Element {
 
   readonly description: Locator;
 
+  readonly walletAddresses: Locator;
+
+  readonly buttonAddToContact: Locator;
+
   constructor(locator: Locator) {
     super(locator);
-    this.rows = this.el.locator("[data-test-id='transaction-list-row']");
     this.method = this.rows.locator("[data-test-id='transaction-list-row-method']");
     this.amount = this.rows.locator("[data-test-id='transaction-list-row-amount']");
     this.currency = this.rows.locator("[data-test-id='transaction-list-row-currency']");
     this.fee = this.rows.locator("[data-test-id='transaction-list-row-fee']");
     this.description = this.rows.locator("[data-test-id='transaction-list-row-description']");
-    this.statuses = this.rows.locator("[data-test-id='transaction-list-row-status']");
+    this.status = this.rows.locator("[data-test-id='transaction-list-row-status']");
+    this.walletAddresses = this.rows.locator("p[data-test-id='activities-wallet-address']");
+    this.buttonAddToContact = this.rows.locator("button[aria-label*='Contact']");
   }
 
-  async getStatusesText(): Promise<string[]> {
-    await this.statuses.nth(1).waitFor();
-    const textArray: string[] = await this.statuses.allInnerTexts();
-    return textArray.filter(Boolean);
+  async getColumnText(column: ACTIVITY_COLUMNS): Promise<string[]> {
+    await this[column].nth(0).waitFor();
+    const count = await this.rows.count();
+    const textArr = [];
+    for (let i = 0; i < count; i++) {
+      textArr.push(await this[column].nth(i).innerText());
+    }
+    logger.debug(`${JSON.stringify(textArr, null, "\t")}`);
+    return textArr;
+  }
+
+  selectWalletAddress(index: number): Locator {
+    return this.walletAddresses.nth(index - 1);
+  }
+
+  selectContact(index: number): Locator {
+    return this.buttonAddToContact.nth(index - 1);
   }
 }

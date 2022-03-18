@@ -5,13 +5,14 @@
 [1 - Description](#description)  
 [2 - Installation](#installation)  
 [3 - How to Run test scenarios](#how_to_run)  
-[4 - Configure BaseUrl for particular Test Suite](#configure_base_url)
+[4 - Configure BaseUrl for particular Test Suite](#configure_base_url)  
+[5 - Logger](#logger)
 
 <a name="description"/>
 
 ## 1 - Description
 
-- playwright v.15: https://playwright.dev/
+- playwright v.18: https://playwright.dev/
 - Typescript: https://www.typescriptlang.org/
 
 <a name="installation"/>
@@ -38,8 +39,16 @@
 
 <a name="configure_base_url"/>
 
-## 4 - Configure BaseUrl for a particulat Test Suite
+## 4 - Configure BaseUrl for a particular Test Suite
 
 ```sh
 test.use({ baseURL: 'https://playwright.dev' })
+```
+
+<a name="logger"/>
+
+## 5 - Logger
+
+```sh
+DEBUG=true npm test
 ```

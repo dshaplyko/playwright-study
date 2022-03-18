@@ -1,15 +1,14 @@
-// playwright-dev-page.ts
-import {
-  Page, Locator, expect,
-} from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 import { BasePage } from "./Base.page";
-import { Widget } from "../components/portfolio/widget.component";
+import { Widget } from "../components/general/widget.component";
 import { HoldingList } from "../components/portfolio/holdingList.component";
 import { FeatureHighlight } from "../components/portfolio/featureHighlight.component";
 import { Chart } from "../components/portfolio/chart.component";
 import { Card } from "../components/portfolio/card.component";
 import { TradingButtons } from "../components/portfolio/tradingButtons.component";
-import { EnumWidget, DECIMAL_PART } from "../../config";
+import { WIDGETS, FEATURE_HIGHLIGHT, DECIMAL_PART } from "../../config";
+import { Logger } from "../../logger/logger";
+const logger = new Logger("Portfolio Page");
 
 export class PortfolioPage extends BasePage {
   readonly url: string;
@@ -21,8 +20,6 @@ export class PortfolioPage extends BasePage {
   readonly quickTips: Locator;
 
   readonly quickTipsLink: Locator;
-
-  readonly quickLinks: Locator;
 
   readonly chart: Chart;
 
@@ -37,8 +34,7 @@ export class PortfolioPage extends BasePage {
     this.chart = new Chart(this.page.locator(".recharts-wrapper"));
     this.tradingButtons = new TradingButtons(this.page.locator("div[data-test-id='trading-related-area']"));
     this.quickTips = this.page.locator("div[data-test-id='quick-tips']");
-    this.quickTipsLink = this.quickTips.locator("a[href*=funds]");
-    this.quickLinks = this.page.locator("ol.anx-static-styles-4pdmu4-MuiBreadcrumbs-ol");
+    this.quickTipsLink = this.quickTips.locator("a[href*=funds]").nth(0);
     this.cards = this.page.locator("[data-test-id='card-row']");
   }
 
@@ -51,43 +47,27 @@ export class PortfolioPage extends BasePage {
     return new Card(this.cards.nth(index));
   }
 
-  getWidget(widget: EnumWidget): Widget {
-    switch (widget) {
-      case "your portfolio":
-        return new Widget(this.page.locator("div[data-test-id='your-portfolio']"));
-      case "digital assets":
-        return new Widget(this.page.locator("div[data-test-id='digital-assets']"));
-      case "fiat currencies":
-        return new Widget(this.page.locator("div[data-test-id='fiat-currencies']"));
-      case "feature highlight":
-    }
+  getWidget(widget: WIDGETS): Widget {
+    return new Widget(this.page.locator(`div[data-test-id='${widget}']`));
   }
 
-  getFeatureHighlight(item: string): FeatureHighlight {
-    switch (item) {
-      case "your console":
-        return new FeatureHighlight(this.page.locator("[data-test-id='your-console']"));
-      case "upgrade your account":
-        return new FeatureHighlight(this.page.locator("[data-test-id='upgrade-your-account']"));
-      case "account box":
-        return new FeatureHighlight(this.page.locator("[data-test-id='get-premium']"));
-    }
-  }
-
-  getQuickLink(link: string): Locator {
-    link = link.split(" ")[0];
-    return this.quickLinks.locator(`a[href*=${link}]`);
+  getFeatureHighlight(item: FEATURE_HIGHLIGHT): FeatureHighlight {
+    return new FeatureHighlight(this.page.locator(`div[data-test-id*='${item}']`));
   }
 
   async calculateTotalBalance(): Promise<number> {
-    const digitalAssets: number = await this.getWidget(EnumWidget.DIGITAL_ASSETS).getTotalBalance();
-    const fiatCurrencies: number = await this.getWidget(EnumWidget.FIAT_CURRENCIES).getTotalBalance();
-    const sum: number = digitalAssets + fiatCurrencies;
-    return parseFloat(sum.toFixed(DECIMAL_PART));
+    const digitalAssets: number = await this.getWidget(WIDGETS.DIGITAL_ASSETS).getTotalBalance();
+    const fiatCurrencies: number = await this.getWidget(WIDGETS.FIAT_CURRENCIES).getTotalBalance();
+    const sum: number = parseFloat((digitalAssets + fiatCurrencies).toFixed(DECIMAL_PART));
+    logger.debug(`Digital Assets Balance: ${digitalAssets}`);
+    logger.debug(`Fiat Currencies Balance: ${fiatCurrencies}`);
+    logger.debug(`Sum: ${sum}`);
+    return sum;
   }
 
-  async checkTradingAndChartConjuction(count: number): Promise<void> {
-    for (let i: number = 1; i <= count; i++) {
+  async checkTradingAndChartConjuction(): Promise<void> {
+    const count: number = await this.holdingList.getRowsCount();
+    for (let i = 1; i <= count; i++) {
       await this.holdingList.clickRow(i);
 
       const rowPercentage: string = await this.holdingList.getPercentage(i);
@@ -100,8 +80,9 @@ export class PortfolioPage extends BasePage {
     }
   }
 
-  async checkCardsAndChartConjuction(count: number): Promise<void> {
-    for (let i: number = 0; i < count; i++) {
+  async checkCardsAndChartConjuction(): Promise<void> {
+    const count: number = await this.getCardsCount();
+    for (let i = 0; i < count; i++) {
       await this.getCard(i).clickCard();
 
       const cardPercentage: string = await this.getCard(i).getPercentage();

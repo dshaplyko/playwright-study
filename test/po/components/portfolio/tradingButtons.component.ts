@@ -1,6 +1,6 @@
 import { Locator, expect } from "@playwright/test";
 import { Element } from "../basic/element";
-import { State } from "../../../config";
+import { STATES } from "../../../config";
 
 export class TradingButtons extends Element {
   readonly buttons: Locator;
@@ -34,7 +34,7 @@ export class TradingButtons extends Element {
     this.cashOut = new Element(this.el.locator("[data-test-id='cash-out']"));
   }
 
-  async checkButtonsState(state: State): Promise<void> {
+  async checkButtonsState(state: STATES): Promise<void> {
     const buttonsCount: number = await this.buttons.count();
     for (let i = 0; i < buttonsCount; i++) {
       let assert = expect(this.buttons.nth(i));

@@ -1,7 +1,8 @@
-// playwright-dev-page.ts
 import { Page, Locator } from "@playwright/test";
 import { BasePage } from "./Base.page";
-import { TEST_USER } from "../../config";
+import { TEST_USERS, BASE_URL } from "../../config";
+import { Logger } from "../../logger/logger";
+const logger = new Logger("Global Pre-Hook");
 
 export class LoginPage extends BasePage {
   readonly url: string;
@@ -12,25 +13,64 @@ export class LoginPage extends BasePage {
 
   readonly loginButton: Locator;
 
+  readonly errorMessage: Locator;
+
+  readonly forgotPasswordLink: Locator;
+
+  readonly forgotEmailInput: Locator;
+
+  readonly resetPasswordButton: Locator;
+
+  readonly notificationBody: Locator;
+
   constructor(page: Page, url = "/signin") {
     super(page);
     this.url = url;
     this.emailField = this.page.locator("#sign-in-username");
     this.passwordField = this.page.locator("#sign-in-password");
     this.loginButton = this.page.locator("[data-test-id='button-login']");
+    this.errorMessage = this.page.locator("[data-test-id='sign-in-submit-errors']");
+    this.forgotPasswordLink = this.page.locator("span", { hasText: "Forgot Password?" });
+    this.forgotEmailInput = this.page.locator("#forgot-password-email-input");
+    this.resetPasswordButton = this.page.locator("[data-test-id='button-forgot-password']");
+    this.notificationBody = this.page.locator("[data-test-id='register-notification-body']");
   }
 
-  async login(email: string = TEST_USER.email, password: string = TEST_USER.password): Promise<void> {
-    await this.goto();
-    await this.emailField.type(email);
-    await this.passwordField.type(password);
+  async login(obj: { email: string; password: string } = TEST_USERS.MAIN): Promise<void> {
+    await this.emailField.type(obj.email);
+    await this.passwordField.type(obj.password);
     await this.loginButton.click();
     await this.page.waitForURL(/portfolio/, {
-      waitUntil: "domcontentloaded",
+      waitUntil: "commit",
     });
   }
 
   async goto() {
     await super.goto(this.url);
+  }
+
+  async globalGoto(): Promise<void> {
+    await this.setHTTPHeaders();
+    await this.page.goto(`${BASE_URL}/signin`);
+  }
+
+  async loginAsUser(): Promise<void> {
+    try {
+      await this.globalGoto();
+      await this.login();
+      logger.info("customerdemo+epam@osl.com is logged in");
+    } catch (e) {
+      throw new Error(`Was not able to login using customerdemo+epam@osl.com creds, ${e}`);
+    }
+  }
+
+  async loginAsTrader(): Promise<void> {
+    try {
+      await this.globalGoto();
+      await this.login(TEST_USERS.SPECIFIC);
+      logger.info("andy.wong@osl.com is logged in");
+    } catch (e) {
+      throw new Error(`Was not able to login using andy.wong@osl.com creds, ${e}`);
+    }
   }
 }
