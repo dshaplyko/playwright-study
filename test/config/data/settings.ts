@@ -160,3 +160,13 @@ export const NON_EMPTY_API = {
     maxWebApiKey: 6,
   },
 };
+
+export const NEW_OTP = {
+  apiVersion: "1.0.0",
+  timestamp: 1649055462,
+  data: {
+    uuid: "5c55c821-b3e4-11ec-a2c4-0aa43e8b797e",
+    alias: "TIME_BASED_OTP",
+    i18n: "twofactor.set.success",
+  },
+};

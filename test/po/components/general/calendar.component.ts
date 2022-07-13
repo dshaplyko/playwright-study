@@ -18,6 +18,8 @@ export class Calendar extends Element {
 
   readonly input: Element;
 
+  readonly nextMonthButton: Locator;
+
   constructor(locator: Locator, page: Page) {
     super(locator);
     this.page = page;
@@ -25,9 +27,10 @@ export class Calendar extends Element {
     this.yearPicker = this.root.locator("[aria-label='calendar view is open, switch to year view']");
     this.yearButtons = this.root.locator("div.PrivatePickersYear-root");
     this.dayButtons = this.root.locator("button.MuiPickersDay-root");
-    this.calendarButton = this.el.locator("button[aria-label*='date']");
+    this.calendarButton = this.rootEl.locator("button[aria-label*='date']");
     this.currentDay = this.root.locator("button.MuiPickersDay-today");
-    this.input = new Element(this.el.locator("input"));
+    this.input = new Element(this.rootEl.locator("input"));
+    this.nextMonthButton = this.root.locator("button[title='Next month']");
   }
 
   async selectPreviousDate(year: string, day: string): Promise<void> {
@@ -39,6 +42,9 @@ export class Calendar extends Element {
 
   async selectCurrentDay(): Promise<void> {
     await this.calendarButton.click();
-    await this.currentDay.click();
+    if (await this.currentDay.first().isHidden()) {
+      await this.nextMonthButton.click();
+    }
+    await this.currentDay.first().click();
   }
 }

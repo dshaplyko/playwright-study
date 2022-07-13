@@ -3,6 +3,9 @@ import { BasePage } from "./Base.page";
 import { ContactCard } from "../components/contacts/contactCard.component";
 import { ContactList } from "../components/contacts/contactList.component";
 import { ConfirmationModal } from "../components/general/modals/confirmationModal.component";
+import { CONTACTS_DATA, CONTACTS_DATA_EMPTY, DELETE_CONTACT_SUCCESS, URLs } from "../../config";
+import { Logger } from "../../logger/logger";
+const logger = new Logger("Contacts Page");
 
 export class ContactsPage extends BasePage {
   readonly url: string;
@@ -45,5 +48,32 @@ export class ContactsPage extends BasePage {
 
   async goto() {
     await super.goto(this.url);
+  }
+
+  async mockContactData(data: "full" | "empty"): Promise<void> {
+    const contactsData = data === "full" ? CONTACTS_DATA : CONTACTS_DATA_EMPTY;
+
+    await this.api.mockData(contactsData, URLs.CONTACT);
+    await this.goto();
+  }
+
+  async mockDeleteContact(): Promise<void> {
+    await this.api.mockData(DELETE_CONTACT_SUCCESS, URLs.REMOVE_CONTACT);
+  }
+
+  async checkContacts(): Promise<void> {
+    await this.goto();
+    await this.contactList.waitForVisible();
+    if (await this.noContactsIcon.isVisible()) {
+      logger.info("Test Contact is being created");
+      await this.contactList.addNewContactButton.click();
+      await this.contactCard.fillContactCard({
+        name: "Test Contact 1",
+        reference: "Test Contact 1",
+        assetAddress: "2NCufv57dMLUsvnpeMXpJwEDrWhqehML8fa",
+        currency: "BTC",
+      });
+      await this.checkTooltip("New Contact has been saved.");
+    }
   }
 }

@@ -11,20 +11,23 @@ export class Dropdown extends Element {
 
   readonly options: Locator;
 
+  readonly input: Locator;
+
   constructor(locator: Locator, page: Page) {
     super(locator);
     this.page = page;
-    this.dropdown = this.page.locator("ul[role='listbox']");
+    this.dropdown = this.page.locator("ul[role='listbox'], ul[role='menu']");
     this.options = this.dropdown.locator("li");
+    this.input = this.rootEl.locator("input");
   }
 
   getOptionsCount(): Promise<number> {
     return this.options.count();
   }
 
-  async selectByText<T>(text: T): Promise<void> {
-    await this.el.click();
-    return this.dropdown.locator(`text=${text}`).click();
+  async clickByText<T>(text: T): Promise<void> {
+    await this.rootEl.click();
+    return this.dropdown.locator(`text="${text}"`).first().click();
   }
 
   clickByValue(text: string): Promise<void> {

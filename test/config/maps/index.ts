@@ -1,4 +1,6 @@
 export * from "./activities.maps";
+export * from "./base.maps";
+export * from "./brokerage.maps";
 export * from "./portfolio.maps";
 export * from "./funds.maps";
 export * from "./profile.maps";

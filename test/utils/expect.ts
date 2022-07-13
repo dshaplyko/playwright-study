@@ -1,5 +1,6 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { REPORT_TYPES, COMPARE_CONDITIONS, STATES } from "../config";
+import { REPORT_TYPES, COMPARE_CONDITIONS, ATTRIBUTES } from "../config";
+import { checkArrayType } from "./main";
 
 export const expectPageURLContains = async (page: Page, toContain: string | RegExp): Promise<void> => {
   await expect(page, "Page URL does not contain needed text").toHaveURL(toContain);
@@ -10,7 +11,7 @@ export const expectElementVisibility = async (element: Locator, visibility: bool
 
   if (elementsCount > 1) {
     for (let i = 0; i < elementsCount; i++) {
-      const assert = expect(element.nth(i), `Visibility of ${element} is incorrect`);
+      const assert = expect(element.nth(i), `Visibility of ${element} element collection is incorrect`);
       if (visibility) {
         await assert.toBeVisible();
       } else {
@@ -18,7 +19,7 @@ export const expectElementVisibility = async (element: Locator, visibility: bool
       }
     }
   } else {
-    const assert = expect(element, `Visibility of ${element} collection is incorrect`);
+    const assert = expect(element, `Visibility of ${element} element is incorrect`);
     if (visibility) {
       await assert.toBeVisible();
     } else {
@@ -36,19 +37,16 @@ export const expectArrayIncludes = (arr: string[], toBeIncluded: any[], option =
   assert.toEqual(expect.arrayContaining(toBeIncluded));
 };
 
-export const expectAllArrayItemsEqual = (arr: string[], toEqual: string, option = true): void => {
-  arr.forEach((item, index, array) => {
-    let assert = expect(item, `Equality of ${item} and ${toEqual} is incorrect. Array: ${JSON.stringify(array)}`);
+export const expectArraySorted = (arr: number[] | string[]): void => {
+  let arrayToCompare = [];
 
-    if (!option) {
-      assert = assert.not;
-    }
-    assert.toEqual(toEqual);
-  });
-};
+  if (checkArrayType(arr) === "number") {
+    arrayToCompare = [...arr].sort((a: number, b: number) => b - a);
+  } else {
+    arrayToCompare = [...arr].map((item: string) => item.toLowerCase()).sort();
+    arr = arr.map((item) => String(item).toLowerCase());
+  }
 
-export const expectArraySortedDescending = (arr: number[]): void => {
-  const arrayToCompare = [...arr].sort((a, b) => b - a);
   expect(arr, `${JSON.stringify(arr)} is not sorted properly`).toEqual(arrayToCompare);
 };
 
@@ -111,15 +109,43 @@ export const expectElementEquality = <T>(element: T, toEqual: T, option = true):
   assert.toEqual(toEqual);
 };
 
-export const expectItemToContainText = (element: string, toContain: string): void => {
-  expect(element, `The ${element} does not contain "${toContain}" text`).toContain(toContain);
+export const expectItemToContainText = (element: string, toContain: string | string[]): void => {
+  const assert = expect(element, `The ${element} does not contain "${toContain}" text`);
+
+  if (Array.isArray(toContain)) {
+    toContain.forEach((item) => assert.toContain(item));
+  } else {
+    assert.toContain(toContain);
+  }
 };
 
-export const expectElementToHaveText = async (element: Locator, toContain: string | RegExp): Promise<void> => {
-  await expect(element, `The ${element} does not have "${toContain}" text`).toHaveText(toContain);
+export const expectElementToContainText = async (
+  element: Locator,
+  toContain: string | string[],
+  option = true
+): Promise<void> => {
+  let assert = expect(element, `The ${element} does not contain "${toContain}" text`);
+  if (!option) {
+    assert = assert.not;
+  }
+  return assert.toContainText(toContain);
 };
 
-export const expectElementToBeDisabled = async (element: Locator, option = true): Promise<Locator> => {
+export const expectElementToHaveText = async (
+  element: Locator,
+  toContain: string | RegExp | string[],
+  option = true
+): Promise<void> => {
+  let assert = expect(element, `The ${element} does not have "${toContain}" text`);
+  if (!option) {
+    assert = assert.not;
+  }
+  await assert.toHaveText(toContain, {
+    timeout: 60000,
+  });
+};
+
+export const expectElementToBeDisabled = async (element: Locator, option = true): Promise<void> => {
   return option
     ? expect(element, `The ${element} is not disabled`).toBeDisabled()
     : expect(element, `The ${element} is not enabled`).toBeEnabled();
@@ -129,49 +155,46 @@ export const expectElementToHaveValue = async (element: Locator, toContain: stri
   await expect(element, `The ${element} does not have "${toContain}" value`).toHaveValue(toContain);
 };
 
-export const expectNumbersComparison = (numbers: string[], toCompare: number, condition: COMPARE_CONDITIONS): void => {
-  const absNumbers = numbers.map((number: string) => Math.abs(parseInt(number)));
-
-  return absNumbers.forEach((number: number) => {
-    const assert = expect(number, `Items from ${JSON.stringify(numbers)} not ${condition} ${toCompare}`);
-
+export const expectNumbersComparison = (
+  numbers: string[] | number,
+  toCompare: number,
+  condition: COMPARE_CONDITIONS
+): void => {
+  const customExpect = (item: string[] | number, message: string, condition: COMPARE_CONDITIONS) => {
+    const assert = expect(item, message);
     if (condition === COMPARE_CONDITIONS.MORE) {
-      assert.toBeGreaterThan(toCompare);
+      return assert.toBeGreaterThan(toCompare);
     } else if (condition === COMPARE_CONDITIONS.LESS) {
-      assert.toBeLessThan(toCompare);
+      return assert.toBeLessThan(toCompare);
     } else if (condition === COMPARE_CONDITIONS.MORE_OR_EQUAL) {
-      assert.toBeGreaterThanOrEqual(toCompare);
+      return assert.toBeGreaterThanOrEqual(toCompare);
     } else if (condition === COMPARE_CONDITIONS.LESS_OR_EQUAL) {
-      assert.toBeLessThanOrEqual(toCompare);
+      return assert.toBeLessThanOrEqual(toCompare);
     }
-  });
+  };
+
+  if (typeof numbers === "number") {
+    return customExpect(numbers, `${numbers} is not ${condition} than ${toCompare}`, condition);
+  } else {
+    const absNumbers = numbers.map((number: string) => Math.abs(parseInt(number)));
+
+    return absNumbers.forEach((number: number) => {
+      return customExpect(number, `Items from ${JSON.stringify(numbers)} not ${condition} ${toCompare}`, condition);
+    });
+  }
 };
 
-export const expectGreaterThan = (item: number, toCompare: number): void => {
-  expect(item, `${item} is not greater than ${toCompare}`).toBeGreaterThan(toCompare);
-};
-
-export const expectToBeGreaterOrEqual = (item: number, toCompare: number) => {
-  expect(item, `"${item}" is not greater or equal to "${toCompare}"`).toBeGreaterThanOrEqual(toCompare);
-};
-
-export const expectElementsState = async (element: Locator, state: STATES, option = true): Promise<void> => {
-  let assert = expect(element, `"${element}" has improper "${state}" state`);
+export const expectElementToHaveAttribute = async (
+  element: Locator,
+  attribute: ATTRIBUTES,
+  value: string,
+  option = true
+): Promise<void> => {
+  let assert = expect(element, `"${element}" has improper "${attribute}" attribute`);
   if (!option) {
     assert = assert.not;
   }
-  await assert.toHaveAttribute(`aria-${state}`, "true");
-};
-
-export const expectEnumContains = (items: string[], enumToCheck: any): void => {
-  expect(
-    items.every((item) => Object.values(enumToCheck).includes(item)),
-    `"The items of ${JSON.stringify(items)}" do not exist in ${JSON.stringify(enumToCheck)}`
-  ).toEqual(true);
-};
-
-export const expectBackgroundColor = async (element: Locator, color: string): Promise<void> => {
-  await expect(element, `The background color is not ${color}`).toHaveCSS("background-color", color);
+  await assert.toHaveAttribute(attribute, new RegExp(value));
 };
 
 export const expectToHaveCount = async (element: Locator, count: number): Promise<void> => {

@@ -1,8 +1,13 @@
-import { Page, Locator } from "@playwright/test";
+import { Page, Locator, test } from "@playwright/test";
 import { Dropdown } from "../components/basic/dropdown";
 import { Instructions } from "../components/brokerage/instructions.component";
 import { HoldingList } from "../components/portfolio/holdingList.component";
 import { BasePage } from "./Base.page";
+import { Logger } from "../../logger/logger";
+import { LIMIT_ROWS, URLs, quoteErrorData, timeToLiveData, quoteData } from "../../config";
+import { Table } from "../components/general/table.component";
+import { expectElementToContainText, expectElementToHaveText, convertNumberToString } from "../../utils";
+const logger = new Logger("Brokerage Page");
 
 export class BrokeragePage extends BasePage {
   readonly url: string;
@@ -13,11 +18,13 @@ export class BrokeragePage extends BasePage {
 
   readonly holdingList: HoldingList;
 
+  readonly limitTable: Table;
+
   readonly digitalAssetsList: Dropdown;
 
-  readonly buyBTCButton: Locator;
+  readonly buyButton: Locator;
 
-  readonly sellBTCButton: Locator;
+  readonly sellButton: Locator;
 
   readonly tradePairList: Dropdown;
 
@@ -45,22 +52,100 @@ export class BrokeragePage extends BasePage {
     this.pageHeader = this.page.locator("div[data-test-id='irfq-page-title']");
     this.instructions = new Instructions(this.page.locator("[data-test-id='instructions']"));
     this.holdingList = new HoldingList(this.page.locator("[data-test-id='irfq-holding-list']"));
+    this.limitTable = new Table(this.holdingList.rootEl.locator(".MuiTable-root"));
     this.digitalAssetsList = new Dropdown(this.page.locator("[data-test-id='irfq-digital-assets-list']"), this.page);
-    this.buyBTCButton = this.page.locator("[data-test-id='irfq-buy-btc-button']");
-    this.sellBTCButton = this.page.locator("[data-test-id='irfq-sell-btc-button']");
+    this.buyButton = this.page.locator("[data-test-id='irfq-buy-btc-button']");
+    this.sellButton = this.page.locator("[data-test-id='irfq-sell-btc-button']");
     this.tradePairList = new Dropdown(this.page.locator("[data-test-id='irfq-trade-pair']"), this.page);
-    this.tradeAmount = this.page.locator("[data-test-id='irfq-trade-amount'] input");
+    this.tradeAmount = this.page.locator("#brokerage-action-amount");
     this.tradeCurrencyList = new Dropdown(this.page.locator("[data-test-id='irfq-trade-currency']"), this.page);
     this.quotePriceButton = this.page.locator("button", { hasText: "Quote Price" });
     this.nonVerifiedUserMessage = this.page.locator("[data-test-id='irfq-unverified-user-message']");
     this.confirmButton = this.page.locator("button", { hasText: "Confirm" });
     this.cancelButton = this.page.locator("button", { hasText: "Cancel" });
-    this.progressBar = this.page.locator("span[role='progressbar']");
-    this.successMessage = this.page.locator("form p");
-    this.errorMessage = this.page.locator("form span", { hasText: "Less" });
+    this.progressBar = this.page.locator("[role='progressbar']~div");
+    this.successMessage = this.page.locator("form p", { hasText: "Thank you" });
+    this.errorMessage = this.page.locator("[data-test-id='error-container'] , [data-test-id='form-error']");
   }
 
   async goto() {
     await super.goto(this.url);
+  }
+
+  private async getBrokerageResponse(url: string, action: Promise<void>): Promise<string> {
+    const { data } = await this.api.getResponseBody(url, action);
+    return data.responseCode;
+  }
+
+  async checkQuoteSave() {
+    const response = await this.getBrokerageResponse("quote/save", this.quotePriceButton.click());
+
+    if (response === "CANNOT_PRICE") {
+      logger.info(`Test skipped because of ${response}`);
+      test.skip();
+    }
+  }
+
+  async checkTradeSave() {
+    const response = await this.getBrokerageResponse("trade/save", this.confirmButton.click());
+
+    if (response === "INSUFFICIENT_LIQUIDITY") {
+      logger.info(`Test skipped because of ${response}`);
+      test.skip();
+    }
+  }
+
+  getLimitRow(row: LIMIT_ROWS): Locator {
+    return this.limitTable.rootEl.locator("td.MuiTableCell-body").nth(row);
+  }
+
+  async disableBasket(): Promise<void> {
+    await this.api.mockConfig({
+      basket: {
+        enabled: false,
+      },
+    });
+    await this.goto();
+  }
+
+  async mockSuccessfulQuotation(): Promise<void> {
+    await this.api.mockData(quoteData, URLs.QUOTE);
+  }
+
+  async mockQuoteError(error: string): Promise<void> {
+    const mockData = { ...quoteErrorData };
+    mockData.data.responseCode = error;
+    await this.api.mockData(mockData, URLs.QUOTE);
+  }
+
+  async mockRFQNetworkError(data: any, url: URLs, status: number): Promise<void> {
+    await this.api.emulateNetworkError(data, url, status);
+  }
+
+  async mockTimeToLive(ttl: number): Promise<void> {
+    const mockData = { ...timeToLiveData };
+    mockData.data.timeToLive = ttl * 1000;
+    await this.api.mockData(mockData, URLs.QUOTE);
+  }
+
+  async verifyLimitTable(limitData: any): Promise<void> {
+    await expectElementToHaveText(this.getLimitRow(LIMIT_ROWS.TYPE), "Net Settlement");
+    await expectElementToContainText(
+      this.getLimitRow(LIMIT_ROWS.EXPOSURE),
+      `${limitData.exposureCurrency} ${convertNumberToString(limitData.exposureAmount)}`
+    );
+    await expectElementToContainText(
+      this.getLimitRow(LIMIT_ROWS.TOTAL),
+      `${limitData.limitCurrency} ${convertNumberToString(limitData.limitAmount)}`
+    );
+    await expectElementToHaveText(this.getLimitRow(LIMIT_ROWS.USAGE), limitData.limitUtilisation);
+  }
+
+  async getTradingPair(): Promise<{ defaultFiat: string; defaultCoin: string }> {
+    const { defaultFiat, defaultCoin } = await this.api.getResponseBody(
+      "defaultCurrencyPair",
+      this.header.buySellLink.click()
+    );
+    return { defaultFiat, defaultCoin };
   }
 }

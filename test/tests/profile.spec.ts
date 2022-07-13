@@ -7,13 +7,13 @@ test.describe.parallel("Profile Component for Admin/Owner", () => {
     await portfolioPage.goto();
   });
 
-  test("clicking profile button should open Profile menu @smoke @jira(BCTGWEBPWU-36) @jira(BCTGWEBPWU-344)", async ({
+  test("clicking profile button should open Profile menu @smoke @jira(XRT-225) @jira(XRT-345)", async ({
     portfolioPage,
   }) => {
     await portfolioPage.header.profileButton.click();
-    await expectElementVisibility(portfolioPage.profile.el, true);
+    await expectElementVisibility(portfolioPage.profile.rootEl, true);
     await expectElementVisibility(portfolioPage.profile.userEmail, true);
-    await expectElementVisibility(portfolioPage.profile.blockchainExplorerLink, true);
+    await expectElementVisibility(portfolioPage.profile.digitalAssetAddressLink, true);
     await expectElementVisibility(portfolioPage.profile.consoleLink, true);
     await expectElementVisibility(portfolioPage.profile.stagingModeLink, true);
     await expectElementVisibility(portfolioPage.profile.announcementsLink, true);
@@ -35,18 +35,21 @@ test.describe.parallel("Profile Component for Admin/Owner", () => {
     });
   });
 
-  // TODO: Playwright defect https://github.com/microsoft/playwright/issues/11087
-  test.skip("should open Blockchain Explorer in a new browser tab @criticalPath @jira(BCTGWEBPWU-350)", async ({
-    portfolioPage,
-  }) => {
-    await portfolioPage.header.profileButton.click();
-    const newTab = await portfolioPage.getNewTab(portfolioPage.profile.blockchainExplorerLink.click());
-    await expectPageURLContains(newTab, /anxexplorer.com/);
-  });
-
-  test("should open Console in a new browser tab @criticalPath @jira(BCTGWEBPWU-347)", async ({ portfolioPage }) => {
+  test("should open Console in a new browser tab @criticalPath @jira(XRT-347)", async ({ portfolioPage }) => {
     await portfolioPage.header.profileButton.click();
     const newTab = await portfolioPage.getNewTab(portfolioPage.profile.consoleLink.click());
     await expectPageURLContains(newTab, /console/);
+  });
+
+  test("should switch Staging/Production Modes @criticalPath @jira(XRT-348) @jira(XRT-353)", async ({
+    portfolioPage,
+  }) => {
+    await portfolioPage.header.profileButton.click();
+    await portfolioPage.profile.stagingModeLink.click();
+    await expectElementVisibility(portfolioPage.stagingModeLabel, true);
+
+    await portfolioPage.header.profileButton.click();
+    await portfolioPage.profile.stagingModeLink.click();
+    await expectElementVisibility(portfolioPage.stagingModeLabel, false);
   });
 });

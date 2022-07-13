@@ -23,20 +23,20 @@ export class TwoFactor extends Element {
 
   constructor(locator: Locator) {
     super(locator);
-    this.inputs = this.el.locator("input");
-    this.alternativeMethod = this.el.locator("[data-test-id='two-factor-alternative-method-button']");
-    this.confirmButton = this.el.locator("button", { hasText: "Confirm" });
-    this.header = this.el.locator("[data-testid='two-factor-form-header']");
-    this.codeInput = this.el.locator("#code");
-    this.errorMessage = this.el.locator("[data-test-id='two-factor-form-error-text']");
-    this.heading = this.el.locator("[data-test-id='reminder-heading']");
-    this.enableTwoFAButton = this.el.locator("button", { hasText: "ENABLE 2FA" });
-    this.cancelButton = this.el.locator("button", { hasText: "Cancel" });
+    this.inputs = this.rootEl.locator("input");
+    this.alternativeMethod = this.rootEl.locator("button[data-test-id='two-factor-alternative-method-button']");
+    this.confirmButton = this.rootEl.locator("button", { hasText: "Confirm" });
+    this.header = this.rootEl.locator("[data-testid='two-factor-form-header']");
+    this.codeInput = this.rootEl.locator("#code");
+    this.errorMessage = this.rootEl.locator("[data-test-id='two-factor-form-error']");
+    this.heading = this.rootEl.locator("[data-test-id='reminder-heading']");
+    this.enableTwoFAButton = this.rootEl.locator("button", { hasText: "ENABLE 2FA" });
+    this.cancelButton = this.rootEl.locator("button", { hasText: "Cancel" });
   }
 
   async fillOTPnumber(otp: string): Promise<void> {
     for (let i = 0; i <= 5; i++) {
-      await this.el.locator(`input[id='${i}']`).fill(otp[i]);
+      await this.rootEl.locator(`input[id='${i}']`).fill(otp[i]);
     }
   }
 }

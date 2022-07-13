@@ -10,8 +10,8 @@ export class BankCard extends Element {
 
   constructor(locator: Locator) {
     super(locator);
-    this.name = this.el.locator("div[data-test-id='list-item-name']");
-    this.transferMethod = this.el.locator("div[data-test-id='list-item-method']");
-    this.alias = this.el.locator("div[data-test-id='list-item-alias']");
+    this.name = this.rootEl.locator("div[data-test-id='list-item-name'] div");
+    this.transferMethod = this.rootEl.locator("div[data-test-id='list-item-method']");
+    this.alias = this.rootEl.locator("div[data-test-id='list-item-alias']");
   }
 }

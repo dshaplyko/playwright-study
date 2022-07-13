@@ -19,7 +19,7 @@ export const presetDatesMap = [
   {
     period: "3M",
     option: 3,
-    difference: 90,
+    difference: 89,
   },
   {
     period: "1Y",
@@ -30,32 +30,32 @@ export const presetDatesMap = [
 
 export const currenciesMap = [
   {
-    id: "@jira(BCTGWEBPWU-14)",
+    id: "@jira(XRT-112)",
     type: REPORT_TYPES.TRANSACTION,
   },
   {
-    id: "@jira(BCTGWEBPWU-15)",
+    id: "@jira(XRT-113)",
     type: REPORT_TYPES.TRADE,
   },
   {
-    id: "@jira(BCTGWEBPWU-16)",
+    id: "@jira(XRT-114)",
     type: REPORT_TYPES.RFQ,
   },
 ];
 
 export const reportDownloadMap = [
   {
-    testId: "@jira(BCTGWEBPWU-18)",
+    testId: "@jira(XRT-118)",
     type: REPORT_TYPES.TRANSACTION,
     field: "Currency",
   },
   {
-    testId: "@jira(BCTGWEBPWU-19)",
+    testId: "@jira(XRT-116)",
     type: REPORT_TYPES.TRADE,
     field: "Traded Currency",
   },
   {
-    testId: "@jira(BCTGWEBPWU-20)",
+    testId: "@jira(XRT-117)",
     type: REPORT_TYPES.RFQ,
     field: "Traded Currency",
   },

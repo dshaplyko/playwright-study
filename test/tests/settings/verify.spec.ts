@@ -3,7 +3,7 @@ import { SETTINGS_TABS, USER_VERIFICATION_STATE, USER_VERIFICATION_MESSAGES } fr
 import { expectElementVisibility, expectElementToHaveText } from "../../utils";
 
 test.describe("Settings Page -> Verify tab @jira(PWU-328)", () => {
-  test("should open when Jurisdiction is not supported @smoke @jira(BCTGWEBPWU-1012)", async ({ settingsPage }) => {
+  test("should open when Jurisdiction is not supported @smoke @jira(XRT-373)", async ({ settingsPage }) => {
     await settingsPage.mockVerifyTab({
       jurisdictionSupported: false,
     });
@@ -14,7 +14,7 @@ test.describe("Settings Page -> Verify tab @jira(PWU-328)", () => {
     );
   });
 
-  test("should open when Jurisdiction is supported @criticalPath @jira(BCTGWEBPWU-1013)", async ({ settingsPage }) => {
+  test("should open when Jurisdiction is supported @criticalPath @jira(XRT-374)", async ({ settingsPage }) => {
     await settingsPage.mockVerifyTab({
       jurisdictionSupported: true,
     });
@@ -22,7 +22,7 @@ test.describe("Settings Page -> Verify tab @jira(PWU-328)", () => {
     await expectElementToHaveText(settingsPage.activeTab.message, USER_VERIFICATION_MESSAGES.VERIFIED);
   });
 
-  test("should open when Pending Confirmation @criticalPath @jira(BCTGWEBPWU-1014)", async ({ settingsPage }) => {
+  test("should open when Pending Confirmation @criticalPath @jira(XRT-375)", async ({ settingsPage }) => {
     await settingsPage.mockVerifyTab({
       verificationState: USER_VERIFICATION_STATE.PENDING_VERIFICATION,
     });
@@ -30,9 +30,7 @@ test.describe("Settings Page -> Verify tab @jira(PWU-328)", () => {
     await expectElementVisibility(settingsPage.activeTab.onboardingService, true);
   });
 
-  test("should open when Verification is not successful @criticalPath @jira(BCTGWEBPWU-1015)", async ({
-    settingsPage,
-  }) => {
+  test("should open when Verification is not successful @criticalPath @jira(XRT-376)", async ({ settingsPage }) => {
     await settingsPage.mockVerifyTab({
       verificationState: USER_VERIFICATION_STATE.REJECTED,
     });
@@ -41,12 +39,10 @@ test.describe("Settings Page -> Verify tab @jira(PWU-328)", () => {
   });
 
   test.describe("Not Verified User", async () => {
-    test.beforeEach(async ({ api }) => {
-      await api.mockUser({
-        verificationState: USER_VERIFICATION_STATE.UNVERIFIED,
-      });
+    test.beforeEach(async ({ settingsPage }) => {
+      await settingsPage.mockUnverifiedUser();
     });
-    test("should open tab @criticalPath @jira(BCTGWEBPWU-1016)", async ({ settingsPage }) => {
+    test("should open tab @criticalPath @jira(XRT-377)", async ({ settingsPage }) => {
       await settingsPage.goto();
       await settingsPage.clickTab(SETTINGS_TABS.VERIFY);
       await expectElementToHaveText(settingsPage.tabHeader, "Verify");
@@ -61,14 +57,8 @@ test.describe("Settings Page -> Verify tab @jira(PWU-328)", () => {
       await expectElementVisibility(settingsPage.activeTab.onboardingService, true);
     });
 
-    test("should open tab (personal only) @criticalPath @jira(BCTGWEBPWU-1017)", async ({ api, settingsPage }) => {
-      await api.mockConfig({
-        verify: {
-          personalEnabled: true,
-          companyEnabled: false,
-        },
-      });
-      await settingsPage.goto();
+    test("should open tab (personal only) @criticalPath @jira(XRT-378)", async ({ settingsPage }) => {
+      await settingsPage.mockVerifyConfig(true, false);
       await settingsPage.clickTab(SETTINGS_TABS.VERIFY);
       await expectElementToHaveText(settingsPage.tabHeader, "Verify");
       await expectElementVisibility(settingsPage.activeTab.verifyNowButton, true);
@@ -77,14 +67,8 @@ test.describe("Settings Page -> Verify tab @jira(PWU-328)", () => {
       await expectElementVisibility(settingsPage.activeTab.onboardingService, true);
     });
 
-    test("should open tab (company only) @criticalPath @jira(BCTGWEBPWU-1018)", async ({ api, settingsPage }) => {
-      await api.mockConfig({
-        verify: {
-          personalEnabled: false,
-          companyEnabled: true,
-        },
-      });
-      await settingsPage.goto();
+    test("should open tab (company only) @criticalPath @jira(XRT-379)", async ({ settingsPage }) => {
+      await settingsPage.mockVerifyConfig(false, true);
       await settingsPage.clickTab(SETTINGS_TABS.VERIFY);
       await expectElementToHaveText(settingsPage.tabHeader, "Verify");
       await expectElementVisibility(settingsPage.activeTab.verifyNowButton, true);

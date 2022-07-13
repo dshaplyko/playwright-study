@@ -7,7 +7,7 @@ test.describe.parallel("Quick Links @jira(PWU-22)", () => {
   });
 
   quickLinksMap.forEach(({ link, pageTo }) => {
-    test(`should redirect to ${pageTo} after clicking ${link} @criticalPath @jira(BCTGWEBPWU-7)`, async ({
+    test(`should redirect to ${pageTo} after clicking ${link} @criticalPath @jira(XRT-48)`, async ({
       portfolioPage,
     }) => {
       await portfolioPage.getQuickLink(link).click();

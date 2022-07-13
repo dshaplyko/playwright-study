@@ -6,13 +6,19 @@ const logger = new Logger("Pagination component");
 export class Pagination extends Element {
   readonly pageButton: Locator;
 
+  readonly nextPageButton: Locator;
+
+  readonly previousPageButton: Locator;
+
   constructor(locator: Locator) {
     super(locator);
-    this.pageButton = this.el.locator("button");
+    this.pageButton = this.rootEl.locator("button.MuiPaginationItem-page");
+    this.nextPageButton = this.rootEl.locator("button[aria-label='Go to next page']");
+    this.previousPageButton = this.rootEl.locator("button[aria-label='Go to previous page']");
   }
 
   async getPageCount(): Promise<number> {
-    const pageCount: number = await this.el.count();
+    const pageCount: number = await this.rootEl.count();
     logger.debug(pageCount);
     return pageCount;
   }

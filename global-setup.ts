@@ -9,12 +9,6 @@ async function globalSetup(config: FullConfig) {
   });
   const loginPage = new LoginPage(page);
 
-  await loginPage.loginAsUser();
-  await page.context().storageState({
-    path: "./test/config/states/admin.json",
-  });
-
-  await page.context().clearCookies();
   await loginPage.loginAsTrader();
   await page.context().storageState({
     path: storageState as string,

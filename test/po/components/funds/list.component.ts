@@ -10,7 +10,7 @@ export class List extends Element {
 
   constructor(locator: Locator) {
     super(locator);
-    this.items = this.el.locator("div");
+    this.items = this.rootEl.locator("div");
   }
 
   async getAllCurrenciesText(): Promise<string[]> {

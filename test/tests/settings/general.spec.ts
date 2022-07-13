@@ -1,14 +1,12 @@
 import { CURRENCIES, SETTINGS_TABS, WIDGETS } from "../../config";
 import { test, Page, BrowserContext } from "@playwright/test";
-import { Application } from "../../po/pages";
+import { Application, test as _test } from "../../po/pages";
 import { expectElementVisibility, expectElementToHaveText } from "../../utils";
-import { Logger } from "../../logger/logger";
-const logger = new Logger("Settings Test Suite");
-let context: BrowserContext;
-let page: Page;
-let app: Application;
 
 test.describe("Settings Page -> General Tab @jira(PWU-327)", () => {
+  let context: BrowserContext;
+  let page: Page;
+  let app: Application;
   test.beforeAll(async ({ browser }) => {
     context = await browser.newContext();
     page = await context.newPage();
@@ -22,24 +20,35 @@ test.describe("Settings Page -> General Tab @jira(PWU-327)", () => {
 
   test.afterAll(async () => {
     await app.settingsPage.selectBaseCurrency(CURRENCIES.HKD);
-    logger.info("After All Hook");
     await page.close();
   });
 
-  test("should open General Tab @smoke @jira(BCTGWEBPWU-367)", async () => {
+  test("should open General Tab @smoke @jira(XRT-408)", async () => {
     await expectElementToHaveText(app.settingsPage.tabHeader, "General");
-    await expectElementVisibility(app.settingsPage.activeTab.baseCurrencyDropdown.el, true);
-    await expectElementVisibility(app.settingsPage.activeTab.timezoneDropdown.el, true);
+    await expectElementVisibility(app.settingsPage.activeTab.baseCurrencyDropdown.rootEl, true);
+    await expectElementVisibility(app.settingsPage.activeTab.timezoneDropdown.rootEl, true);
     await expectElementVisibility(app.settingsPage.activeTab.versionNumber, true);
     await expectElementVisibility(app.settingsPage.activeTab.saveButton, true);
   });
 
-  test("should change Base Currency on the General Tab @ciriticalPath @jira(BCTGWEBPWU-785)", async () => {
-    const randomCurrency = await app.settingsPage.activeTab.baseCurrencyDropdown.chooseAndRememberRandomOption();
-    logger.info(`Chosen currency is: ${randomCurrency}`);
+  test("should change Base Currency on the General Tab @ciriticalPath @jira(XRT-409)", async () => {
+    const randomCurrency = await app.settingsPage.activeTab.selectRandomCurrency();
 
     await app.settingsPage.activeTab.saveButton.click();
     await app.portfolioPage.goto();
     await expectElementToHaveText(app.portfolioPage.getWidget(WIDGETS.YOUR_PORTFOLIO).currency, randomCurrency);
+  });
+});
+
+_test.describe("General Tab - Configuration", () => {
+  _test("should hide Base Currency dropdown @extended @jira(XRT-529)", async ({ settingsPage }) => {
+    await settingsPage.goto();
+    await settingsPage.clickTab(SETTINGS_TABS.GENERAL);
+    await expectElementVisibility(settingsPage.activeTab.baseCurrencyDropdown.rootEl, true);
+
+    await settingsPage.disableBaseCurrency(true);
+    await settingsPage.goto();
+    await settingsPage.clickTab(SETTINGS_TABS.GENERAL);
+    await expectElementVisibility(settingsPage.activeTab.baseCurrencyDropdown.rootEl, false);
   });
 });

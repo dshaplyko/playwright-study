@@ -1,8 +1,8 @@
-import { HK_CONFIG, AM_CONFIG, PDAX_CONFIG, OAT_CONFIG } from "../configs";
+import { HK_CONFIG, AM_CONFIG, OAT_CONFIG, PDAX_CONFIG } from "../configs";
 
 export const landingPageFooterMap = [
   {
-    name: "should render landing page for SG domain @smoke @jira(BCTGWEBPWU-411)",
+    name: "should render landing page for SG domain @smoke @jira(XRT-271)",
     config: null,
     disclaimer: "Contact Details",
     isAboutUsVisible: true,
@@ -14,7 +14,7 @@ export const landingPageFooterMap = [
     isAnnouncementsVisible: true,
   },
   {
-    name: "should render landing page for HK domain @criticalPath @jira(BCTGWEBPWU-440)",
+    name: "should render landing page for HK domain @criticalPath @jira(XRT-272)",
     config: HK_CONFIG,
     disclaimer: "DISCLAIMER",
     isAboutUsVisible: false,
@@ -26,7 +26,7 @@ export const landingPageFooterMap = [
     isAnnouncementsVisible: false,
   },
   {
-    name: "should render landing page for AM domain @criticalPath @jira(BCTGWEBPWU-441)",
+    name: "should render landing page for AM domain @criticalPath @jira(XRT-273)",
     config: AM_CONFIG,
     disclaimer: "DISCLAIMER",
     isAboutUsVisible: true,
@@ -38,7 +38,7 @@ export const landingPageFooterMap = [
     isAnnouncementsVisible: false,
   },
   {
-    name: "should render landing page for PDAX domain @criticalPath @jira(BCTGWEBPWU-442)",
+    name: "should render landing page for PDAX domain @criticalPath @jira(XRT-274)",
     config: PDAX_CONFIG,
     disclaimer: "DISCLAIMER",
     isAboutUsVisible: true,
@@ -50,7 +50,7 @@ export const landingPageFooterMap = [
     isAnnouncementsVisible: true,
   },
   {
-    name: "should render landing page for OAT domain @criticalPath @jira(BCTGWEBPWU-443)",
+    name: "should render landing page for OAT domain @criticalPath @jira(XRT-275)",
     config: OAT_CONFIG,
     disclaimer: "DISCLAIMER",
     isAboutUsVisible: false,
@@ -65,7 +65,7 @@ export const landingPageFooterMap = [
 
 export const landingPageMaintenanceMap = [
   {
-    name: "should display maintenance banner when features.site.enabled = false @extended @jira(BCTGWEBPWU-757)",
+    name: "should display maintenance banner when features.site.enabled = false @extended @jira(XRT-279)",
     config: {
       features: {
         site: {
@@ -77,7 +77,7 @@ export const landingPageMaintenanceMap = [
       /The platform is currently undergoing maintenance. Services will resume when maintenance is complete. For additional assistance please contact support/,
   },
   {
-    name: "should display maintenance banner when features.site.maintenanceBanner.enabled = true @extended @jira(BCTGWEBPWU-758)",
+    name: "should display maintenance banner when features.site.maintenanceBanner.enabled = true @extended @jira(XRT-280)",
     config: {
       site: {
         maintenanceBanner: {

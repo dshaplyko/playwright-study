@@ -1,18 +1,16 @@
 import { test } from "../../po/pages";
-import { expectElementVisibility, expectElementEquality, expectElementToHaveText } from "../../utils";
-import { URLs, bankFormsMap, JAPAN_ACCOUNT_TYPES } from "../../config";
+import { expectElementVisibility, expectElementToHaveText, expectElementToContainText } from "../../utils";
+import { bankFormsMap, JAPAN_ACCOUNT_TYPES } from "../../config";
 
 test.describe.parallel("Payment Out Bank Forms @jira(PWU-34)", () => {
-  test.afterEach(async ({ api }) => await api.unroutAll());
-
   bankFormsMap.forEach((testData) => {
-    test(`should open ${testData.name} Form @smoke ${testData.id}`, async ({ api, fundsPage }) => {
-      if (testData.needMock) await api.mockData(testData.mockData, URLs.BANK_METADATA);
+    test(`should open ${testData.name} Form @smoke ${testData.id}`, async ({ fundsPage }) => {
+      if (testData.needMock) await fundsPage.mockBankData(testData.mockData);
       await fundsPage.goto();
       await fundsPage.paymentOut.click();
       await fundsPage.chooseBankTransferForm(testData.currency, testData.form);
-      await expectElementVisibility(fundsPage.addBankForm.el, true);
-      await expectElementVisibility(fundsPage.addBankForm.method.el, true);
+      await expectElementVisibility(fundsPage.addBankForm.rootEl, true);
+      await expectElementVisibility(fundsPage.addBankForm.method.rootEl, true);
       await expectElementVisibility(fundsPage.addBankForm.submitButton, true);
       await expectElementVisibility(fundsPage.addBankForm.cancelButton, true);
 
@@ -49,7 +47,7 @@ test.describe.parallel("Payment Out Bank Forms @jira(PWU-34)", () => {
 
       if (testData.name === "Japan Bank Transfer") {
         await fundsPage.addBankForm.accountType.click();
-        expectElementEquality(await fundsPage.addBankForm.accountType.getOptionsText(), JAPAN_ACCOUNT_TYPES);
+        await expectElementToContainText(fundsPage.addBankForm.accountType.options, JAPAN_ACCOUNT_TYPES);
       }
     });
   });

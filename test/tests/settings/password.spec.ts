@@ -1,6 +1,6 @@
-import { CHANGE_PASSWORD, PASSWORD_STRENGTH, SETTINGS_TABS, URLs, WEAK_PASSWORD_MESSAGE } from "../../config";
+import { PASSWORD_STRENGTH, SETTINGS_TABS, WEAK_PASSWORD_MESSAGE } from "../../config";
 import { test } from "../../po/pages";
-import { expectElementVisibility, expectElementToHaveText } from "../../utils";
+import { expectElementVisibility, expectElementToHaveText, expectElementToHaveValue } from "../../utils";
 
 test.describe("Settings Page -> Password Tab @jira(PWU-329)", () => {
   test.beforeEach(async ({ settingsPage }) => {
@@ -8,11 +8,7 @@ test.describe("Settings Page -> Password Tab @jira(PWU-329)", () => {
     await settingsPage.clickTab(SETTINGS_TABS.PASSWORD);
   });
 
-  test.afterEach(async ({ api }) => {
-    await api.unroutAll();
-  });
-
-  test("should open Manage Password Tab @smoke @jira(BCTGWEBPWU-369)", async ({ settingsPage }) => {
+  test("should open Manage Password Tab @smoke @jira(XRT-390)", async ({ settingsPage }) => {
     await expectElementToHaveText(settingsPage.tabHeader, "Set Password");
     await expectElementVisibility(settingsPage.activeTab.currentPasswordInput, true);
     await expectElementVisibility(settingsPage.activeTab.newPasswordInput, true);
@@ -20,27 +16,24 @@ test.describe("Settings Page -> Password Tab @jira(PWU-329)", () => {
     await expectElementVisibility(settingsPage.activeTab.saveButton, true);
   });
 
-  test("should change password @criticalPath @jira(BCTGWEBPWU-971)", async ({ api, settingsPage }) => {
+  test("should change password @criticalPath @jira(XRT-391)", async ({ settingsPage }) => {
     await settingsPage.activeTab.currentPasswordInput.fill("T9hsy3434ssghsy(");
     await settingsPage.activeTab.newPasswordInput.fill("T8hsy3434ssghsy(");
     await settingsPage.activeTab.reenterPaswordInput.fill("T8hsy3434ssghsy(");
-    await api.mockData(CHANGE_PASSWORD, URLs.PASSWORD);
-    await settingsPage.activeTab.saveButton.click();
-    await expectElementVisibility(settingsPage.tooltip, true);
-    await expectElementToHaveText(settingsPage.tooltip, "Password Changed");
+    await settingsPage.mockPasswordChange();
+    await settingsPage.checkTooltip("Password Changed");
+    await expectElementToHaveValue(settingsPage.activeTab.currentPasswordInput, "");
+    await expectElementToHaveValue(settingsPage.activeTab.newPasswordInput, "");
+    await expectElementToHaveValue(settingsPage.activeTab.reenterPaswordInput, "");
   });
 
-  test("should display error message when password is not set @extended @jira(BCTGWEBPWU-374)", async ({
-    settingsPage,
-  }) => {
+  test("should display error message when password is not set @extended @jira(XRT-393)", async ({ settingsPage }) => {
     await settingsPage.activeTab.saveButton.click();
     await expectElementVisibility(settingsPage.activeTab.errorMessage, true);
     await expectElementToHaveText(settingsPage.activeTab.errorMessage, "Please provide a password.");
   });
 
-  test("should display error message when password is unsafe @extended @jira(BCTGWEBPWU-383)", async ({
-    settingsPage,
-  }) => {
+  test("should display error message when password is unsafe @extended @jira(XRT-394)", async ({ settingsPage }) => {
     await settingsPage.activeTab.saveButton.click();
     await settingsPage.activeTab.currentPasswordInput.fill("qwerty");
     await settingsPage.activeTab.newPasswordInput.fill("qwerty1");
@@ -48,7 +41,7 @@ test.describe("Settings Page -> Password Tab @jira(PWU-329)", () => {
     await expectElementToHaveText(settingsPage.activeTab.errorMessage, WEAK_PASSWORD_MESSAGE);
   });
 
-  test("should display error message when passwords do not match @extended @jira(BCTGWEBPWU-972)", async ({
+  test("should display error message when passwords do not match @extended @jira(XRT-395)", async ({
     settingsPage,
   }) => {
     await settingsPage.activeTab.saveButton.click();
@@ -59,7 +52,7 @@ test.describe("Settings Page -> Password Tab @jira(PWU-329)", () => {
     await expectElementToHaveText(settingsPage.activeTab.errorMessage, "Passwords do not match.");
   });
 
-  test("should display message about password strength @extended @jira(BCTGWEBPWU-973)", async ({ settingsPage }) => {
+  test("should display message about password strength @extended @jira(XRT-396)", async ({ settingsPage }) => {
     await settingsPage.activeTab.saveButton.click();
     await settingsPage.activeTab.currentPasswordInput.fill("qwerty");
     await settingsPage.activeTab.newPasswordInput.fill("T8");
@@ -79,7 +72,7 @@ test.describe("Settings Page -> Password Tab @jira(PWU-329)", () => {
     await expectElementToHaveText(settingsPage.activeTab.formStrength, PASSWORD_STRENGTH.VERY_STRONG);
   });
 
-  test("should display an error when current password is improper @extended @jira(BCTGWEBPWU-975)", async ({
+  test("should display an error when current password is improper @extended @jira(XRT-397)", async ({
     settingsPage,
   }) => {
     await settingsPage.activeTab.saveButton.click();

@@ -1,6 +1,6 @@
 {
   "name": "platform-web-ui-e2e",
-  "version": "1.2.3",
+  "version": "1.4.7",
   "description": "Platform UI E2E Test Scenarios",
   "scripts": {
     "build": "tsc",
@@ -8,10 +8,15 @@
     "pretest": "rimraf ./common/*.xml && rimraf ./common/results && rimraf ./build",
     "test": "playwright test",
     "test:smoke": "npm test -- --grep='@smoke' --workers=4",
-    "test:criticalPath": "npm test -- --grep='@criticalPath'",
+    "test:criticalPath": "npm test -- --grep='@criticalPath|@extended'",
     "report": "npx playwright show-report ./common/html-report",
+    "format": "prettier --write .",
+    "check-format": "prettier --check .",
+    "check-types": "tsc --pretty --noEmit",
+    "check-all": "npm run check-format && npm run lint && npm run check-types",
     "lint": "eslint . --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "allure": "npx allure generate ./allure-results --clean && npx allure open ./allure-report"
   },
   "prettier": {
     "printWidth": 120
@@ -24,22 +29,23 @@
   "author": "Dzmitry_Shaplyka@epam.com",
   "license": "MIT",
   "dependencies": {
-    "@playwright/test": "1.19.2",
+    "@types/node": "^18.0.3",
+    "@typescript-eslint/eslint-plugin": "^5.30.5",
+    "@typescript-eslint/parser": "^5.30.5",
+    "allure-commandline": "^2.18.1",
+    "allure-playwright": "^2.0.0-beta.18",
+    "eslint": "^8.19.0",
+    "eslint-config-google": "^0.14.0",
+    "@playwright/test": "1.23.2",
     "csvtojson": "^2.0.10",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^7.0.4",
-    "moment": "^2.29.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.1",
+    "moment": "^2.29.3",
     "moment-timezone": "^0.5.34",
-    "prettier": "^2.5.1",
+    "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
-    "typescript": "^4.6.2",
-    "winston": "^3.6.0"
-  },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.14.0",
-    "@typescript-eslint/parser": "^5.14.0",
-    "eslint": "^8.10.0",
-    "eslint-config-google": "^0.14.0"
+    "typescript": "^4.7.4",
+    "winston": "^3.8.1"
   }
 }

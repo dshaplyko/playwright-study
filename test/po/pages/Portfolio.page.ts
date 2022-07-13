@@ -1,13 +1,16 @@
-import { Page, Locator, expect } from "@playwright/test";
+import { Page, Locator } from "@playwright/test";
 import { BasePage } from "./Base.page";
 import { Widget } from "../components/general/widget.component";
 import { HoldingList } from "../components/portfolio/holdingList.component";
 import { FeatureHighlight } from "../components/portfolio/featureHighlight.component";
-import { Chart } from "../components/portfolio/chart.component";
-import { Card } from "../components/portfolio/card.component";
 import { TradingButtons } from "../components/portfolio/tradingButtons.component";
-import { WIDGETS, FEATURE_HIGHLIGHT, DECIMAL_PART } from "../../config";
+import { WIDGETS, FEATURE_HIGHLIGHT, DECIMAL_PART, NOTIFICATIONS_DATA, URLs, SG_CONFIG_OLD } from "../../config";
 import { Logger } from "../../logger/logger";
+import { GroupHead } from "../components/portfolio/groupHead.component";
+import { CardGroup } from "../components/portfolio/cardGroup.component";
+import { Element } from "../components/basic/element";
+import { Dropdown } from "../components/basic/dropdown";
+import { expectElementVisibility } from "../../utils";
 const logger = new Logger("Portfolio Page");
 
 export class PortfolioPage extends BasePage {
@@ -21,30 +24,64 @@ export class PortfolioPage extends BasePage {
 
   readonly quickTipsLink: Locator;
 
-  readonly chart: Chart;
-
   readonly tradingButtons: TradingButtons;
 
-  readonly cards: Locator;
+  readonly cardsView: Locator;
+
+  readonly rowsView: Locator;
+
+  readonly currencyFilter: Dropdown;
+
+  readonly loadMoreButton: Element;
+
+  readonly tableGroupHead: GroupHead;
+
+  readonly cardGroupHead: GroupHead;
+
+  readonly cardGroups: CardGroup;
+
+  readonly tableGroups: Locator;
+
+  readonly accountList: Dropdown;
 
   constructor(page: Page, url = "/portfolio") {
     super(page);
     this.url = url;
     this.holdingList = new HoldingList(this.page.locator("table[data-test-id='holding-list']"));
-    this.chart = new Chart(this.page.locator(".recharts-wrapper"));
     this.tradingButtons = new TradingButtons(this.page.locator("div[data-test-id='trading-related-area']"));
     this.quickTips = this.page.locator("div[data-test-id='quick-tips']");
-    this.quickTipsLink = this.quickTips.locator("a[href*=funds]").nth(0);
-    this.cards = this.page.locator("[data-test-id='card-row']");
+    this.quickTipsLink = this.quickTips.locator("a[href*=funds]").first();
+    this.cardsView = this.page.locator("button[data-test-id='toggle-cards-view-button']");
+    this.rowsView = this.page.locator("button[data-test-id='toggle-rows-view-button']");
+    this.currencyFilter = new Dropdown(this.page.locator("[data-test-id='ccy-type-filter-switch']"), this.page);
+    this.loadMoreButton = new Element(
+      this.page.locator("button[data-test-id='portfolio-load-more-pagination-next-page-btn']")
+    );
+    this.tableGroupHead = new GroupHead(this.page.locator("tr[data-test-id^='collapsable-group-head-wrapper']"));
+    this.cardGroupHead = new GroupHead(this.page.locator("div[data-test-id='card-group-header']"));
+    this.cardGroups = new CardGroup(this.page.locator("div[data-test-id='cards-group']"));
+    this.tableGroups = this.page.locator("[data-test-id^='group-collapsable-rows']");
+    this.accountList = new Dropdown(this.page.locator("div.MuiAutocomplete-hasPopupIcon"), this.page);
   }
 
-  async getCardsCount(): Promise<number> {
-    await this.getCard(0).waitForVisible();
-    return this.cards.count();
+  getGroupTable(index: number) {
+    return new HoldingList(this.tableGroups.nth(index));
   }
 
-  getCard(index: number): Card {
-    return new Card(this.cards.nth(index));
+  getUserAccountTablesCount(): Promise<number> {
+    return this.tableGroupHead.getCount();
+  }
+
+  async getTotalBalance() {
+    let sum = 0;
+    const userGroupsCount = await this.getUserAccountTablesCount();
+
+    await this.tableGroupHead.expandCollapseAll("expand");
+
+    for (let i = 0; i < userGroupsCount; i++) {
+      sum += await this.getGroupTable(i).calculateTotalBalance();
+    }
+    return sum;
   }
 
   getWidget(widget: WIDGETS): Widget {
@@ -56,8 +93,8 @@ export class PortfolioPage extends BasePage {
   }
 
   async calculateTotalBalance(): Promise<number> {
-    const digitalAssets: number = await this.getWidget(WIDGETS.DIGITAL_ASSETS).getTotalBalance();
-    const fiatCurrencies: number = await this.getWidget(WIDGETS.FIAT_CURRENCIES).getTotalBalance();
+    const digitalAssets: number = await this.getWidget(WIDGETS.DIGITAL_ASSETS).getWidgetValue("totalBalance");
+    const fiatCurrencies: number = await this.getWidget(WIDGETS.FIAT_CURRENCIES).getWidgetValue("totalBalance");
     const sum: number = parseFloat((digitalAssets + fiatCurrencies).toFixed(DECIMAL_PART));
     logger.debug(`Digital Assets Balance: ${digitalAssets}`);
     logger.debug(`Fiat Currencies Balance: ${fiatCurrencies}`);
@@ -65,37 +102,94 @@ export class PortfolioPage extends BasePage {
     return sum;
   }
 
-  async checkTradingAndChartConjuction(): Promise<void> {
-    const count: number = await this.holdingList.getRowsCount();
-    for (let i = 1; i <= count; i++) {
-      await this.holdingList.clickRow(i);
-
-      const rowPercentage: string = await this.holdingList.getPercentage(i);
-      const rowCurrency: string = await this.holdingList.getCurrency(i);
-      const tradingPercentage: string = await this.chart.percentage.textContent();
-      const tradingCurrency: string = await this.chart.currency.textContent();
-
-      expect(rowPercentage).toEqual(tradingPercentage);
-      expect(rowCurrency).toEqual(tradingCurrency);
-    }
-  }
-
-  async checkCardsAndChartConjuction(): Promise<void> {
-    const count: number = await this.getCardsCount();
-    for (let i = 0; i < count; i++) {
-      await this.getCard(i).clickCard();
-
-      const cardPercentage: string = await this.getCard(i).getPercentage();
-      const cardCurrency: string = await this.getCard(i).getCurrency();
-      const tradingPercentage: string = await this.chart.percentage.textContent();
-      const tradingCurrency: string = await this.chart.currency.textContent();
-
-      expect(cardPercentage).toEqual(tradingPercentage);
-      expect(cardCurrency).toEqual(tradingCurrency);
-    }
-  }
-
   async goto() {
     await super.goto(this.url);
+  }
+
+  async mockNotificationsData(): Promise<void> {
+    await this.api.mockData(NOTIFICATIONS_DATA, URLs.DEPOSIT_NOTIFICATIONS);
+    await this.goto();
+  }
+
+  async mockFeatureHighlight(config: any): Promise<void> {
+    await this.api.mockConfig(SG_CONFIG_OLD);
+    await this.api.mockUser({
+      roles: ["ROLE_USER"],
+      isPtsEnabled: true,
+    });
+    await this.api.mockNextSteps(config);
+    await this.goto();
+  }
+
+  async mockAdminUser(): Promise<void> {
+    await this.api.mockUser({
+      roles: ["ROLE_WHITELABEL_ADMIN", "ROLE_USER"],
+    });
+  }
+
+  async showAccountBox(): Promise<void> {
+    await this.api.mockConfig({
+      portfolio: {
+        showAccountBox: true,
+      },
+    });
+    await this.mockAdminUser();
+    await this.goto();
+  }
+
+  async showUpgradeAction(): Promise<void> {
+    await this.api.mockConfig({
+      portfolio: {
+        showUpgradeAction: true,
+      },
+    });
+    await this.api.mockUser({
+      isVerified: true,
+      isTrusted: false,
+      isVIP: false,
+      isPartner: false,
+    });
+    await this.goto();
+  }
+
+  async hideBrokerageColumn(): Promise<void> {
+    await this.api.mockConfig({
+      features: {
+        otcTrade: {
+          enabled: false,
+        },
+        simpleTrade: {
+          enabled: false,
+        },
+      },
+    });
+  }
+
+  async enableTrading(option: boolean): Promise<void> {
+    await this.api.mockConfig({
+      site: {
+        displayUnsettled: {
+          enabled: option,
+        },
+      },
+    });
+    await this.goto();
+  }
+
+  async enableDigitalAddress(): Promise<void> {
+    await this.api.mockConfig({
+      features: {
+        contacts: false,
+      },
+    });
+    await this.goto();
+  }
+
+  async isTableExpanded(option = true): Promise<void> {
+    const tablesCount = await this.getUserAccountTablesCount();
+
+    for (let i = 0; i < tablesCount; i++) {
+      await expectElementVisibility(this.getGroupTable(i).currencyRows.first(), option);
+    }
   }
 }

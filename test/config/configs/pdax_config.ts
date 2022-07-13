@@ -7,54 +7,21 @@ export const PDAX_CONFIG = {
     enabledLanguages: '["en_US","i18nKey"]',
     legacy: false,
     socialMedia: {
-      "0": {
-        url: "support@pdax.ph",
-        icon: "mail",
-        image: "",
-      },
-      "1": {
-        url: "https://www.linkedin.com/company/pdaxph",
-        icon: "linkedin",
-        image: "",
-      },
-      "2": {
-        url: "https://facebook.com/pdaxph",
-        icon: "facebook",
-        image: "",
-      },
-      "3": {
-        url: "https://twitter.com/PDAXph",
-        icon: "twitter",
-        image: "",
-      },
-      "4": {
-        url: "https://www.instagram.com/pdaxph/",
-        icon: "instagram",
-        image: "",
-      },
-      "5": {
-        url: "",
-        icon: "",
-        image: "",
-      },
+      "0": { url: "support@pdax.ph", icon: "mail", image: "" },
+      "1": { url: "https://www.linkedin.com/company/pdaxph", icon: "linkedin", image: "" },
+      "2": { url: "https://facebook.com/pdaxph", icon: "facebook", image: "" },
+      "3": { url: "https://twitter.com/PDAXph", icon: "twitter", image: "" },
+      "4": { url: "https://www.instagram.com/pdaxph/", icon: "instagram", image: "" },
+      "5": { url: "", icon: "", image: "" },
     },
-    chart: {
-      defaultInterval: "15",
-    },
+    chart: { defaultInterval: "15" },
     verify: {
       kycVendor:
         '{"passportVendor":"none","selfieVendor":"none","addressVendor":"none","pepsAndSanctionsVendor":"none","negativeNewsVendor":"none"}',
     },
-    defaultDomain: {
-      url: "/",
-    },
-    paymentGateway: {
-      url: "https://payments-stage.pdax.ph",
-    },
-    preLaunchMode: {
-      enabled: "false",
-      testUsers: "",
-    },
+    defaultDomain: { url: "/" },
+    paymentGateway: { url: "https://payments-stage.pdax.ph" },
+    preLaunchMode: { enabled: "false", testUsers: "" },
     rippleServerUrl: "s.altnet.rippletest.net",
     maintenanceStartTime: "07:00:00",
     maintenanceEndTime: "07:30:00",
@@ -68,23 +35,10 @@ export const PDAX_CONFIG = {
     siteMaintenance: {},
   },
   features: {
-    activity: {
-      enabled: true,
-      filter: {
-        enabled: true,
-      },
-      filterCashDeposits: false,
-    },
+    activity: { enabled: true, filter: { enabled: true }, filterCashDeposits: false },
     announcements: true,
     anonSideMenu: false,
-    api: {
-      enabled: true,
-      moreInfoLink: true,
-      masterApi: false,
-      reference: {
-        enabled: true,
-      },
-    },
+    api: { enabled: true, moreInfoLink: true, masterApi: false, reference: { enabled: true } },
     carousel: true,
     contacts: true,
     currencyChange: false,
@@ -112,31 +66,15 @@ export const PDAX_CONFIG = {
       enabled: true,
       useFiatCurrency: true,
       withdrawToCard: false,
-      deposit: {
-        coins: {
-          allowUnverifiedUsers: false,
-        },
-      },
+      deposit: { coins: { allowUnverifiedUsers: false } },
       withdrawal: {
-        balance: {
-          limit: {
-            enabled: true,
-          },
-          utilized: {
-            enabled: true,
-          },
-        },
+        balance: { limit: { enabled: true }, utilized: { enabled: true } },
         disableCheckAccountName: false,
       },
       declarationFormRequired: false,
+      bankInfo: { showSwiftCodeAndRoutingNumber: true },
     },
-    language: {
-      en_US: true,
-      zh_CN: true,
-      zh_HK: true,
-      pt_BR: false,
-      jp_JP: false,
-    },
+    language: { en_US: true, zh_CN: true, zh_HK: true, pt_BR: false, jp_JP: false },
     linkToAdvancedTrade: false,
     linkToSimpleMode: false,
     marketInsight: true,
@@ -145,9 +83,7 @@ export const PDAX_CONFIG = {
     newsStories: true,
     orderBook: true,
     popupTradeNotifications: true,
-    bankAccounts: {
-      account_name_column: true,
-    },
+    bankAccounts: { account_name_column: true },
     portfolio: {
       enabled: true,
       showBaseCurrencyEquivalent: true,
@@ -155,11 +91,7 @@ export const PDAX_CONFIG = {
       showBalanceBox: true,
       showAssetValue: true,
       showAssetsBox: true,
-      tips: {
-        depositCash: {
-          enabled: true,
-        },
-      },
+      tips: { depositCash: { enabled: true } },
       showUpgradeAction: false,
       disableAssetCircle: true,
       showAccountBox: true,
@@ -167,46 +99,20 @@ export const PDAX_CONFIG = {
     registrationCaptcha: false,
     reports: {
       enabled: true,
-      transaction: {
-        enabled: true,
-      },
-      trade: {
-        enabled: true,
-      },
-      transfer: {
-        enabled: true,
-      },
-      irfq: {
-        enabled: true,
-      },
-      monthlyStatement: {
-        enabled: true,
-      },
+      transaction: { enabled: true },
+      trade: { enabled: true },
+      transfer: { enabled: true },
+      irfq: { enabled: true },
+      monthlyStatement: { enabled: true },
     },
     settings: {
       registerExternalAddress: false,
-      notifications: {
-        announcements: true,
-        promotions: true,
-        enabled: true,
-      },
+      notifications: { announcements: true, promotions: true, enabled: true, auth: true },
       cryptoCurrencyOnly: false,
       noBaseCurrencySelection: false,
       expressWithdrawal: false,
-      security: {
-        otp: {
-          enabled: true,
-        },
-        sms: {
-          enabled: false,
-        },
-        yubikey: {
-          enabled: true,
-        },
-      },
-      verify: {
-        enabled: true,
-      },
+      security: { otp: { enabled: true }, sms: { enabled: false }, yubikey: { enabled: true } },
+      verify: { enabled: true },
       enabled: true,
     },
     showCompareCards: true,
@@ -216,39 +122,23 @@ export const PDAX_CONFIG = {
       enabled: false,
       coupon: false,
       advertisement: false,
-      wl: {
-        enabled: true,
-        segregatedWallet: {
-          enabled: false,
-        },
-      },
+      wl: { enabled: true, segregatedWallet: { enabled: false } },
+      onPlatformPrefundHedgeFlow: { enabled: false },
     },
     pages: true,
     risks: false,
     siteSpecificTranslations: true,
     siteSpecificPages: true,
     thirdParty: true,
-    ticker: {
-      enabled: true,
-      last: true,
-      high: true,
-      low: true,
-      volume: false,
-    },
+    ticker: { enabled: true, last: true, high: true, low: true, volume: false },
     twoFactor: true,
     topChart: false,
     trade: {
       enabled: true,
       infoPage: false,
       chart: true,
-      marketgrid: {
-        enabled: true,
-      },
-      exchange: {
-        blocked: {
-          overlay: false,
-        },
-      },
+      marketgrid: { enabled: true },
+      exchange: { blocked: { overlay: false } },
     },
     tradeAs: true,
     verify: {
@@ -258,43 +148,24 @@ export const PDAX_CONFIG = {
       personalApplicantOnly: false,
       personalEnabled: true,
       companyEnabled: true,
-      beta: {
-        hideNatureOfActivityDetail: false,
-      },
+      beta: { hideNatureOfActivityDetail: false },
       skipStepThree: false,
       skipVerifyApprovalByPurchaseAmount: false,
       useExternalDepositAddress: false,
       walletAddress: false,
       prerequisite: true,
       noCompanyMinLimit: false,
-      vendor: {
-        personal: true,
-        business: true,
-      },
+      vendor: { personal: true, business: true },
       requiredDeposit: false,
     },
     expiryCountDownTime: 5400000,
     blockChainExplorer: true,
-    customLinks: {
-      position: "",
-      enabled: false,
-      url: "",
-      name: "",
-    },
+    customLinks: { position: "", enabled: false, url: "", name: "" },
     training: false,
     bootLogo: false,
     redemptionPage: false,
-    withdraw: {
-      cryptoExpress: false,
-    },
-    fees: {
-      cashDeposit: {
-        subjectToChange: false,
-      },
-      table: {
-        hideUnverified: true,
-      },
-    },
+    withdraw: { cryptoExpress: false },
+    fees: { cashDeposit: { subjectToChange: false }, table: { hideUnverified: true } },
     coinDashboard: false,
     notification: true,
     registration: {
@@ -304,134 +175,51 @@ export const PDAX_CONFIG = {
       phoneNumber: false,
       username: false,
     },
-    enforcement: {
-      twofa: {
-        enabled: true,
-        showDisableButton: true,
-      },
-    },
+    enforcement: { twofa: { enabled: true, showDisableButton: true } },
     tradeLockQuantity: true,
-    form: {
-      payment: {
-        routing: false,
-        address: false,
-      },
-    },
-    helpChat: {
-      external: false,
-    },
-    leverage: {
-      trade: {
-        enabled: false,
-      },
-    },
+    form: { payment: { routing: false, address: false } },
+    helpChat: { external: false },
+    leverage: { trade: { enabled: false } },
     rfq: {
       enabled: false,
-      wl: {
-        enabled: false,
-      },
-      perUser: {
-        enabled: false,
-      },
-      balanceLock: {
-        enabled: true,
-      },
-      fop: {
-        autoApproval: {
-          enabled: false,
-        },
-      },
+      wl: { enabled: false },
+      perUser: { enabled: false },
+      balanceLock: { enabled: true },
+      fop: { autoApproval: { enabled: false } },
     },
-    security: {
-      twoFactor: {
-        mandatory: false,
-      },
-    },
+    security: { twoFactor: { mandatory: false } },
     site: {
-      maintenanceBanner: {
-        enabled: false,
-      },
+      maintenanceBanner: { enabled: false },
       enabled: true,
-      rfq: {
-        pts: {
-          enabled: false,
-        },
-      },
-      rfs: {
-        enabled: false,
-      },
+      rfq: { pts: { enabled: false } },
+      cta: { kyc: false },
     },
-    profileSubmitted: {
-      notification: false,
-    },
-    otcTrade: {
-      enabled: false,
-    },
-    fatf: {
-      warning: {
-        enabled: false,
-      },
-    },
-    onboarding: {
-      submission: {
-        email: false,
-      },
-    },
-    mds: {
-      rates: {
-        frontend: {
-          enabled: true,
-        },
-      },
-    },
+    profileSubmitted: { notification: false },
+    otcTrade: { enabled: false },
+    fatf: { warning: { enabled: false } },
+    onboarding: { submission: { email: false } },
+    mds: { rates: { frontend: { enabled: true } } },
     email: {
-      otc: {
-        trade: {
-          forceDisableEmail: false,
-        },
-        settlement: {
-          forceDisableEmail: false,
-        },
-      },
-      rfq: {
-        settlement: {
-          forceDisableEmail: false,
-        },
-      },
-      ats: {
-        settlement: {
-          forceDisableEmail: false,
-        },
-      },
+      otc: { trade: { forceDisableEmail: false }, settlement: { forceDisableEmail: false } },
+      rfq: { settlement: { forceDisableEmail: false } },
+      ats: { settlement: { forceDisableEmail: false } },
+      onPlatformPrefundHedgeFlow: { enabled: true },
+      netSettlement: { enabled: false },
     },
-    lms: {
-      limit: {
-        retrieval: {
-          enabled: false,
-        },
-      },
-    },
+    lms: { limit: { retrieval: { enabled: false } }, netSettlement: { enabled: false } },
+    rfs: { enabled: false, pts: { enabled: false }, wl: { segregatedWallet: { enabled: false } } },
     languageFlag: true,
+    mt: { enabled: false },
+    notifications: { walletVerification: false },
     environment: "production",
-    monthlyStatement: {
-      enabled: false,
-    },
+    monthlyStatement: { enabled: false },
   },
-  mobile: {
-    statusBar: {
-      style: "lightcontent",
-      colour: "#101624",
-    },
-  },
+  mobile: { statusBar: { style: "lightcontent", colour: "#101624" } },
   cssLinks: {
     lib: "site/lib-69d9de11c791a4800d0ce2354d7f679a.css",
-    app: "site/app-8675942b298a35fa192345637e4027f8.css",
+    app: "site/app-f3b9f5f2215c496acafcadfc6d5e8031.css",
   },
-  html: {
-    title: "PDAX - Cryptocurrency Trading Platform in the Philippines",
-    keywords: "",
-    description: "",
-  },
+  html: { title: "PDAX - Cryptocurrency Trading Platform in the Philippines", keywords: "", description: "" },
   mainExternal: true,
   css: {
     "color-primary": "#53FFB0",
@@ -517,13 +305,13 @@ export const PDAX_CONFIG = {
     "vault-header-2": "/images/pages/vault_s1-2.png",
     "anx-vault-logo": "/images/pages/vault_logo.png",
     "slide-1":
-      "https://res.cloudinary.com/bctuat/image/upload/f_auto,fl_lossy,q_auto/v1634614763/_PDAX_COM/slide-1.png",
+      "https://res.cloudinary.com/bctuat/image/upload/f_auto,fl_lossy,q_auto,w_1920/v1645164173/_PDAX_COM/slide-1.png",
     "slide-1-text": "/images/slide-1-text.png",
     "slide-2":
-      "https://res.cloudinary.com/bctuat/image/upload/f_auto,fl_lossy,q_auto/v1634215916/_PDAX_COM/slide-2.png",
+      "https://res.cloudinary.com/bctuat/image/upload/f_auto,fl_lossy,q_auto/v1643353610/_PDAX_COM/slide-2.jpg",
     "slide-2-text": "/images/slide-2-text.png",
     "slide-3":
-      "https://res.cloudinary.com/bctuat/image/upload/f_auto,fl_lossy,q_auto/v1637220383/_PDAX_COM/slide-3.png",
+      "https://res.cloudinary.com/bctuat/image/upload/f_auto,fl_lossy,q_auto/v1643353445/_PDAX_COM/slide-3.png",
     "slide-3-text": "/images/slide-3-text.png",
     "slide-4": "/images/slide-4.jpg",
     "slide-4-text": "/images/slide-4-text.png",
@@ -835,7 +623,7 @@ export const PDAX_CONFIG = {
       "dashboard.button.deposit": "Payment In",
       "dashboard.nextAction.getVerified.header": "GET STARTED",
       "dashboard.mobile-version.nextAction.DEPOSIT_COIN.button": "Transfer Digital Assets",
-      "dashboard.mobile-version.nextAction.GET_VERIFIED.button": "UPGRADE ACCOUNT",
+      "dashboard.mobile-version.nextAction.GET_VERIFIED.button": "VERIFY ACCOUNT",
       "dashboard.nextAction.depositCoin.header": "Transfer in {{coin}}",
       "dashboard.nextAction.depositCoin.message":
         "Got {{coin}} ? Why not put them to work. Transfer Digital Assets here.",
@@ -893,7 +681,8 @@ export const PDAX_CONFIG = {
       "ccy.label.INRS": "INRS",
       "fees.currency.INRS": "Indian Rupee SPENN",
       "heading.withdraw.method.label": "Payment Out Method",
-      "heading.totalamount.label": "Total Transfer Out from wallet",
+      "heading.totalamount.label":
+        '<span class="error ng-scope">We will need to manually process withdrawals worth PHP 7,500,000 and above. <br/><br/>\nThese will be processed within the day on weekdays (excluding holidays) from 8am to 6pm. Requests made after the schedule or on weekends and holidays will be processed on the next business day.\n</span><br/> <br/>\nTotal Transfer Out from wallet',
       "withdrawal.notification.received":
         'Your Payment Out request has been received.  Please go to your email box to open the Payment Out request email to view your request.  You can view your current Payment Out requests and status at the <a href="/activity">Activity</a> page. ',
       "fees.multiSelect.nothingSelected": "Filter Currencies",
@@ -961,7 +750,7 @@ export const PDAX_CONFIG = {
       "bankinfo.localach.footer.instructions":
         "<p>Bank transfers usually complete in 1-2 business days and are subject to our stringent AML compliance requirements.</p>",
       "ccy.label.MKR": "MKR",
-      "fees.currency.MKR": "Maker",
+      "fees.currency.MKR": "MKR",
       "ccy.label.USDC": "USDC",
       "fees.currency.USDC": "USD Coin",
       "ccy.label.BAT": "BAT",
@@ -975,7 +764,7 @@ export const PDAX_CONFIG = {
       "ccy.label.REP": "REP",
       "fees.currency.REP": "Augur",
       "ccy.label.ZRX": "ZRX",
-      "fees.currency.ZRX": "0x",
+      "fees.currency.ZRX": "ZRX",
       "ccy.label.HOT": "HOT",
       "fees.currency.HOT": "Holo",
       "ccy.label.PAX": "PAX",
@@ -1104,7 +893,7 @@ export const PDAX_CONFIG = {
         "Your request size has exceeded the maximum limit. Should you wish to proceed, please contact customer support for further assistance.",
       "dashboard.quick.tip.label": "",
       "dashboard.quick.tip.one":
-        '<h3> Quick tips </h3> \n✓  <a href="/funds">Transfer</a> your assets from your PRIMARY wallet to your EXCHANGE wallet to start trading.<br>\n✓ All non-trade transactions such as cash in, cash out, and sending/receiving of cryptocurrencies will be executed in your PRIMARY wallet.<br>\n✓ Should you wish to use the assets in your EXCHANGE wallet for non-trade transactions, you need to transfer it to your PRIMARY wallet first.<br>\n✓ There is no charge and no limit to the number of times that you can transfer assets between your PRIMARY and EXCHANGE wallets.\n<h3>Disclaimer</h3>\nThe market values on your portfolio were calculated based on prevailing market prices and are displayed strictly for reference purposes only. Because market prices constantly fluctuate, your portfolio balance may or may not be indicative of the actual value of your portfolio or its underlying assets.  PDAX makes no representations or warranties as to the completeness or accuracy of the information displayed.',
+        '<h3> Quick tips </h3> \n✓  <a href="/funds">Transfer</a> your assets from your PRIMARY wallet to your EXCHANGE wallet to start trading.<br>\n✓ All non-trade transactions such as cash in, cash out, and sending/receiving of cryptocurrencies will be executed in your PRIMARY wallet.<br>\n✓ Should you wish to use the assets in your EXCHANGE wallet for non-trade transactions, you need to transfer it to your PRIMARY wallet first.<br>\n✓ There is no charge and no limit to the number of times that you can transfer assets between your PRIMARY and EXCHANGE wallets.\n<h3>Disclaimer</h3>\nThe market values on your portfolio were calculated based on prevailing market prices and are displayed strictly for reference purposes only. Because market prices constantly fluctuate, your portfolio balance may or may not be indicative of the actual value of your portfolio or its underlying assets.  PDAX makes no representations or warranties as to the completeness or accuracy of the information displayed.<br><br>\n\n<strong>Any PHPT and <a href="https://support.pdax.ph/s/article/What-cryptocurrencies-are-listed-on-PDAX" target="_blank">new tokens</a> you own are all currently exclusive to the mobile app and will not be reflected here on the web platform.<br><br>\n<a href="https://linktr.ee/pdax" target="_blank">Download the PDAX mobile app</a> to view and access our new tokens, as well as trade our new PHPT pairs.</strong>',
       "dashboard.quick.tip.two": "",
       "heading.fundTransfers.label": "Transfer Fund Report",
       "method.BANK_WIRE": "Bank Wire",
@@ -1139,15 +928,15 @@ export const PDAX_CONFIG = {
       "dashboard.accountBox.getStarted.message":
         "Verify your account now to start trading the world's top cryptocurrencies using PHP!",
       "dashboard.accountBox.getStarted.link": "/settings/verify",
-      "dashboard.accountBox.getStarted.label": "UPGRADE ACCOUNT",
-      "dashboard.accountBox.getPremium.header": "GET PREMIUM",
+      "dashboard.accountBox.getStarted.label": "VERIFY ACCOUNT",
+      "dashboard.accountBox.getPremium.header": "GET PREMIUM..",
       "dashboard.accountBox.getPremium.message":
         'Increase your daily, monthly, and annual cash transaction limits by upgrading to a premium account.<br><br>Check requirements <a href="https://support.pdax.ph/s/article/What-are-the-requirements-to-upgrade-to-premium" target="_blank">here</a>.',
       "dashboard.accountBox.getPremium.link": "https://support.pdax.ph/s/contactsupport",
       "dashboard.accountBox.getPremium.label": "UPGRADE TO PREMIUM",
       "dashboard.accountBox.premium.header": "PREMIUM TRADER",
       "dashboard.accountBox.premium.message":
-        "As a premium trader, you now have a cash transaction limit of PHP 100,000 (daily), PHP 400,000 (monthly), and PHP 3M (annually).",
+        "As a premium trader, you now have a cash transaction limit of PHP 250,000 (daily), PHP 5,000,000 (monthly), and PHP 50,000,000 (annually).",
       "dashboard.accountBox.premium.link": "",
       "dashboard.accountBox.premium.label": "",
       "dashboard.accountBox.partner.header": "PARTNER TRADER",
@@ -1499,12 +1288,39 @@ export const PDAX_CONFIG = {
       "fees.currency.SHIB": "SHIB",
       "ccy.label.FTM": "FTM",
       "fees.currency.FTM": "FTM",
+      "ccy.label.OSLTV1": "OSLTV1",
+      "fees.currency.OSLTV1": "OSLTV1",
+      "ccy.label.CRV": "CRV",
+      "fees.currency.CRV": "CRV",
+      "ccy.label.SOL": "SOL",
+      "fees.currency.SOL": "SOL",
+      "ccy.label.FIL": "FIL",
+      "fees.currency.FIL": "FIL",
+      "ccy.label.AMP": "AMP",
+      "fees.currency.AMP": "AMP",
+      "ccy.label.UMA": "UMA",
+      "fees.currency.UMA": "UMA",
+      "ccy.label.SAND": "SAND",
+      "fees.currency.SAND": "SAND",
+      "ccy.label.AXS": "AXS",
+      "fees.currency.AXS": "AXS",
+      "ccy.label.BNT": "BNT",
+      "fees.currency.BNT": "BNT",
+      "ccy.label.ADA": "ADA",
+      "fees.currency.ADA": "ADA",
+      "ccy.label.ALGO": "ALGO",
+      "fees.currency.ALGO": "ALGO",
+      "ccy.label.ATOM": "ATOM",
+      "fees.currency.ATOM": "ATOM",
+      "ccy.label.DOT": "DOT",
+      "fees.currency.DOT": "DOT",
+      "ccy.label.XTZ": "XTZ",
+      "fees.currency.XTZ": "XTZ",
       "heading.warning.message":
         "Please expect a 30-minute market recess starting at 7:00AM PHT. Trading will resume after the market recess.",
       "dashboard.label.currency": "Currency",
       "simpletrade.buysell.heading": "iRFQ",
-      "email.confirmation.footer":
-        '<div style="font-size:0.8em;">Notes:</div><ol style="line-height:120%;"><li style="font-size:0.8em;">Client assets and client money of OSL Digital Securities Limited are held by BC Business Management (HK) Ltd in its capacity of "Associated Entity" (as defined in the Securities and Futures Ordinance (Cap. 571)) of OSL Digital Securities Limited, and in accordance with the requirements of the Terms and Conditions for Virtual Asset Trading Platform Operators (as amended and revised from time to time)</li><li style="font-size:0.8em;">AAVE - Aave, BAT - Basic Attention Token, BCAP - Blockchain Capital Token, BCH - Bitcoin Cash, BTC - Bitcoin, COMP - Compound, ENJ - Enjin Coin, ETH - Ethereum, GRT - The Graph, LINK - Chainlink, LTC - LiteCoin, UNI - Uniswap, USDC - USD Coin</li></ol>',
+      "email.confirmation.footer": "312",
       "funds.ERC20.warning":
         "Intended only for ERC20 network. DO NOT use other networks like BEP2, BEP20, BSC, or TRC20 to avoid permanent loss of funds.",
       "email.contractnote.header":
@@ -1521,6 +1337,13 @@ export const PDAX_CONFIG = {
         '<p style="line-height:120%;"> This is a confirmation of a transaction entered into between you and {0}. <br /><br /> We, as agent, have executed the following transaction with you:</p><br />',
       "email.entity.name": "*Entity Name*",
       "email.contractnote.title.entity.name": "*Title Entity Name*",
+      "heading.bank.wire.aba.label": "Routing/ABA",
+      "withdrawal.bank.notification.blocked": "For transfer, Please contact customer support",
+      "email.report.monthly.body.headerContent":
+        '<body style="color: #000000; line-height:200%; font-family: Roboto, Arial, sans-serif; font-size: 14px;">{0}<p style="text-align: center; font-size: 0.8em; line-height:120%;">OSL Digital Securities Limited (CE: BPJ213) <br /> 39/F, Lee Garden One, 33 Hysan Avenue, Causeway Bay, Hong Kong BC Business Management Services (HK) Limited <br>39/F, Lee Garden One, 33 Hysan Avenue, Causeway Bay, Hong Kong<sub style="font-size: 0.8em;vertical-align: super;">1</sub></p>{1}<p>{2}</p><p>{3}</p><div style="text-align:center"><h3>Monthly Statement of Account - {4}</h3></div>',
+      "email.report.monthly.body.mainContent":
+        '<br /><br /><br /><p style="font-size:22px">Account: {0} - {1}</p><p style="font-size:22px">Account group: {2}</p><h3 style="margin-bottom:0;">1. MONTH END BALANCE SUMMARY AND VALUATION AS AT {3}</h3><h3 style="margin:0%;"><span style="text-decoration:underline">ACCOUNT SUMMARY</span></h3><h3 style="margin:0%;margin-left:10px;"><span style="padding-right:15px;">A.</span>ACCOUNT BALANCE:</h3>{4}<br /> <br /><h3 style="margin:0%;margin-left:10px;"><span style="padding-right:15px;">B.</span>BREAKDOWN OF ACCOUNT BALANCES:</h3> {5} <br /> <br /><h3 style="margin-bottom:0;">2. TRANSACTION SUMMARY - {6} to {7}</h3><h3 style="margin:0%;"><span style="text-decoration:underline">TRANSACTION SUMMARY</span></h3><h3 style="margin:0%;margin-left:10px;"><span style="padding-right:15px;">A.</span>DEPOSIT AND WITHDRAWAL TRANSACTIONS:</h3>{8}<br /> <br /><h3 style="margin:0%;margin-left:10px;"><span style="padding-right:15px;">B.</span>TRADE TRANSACTIONS:</h3>{9}<br /> <br /><h3 style="margin:0%;margin-left:10px;"><span style="padding-right:15px;">C.</span>EXECUTED TRADES NOT SETTLED<sub style="font-size: 0.8em;vertical-align: super;">(6)</sub>:</h3>{10}<br /> <br /><h3 style="margin-bottom:0;">3. SUMMARY OF FEES AND CHARGES - {6} to {7}</h3><h3 style="margin:0%;margin-left:10px;"><span style="padding-right:15px;">A.</span>STATEMENT OF FEES INCURRED ON ACCOUNT:</h3>{11}<br /><br /><h3 style="margin:0%;margin-left:10px;"><span style="padding-right:15px;">B.</span>EXCHANGE TRADING FEES:</h3>{12}<br />{13}<br />',
+      "email.report.monthly.body.endContent": "</body>",
       "email.report.monthly.footer":
         "<div style=\"margin:100px auto 0 auto; width:90%; font-size:0.8em\">Notes:<ol><li>Client assets and client moneys of OSL Digital Securities Limited (“OSL”) are held by BC Business Management (HK) Ltd in its capacity of 'Associated Entity' (as defined in the Securities and Futures Ordinance (Cap. 571)) of OSL and in accordance with the requirements of the Terms and Conditions for Virtual Asset Trading Platform Operators (as amended and revised from time to time)</li><li>BTC - Bitcoin, ETH - Ethereum, BCAP - Blockchain Capital Token, HKD - Hong Kong Dollars, USD - United States Dollars, USDC - USD Coin</li><li>Currency exchange rates and asset values are compiled from a variety of third party sources and using methodologies selected and determined by OSL from time to time at its sole discretion, and such sources may also change from time to time without prior notice. Such rates and values are provided for reference only. Actual prices at which you may buy such virtual assets may be different.</li><li>All digital assets are expressed in unit quantities</li><li>All fiat and virtual asset deposits and withdrawals are received in / withdrawn from Primary. All clients’ virtual asset deposit instructions are classified as “pending” state and are not eligible for trading or transferring until completion of internal compliance review and approval by OSL. All clients’ virtual asset withdrawal instructions are classified as “pending” state and will not be processed until completion of internal compliance review and approval.</li><li>Executed trades that are not settled trades are not included in the client closing account balance until settled.</li><li>Unless we expressly indicate (in the contract note for the relevant transactions or otherwise) that: (a) in relation to transactions executed via OSL Exchange, we act as your agent in effecting the relevant transactions; and (b) in relation to transactions executed via OSL OTC and RFQ, we act as principal in relation to such transactions.</li><li>Withdrawal fee refers to fee charged for withdrawal of virtual assets.</li><li>This is a computer generated statement and does not require an authorized official’s signature.</li><li>Please examine your statement and report any discrepancies to your designated account executive within 14 days from the statement date. We reserve the right to regard the statement as conclusive should you fail to report any discrepancies within the specified period.</li><li>Any virtual assets listed in this account statement are held as client assets for you.</li><li>Any fiat balance listed in this account statement are held as client monies for you.</li><li>If you have any account enquiries, please contact customer service hotline on (+852) 3504 3200.</li></ol></div>",
       "email.report.monthly.subject": "{0} Monthly Statement Notification",
@@ -1559,6 +1382,7 @@ export const PDAX_CONFIG = {
       "heading.destinationTagChoiceNo.label": "No",
       "heading.destinationTagChoiceMandatory.label": "(Mandatory)",
       "heading.checkingDestinationTag.label": "Checking recipient wallet destination tag requirement...",
+      "heading.intermediarybank.label": "Intermediary Bank",
       "heading.bank.wire.beneficiary.USD.value": "PDAX DEMO",
       "_PDAX_COM.heading.bank.wire.bankname.USD.value": "PDAX DEMO",
       "_PDAX_COM.heading.bank.wire.beneficiary.USD.value": "PDAX DEMO",
@@ -1576,372 +1400,92 @@ export const PDAX_CONFIG = {
   },
   pages: {
     api_reference: {
-      en_US: {
-        name: "API Reference",
-        external: false,
-        url: "",
-      },
-      zh_HK: {
-        name: "API文檔",
-        external: false,
-        url: null,
-      },
-      zh_CN: {
-        name: "API文档",
-        external: false,
-        url: null,
-      },
-      ja_JP: {
-        name: "APIリファレンス",
-        external: false,
-        url: null,
-      },
-      pt_BR: {
-        name: "Referência API",
-        external: false,
-        url: null,
-      },
-      es_MX: {
-        name: "Referência API",
-        external: false,
-        url: null,
-      },
-      ko_KR: {
-        name: "API 참조",
-        external: false,
-        url: null,
-      },
+      en_US: { name: "API Reference", external: false, url: "" },
+      zh_HK: { name: "API文檔", external: false, url: null },
+      zh_CN: { name: "API文档", external: false, url: null },
+      ja_JP: { name: "APIリファレンス", external: false, url: null },
+      pt_BR: { name: "Referência API", external: false, url: null },
+      es_MX: { name: "Referência API", external: false, url: null },
+      ko_KR: { name: "API 참조", external: false, url: null },
     },
     faq: {
-      en_US: {
-        name: "FAQ",
-        external: true,
-        url: "support.pdax.ph/s/",
-      },
-      zh_HK: {
-        name: "常見問題",
-        external: false,
-        url: null,
-      },
-      zh_CN: {
-        name: "常见问题",
-        external: false,
-        url: null,
-      },
-      ja_JP: {
-        name: "よくある質問",
-        external: false,
-        url: null,
-      },
-      pt_BR: {
-        name: "Perguntas frequentes",
-        external: false,
-        url: null,
-      },
-      es_MX: {
-        name: "Preguntas frecuentes",
-        external: false,
-        url: null,
-      },
-      ko_KR: {
-        name: "자주묻는질문",
-        external: false,
-        url: null,
-      },
+      en_US: { name: "FAQ", external: true, url: "support.pdax.ph/s/" },
+      zh_HK: { name: "常見問題", external: false, url: null },
+      zh_CN: { name: "常见问题", external: false, url: null },
+      ja_JP: { name: "よくある質問", external: false, url: null },
+      pt_BR: { name: "Perguntas frequentes", external: false, url: null },
+      es_MX: { name: "Preguntas frecuentes", external: false, url: null },
+      ko_KR: { name: "자주묻는질문", external: false, url: null },
     },
     kyc: {
-      en_US: {
-        name: "Trading Rules",
-        external: false,
-        url: "land-v2-dev.pdax.ph/trading-rules",
-      },
-      zh_CN: {
-        name: "KYC和AML",
-        external: false,
-        url: null,
-      },
-      zh_HK: {
-        name: "KYC和AML",
-        external: false,
-        url: null,
-      },
-      ja_JP: {
-        name: "利用規約（KYC&AML）",
-        external: false,
-        url: null,
-      },
-      es_MX: {
-        name: "ALD y KYC",
-        external: false,
-        url: null,
-      },
-      pt_BR: {
-        name: "AML e KYC",
-        external: false,
-        url: null,
-      },
-      ko_KR: {
-        name: "KYC & AML",
-        external: false,
-        url: null,
-      },
-      es_PA: {
-        name: "KYC & AML",
-        external: false,
-        url: null,
-      },
+      en_US: { name: "Trading Rules", external: false, url: "land-v2-dev.pdax.ph/trading-rules" },
+      zh_CN: { name: "KYC和AML", external: false, url: null },
+      zh_HK: { name: "KYC和AML", external: false, url: null },
+      ja_JP: { name: "利用規約（KYC&AML）", external: false, url: null },
+      es_MX: { name: "ALD y KYC", external: false, url: null },
+      pt_BR: { name: "AML e KYC", external: false, url: null },
+      ko_KR: { name: "KYC & AML", external: false, url: null },
+      es_PA: { name: "KYC & AML", external: false, url: null },
     },
     about_us: {
-      en_US: {
-        name: "Home",
-        external: true,
-        url: "pdax.ph",
-      },
-      zh_CN: {
-        name: "关于我们",
-        external: false,
-        url: null,
-      },
-      zh_HK: {
-        name: "關於我們",
-        external: false,
-        url: null,
-      },
-      ja_JP: {
-        name: "詳細",
-        external: false,
-        url: null,
-      },
-      es_MX: {
-        name: "Sobre nosotros",
-        external: false,
-        url: null,
-      },
-      pt_BR: {
-        name: "Sobre nós",
-        external: false,
-        url: null,
-      },
-      ko_KR: {
-        name: "회사 소개",
-        external: false,
-        url: null,
-      },
-      es_PA: {
-        name: "About Us",
-        external: false,
-        url: null,
-      },
+      en_US: { name: "Home", external: true, url: "pdax.ph" },
+      zh_CN: { name: "关于我们", external: false, url: null },
+      zh_HK: { name: "關於我們", external: false, url: null },
+      ja_JP: { name: "詳細", external: false, url: null },
+      es_MX: { name: "Sobre nosotros", external: false, url: null },
+      pt_BR: { name: "Sobre nós", external: false, url: null },
+      ko_KR: { name: "회사 소개", external: false, url: null },
+      es_PA: { name: "About Us", external: false, url: null },
     },
     terms_of_use: {
-      en_US: {
-        name: "Terms of Use",
-        external: true,
-        url: "land-v2-stage.pdax.ph/terms-and-conditions",
-      },
-      zh_HK: {
-        name: "使用條款",
-        external: false,
-        url: null,
-      },
-      zh_CN: {
-        name: "使用条款",
-        external: false,
-        url: null,
-      },
-      ja_JP: {
-        name: "利用規約（規約）",
-        external: false,
-        url: null,
-      },
-      es_MX: {
-        name: "Términos de Uso",
-        external: false,
-        url: null,
-      },
-      pt_BR: {
-        name: "Termos de uso",
-        external: false,
-        url: null,
-      },
-      ko_KR: {
-        name: "이용 약관",
-        external: false,
-        url: null,
-      },
-      es_PA: {
-        name: "Terms of use",
-        external: false,
-        url: null,
-      },
+      en_US: { name: "Terms of Use", external: true, url: "land-v2-stage.pdax.ph/terms-and-conditions" },
+      zh_HK: { name: "使用條款", external: false, url: null },
+      zh_CN: { name: "使用条款", external: false, url: null },
+      ja_JP: { name: "利用規約（規約）", external: false, url: null },
+      es_MX: { name: "Términos de Uso", external: false, url: null },
+      pt_BR: { name: "Termos de uso", external: false, url: null },
+      ko_KR: { name: "이용 약관", external: false, url: null },
+      es_PA: { name: "Terms of use", external: false, url: null },
     },
     disclaimer: {
-      en_US: {
-        name: "Disclaimer",
-        external: false,
-        url: "",
-      },
-      zh_CN: {
-        name: "免责声明",
-        external: false,
-        url: null,
-      },
-      zh_HK: {
-        name: "免責聲明",
-        external: false,
-        url: null,
-      },
-      ja_JP: {
-        name: "利用規約（免責事項）",
-        external: false,
-        url: null,
-      },
-      es_MX: {
-        name: "Renuncia",
-        external: false,
-        url: null,
-      },
-      pt_BR: {
-        name: "Aviso Legal",
-        external: false,
-        url: null,
-      },
-      ko_KR: {
-        name: "면책 조항",
-        external: false,
-        url: null,
-      },
-      es_PA: {
-        name: "Disclaimer",
-        external: false,
-        url: null,
-      },
+      en_US: { name: "Disclaimer", external: false, url: "" },
+      zh_CN: { name: "免责声明", external: false, url: null },
+      zh_HK: { name: "免責聲明", external: false, url: null },
+      ja_JP: { name: "利用規約（免責事項）", external: false, url: null },
+      es_MX: { name: "Renuncia", external: false, url: null },
+      pt_BR: { name: "Aviso Legal", external: false, url: null },
+      ko_KR: { name: "면책 조항", external: false, url: null },
+      es_PA: { name: "Disclaimer", external: false, url: null },
     },
     privacy: {
-      en_US: {
-        name: "Privacy Policy",
-        external: false,
-        url: "",
-      },
-      zh_CN: {
-        name: "隐私政策",
-        external: false,
-        url: null,
-      },
-      zh_HK: {
-        name: "隱私政策",
-        external: false,
-        url: null,
-      },
-      ja_JP: {
-        name: "個人情報保護方針",
-        external: false,
-        url: null,
-      },
-      es_MX: {
-        name: "Política de privacidad",
-        external: false,
-        url: null,
-      },
-      pt_BR: {
-        name: "Política de Privacidade",
-        external: false,
-        url: null,
-      },
-      ko_KR: {
-        name: "개인 정보 정책",
-        external: false,
-        url: null,
-      },
-      es_PA: {
-        name: "Privacy Policy",
-        external: false,
-        url: null,
-      },
+      en_US: { name: "Privacy Policy", external: false, url: "" },
+      zh_CN: { name: "隐私政策", external: false, url: null },
+      zh_HK: { name: "隱私政策", external: false, url: null },
+      ja_JP: { name: "個人情報保護方針", external: false, url: null },
+      es_MX: { name: "Política de privacidad", external: false, url: null },
+      pt_BR: { name: "Política de Privacidade", external: false, url: null },
+      ko_KR: { name: "개인 정보 정책", external: false, url: null },
+      es_PA: { name: "Privacy Policy", external: false, url: null },
     },
     contact: {
-      en_US: {
-        name: "Contact Us",
-        external: true,
-        url: "support.pdax.ph/s/contactsupport",
-      },
-      zh_HK: {
-        name: "聯系我們",
-        external: false,
-        url: null,
-      },
-      zh_CN: {
-        name: "联系我们",
-        external: false,
-        url: null,
-      },
-      ja_JP: {
-        name: "連絡先",
-        external: false,
-        url: null,
-      },
-      es_MX: {
-        name: "Contáctenos",
-        external: false,
-        url: null,
-      },
-      pt_BR: {
-        name: "Contate-Nos",
-        external: false,
-        url: null,
-      },
-      ko_KR: {
-        name: "연락처",
-        external: false,
-        url: null,
-      },
-      es_PA: {
-        name: "Contact Us",
-        external: false,
-        url: null,
-      },
+      en_US: { name: "Contact Us", external: true, url: "support.pdax.ph/s/contactsupport" },
+      zh_HK: { name: "聯系我們", external: false, url: null },
+      zh_CN: { name: "联系我们", external: false, url: null },
+      ja_JP: { name: "連絡先", external: false, url: null },
+      es_MX: { name: "Contáctenos", external: false, url: null },
+      pt_BR: { name: "Contate-Nos", external: false, url: null },
+      ko_KR: { name: "연락처", external: false, url: null },
+      es_PA: { name: "Contact Us", external: false, url: null },
     },
     security: {
-      en_US: {
-        name: "About Us",
-        external: true,
-        url: "pdax.ph/about-us",
-      },
-      zh_HK: {
-        name: "安保規定",
-        external: false,
-        url: null,
-      },
-      zh_CN: {
-        name: "安保规定",
-        external: false,
-        url: null,
-      },
-      ja_JP: {
-        name: "セキュリティ",
-        external: false,
-        url: null,
-      },
-      es_MX: {
-        name: "Seguridad",
-        external: false,
-        url: null,
-      },
-      pt_BR: {
-        name: "Segurança",
-        external: false,
-        url: null,
-      },
-      ko_KR: {
-        name: "보안",
-        external: false,
-        url: null,
-      },
-      es_PA: {
-        name: "Security",
-        external: false,
-        url: null,
-      },
+      en_US: { name: "About Us", external: true, url: "pdax.ph/about-us" },
+      zh_HK: { name: "安保規定", external: false, url: null },
+      zh_CN: { name: "安保规定", external: false, url: null },
+      ja_JP: { name: "セキュリティ", external: false, url: null },
+      es_MX: { name: "Seguridad", external: false, url: null },
+      pt_BR: { name: "Segurança", external: false, url: null },
+      ko_KR: { name: "보안", external: false, url: null },
+      es_PA: { name: "Security", external: false, url: null },
     },
   },
   external_link: {

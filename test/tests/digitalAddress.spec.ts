@@ -1,59 +1,57 @@
-import { TRANSACTION_FILTER_TYPES } from "../config";
-import { test } from "../po/pages";
-import { expectElementVisibility } from "../utils";
+import { test, Page, BrowserContext } from "@playwright/test";
+import { TEST_USERS } from "../config";
+import { Application } from "../po/pages";
+import { expectElementVisibility, useState } from "../utils";
+let context: BrowserContext;
+let page: Page;
+let app: Application;
 
-test.describe.parallel("Digital Address Page @jira(PWU-92)", () => {
-  test.beforeEach(async ({ activitiesPage }) => {
-    await activitiesPage.goto();
-    await activitiesPage.buttonActivityFilter.click();
-    // await activitiesPage.activityFilter.filterBy({
-    //   option: "currency",
-    //   item: CURRENCIES.BTC,
-    // });
-    await activitiesPage.activityFilter.filterBy({
-      option: "type",
-      item: TRANSACTION_FILTER_TYPES.Deposit,
-    });
-    await activitiesPage.activityFilter.buttonConfirm.click();
-    await activitiesPage.transactionActivity.selectContact(1).click();
+test.describe("Digital Address Page @jira(PWU-92)", () => {
+  useState("clean");
+  test.beforeAll(async ({ browser }) => {
+    context = await browser.newContext();
+    page = await context.newPage();
+    app = new Application(page);
+    await app.loginPage.goto();
+    await app.loginPage.login(TEST_USERS.TRADER);
+    await app.contactsPage.checkContacts();
   });
 
-  test("should open Add Contact Modal @smoke @jira(BCTGWEBPWU-214) @jira(BCTGWEBPWU-160))", async ({
-    activitiesPage,
-  }) => {
-    await expectElementVisibility(activitiesPage.addContactModal.el, true);
-    await expectElementVisibility(activitiesPage.addContactModal.buttonCreateNewContact, true);
-    await expectElementVisibility(activitiesPage.addContactModal.buttonAddToExistingContact, true);
+  test.afterAll(async () => await page.close());
+  test.beforeEach(async () => {
+    await app.activitiesPage.searchForContacts();
   });
 
-  test("should Navigate to Create New Contact Page @criticalPath @jira(BCTGWEBPWU-XXX))", async ({
-    activitiesPage,
-  }) => {
-    await activitiesPage.addContactModal.buttonCreateNewContact.click();
-    await activitiesPage.expectUrlContains(/contacts/);
+  test("should open Add Contact Modal @smoke @jira(XRT-238) @jira(XRT-134)", async () => {
+    await expectElementVisibility(app.activitiesPage.addContactModal.rootEl, true);
+    await expectElementVisibility(app.activitiesPage.addContactModal.buttonCreateNewContact, true);
+    await expectElementVisibility(app.activitiesPage.addContactModal.buttonAddToExistingContact, true);
   });
 
-  test("should open Add To Existing Contact Modal Window @criticalPath @jira(BCTGWEBPWU-217))", async ({
-    activitiesPage,
-  }) => {
-    await activitiesPage.addContactModal.buttonAddToExistingContact.click();
-    await expectElementVisibility(activitiesPage.addToExistingContactModal.el, true);
-    await expectElementVisibility(activitiesPage.addToExistingContactModal.inputSearch, true);
-    await expectElementVisibility(activitiesPage.addToExistingContactModal.contactList.el, true);
-    await expectElementVisibility(activitiesPage.addToExistingContactModal.buttonCancel, true);
+  test("should Navigate to Create New Contact Page @criticalPath @jira(XRT-135)", async () => {
+    await app.activitiesPage.addContactModal.buttonCreateNewContact.click();
+    await app.activitiesPage.expectUrlContains(/contacts/);
   });
 
-  test("should add to existing contact @criticalPath @jira(BCTGWEBPWU-215))", async ({ activitiesPage }) => {
-    await activitiesPage.addContactModal.buttonAddToExistingContact.click();
-    await expectElementVisibility(activitiesPage.addToExistingContactModal.el, true);
-
-    await activitiesPage.addToExistingContactModal.contactList.contacts.nth(0).click();
-    await activitiesPage.expectUrlContains(/contacts/);
+  test("should open Add To Existing Contact Modal Window @criticalPath @jira(XRT-241))", async () => {
+    await app.activitiesPage.addContactModal.buttonAddToExistingContact.click();
+    await expectElementVisibility(app.activitiesPage.addToExistingContactModal.rootEl, true);
+    await expectElementVisibility(app.activitiesPage.addToExistingContactModal.inputSearch, true);
+    await expectElementVisibility(app.activitiesPage.addToExistingContactModal.contactList.rootEl, true);
+    await expectElementVisibility(app.activitiesPage.addToExistingContactModal.buttonCancel, true);
   });
 
-  test("should Cancel Adding To Existing Contact @criticalPath @jira(BCTGWEBPWU-218))", async ({ activitiesPage }) => {
-    await activitiesPage.addContactModal.buttonAddToExistingContact.click();
-    await activitiesPage.addToExistingContactModal.buttonCancel.click();
-    await expectElementVisibility(activitiesPage.addToExistingContactModal.el, false);
+  test("should add to existing contact @criticalPath @jira(XRT-239)", async () => {
+    await app.activitiesPage.addContactModal.buttonAddToExistingContact.click();
+    await expectElementVisibility(app.activitiesPage.addToExistingContactModal.rootEl, true);
+
+    await app.activitiesPage.addToExistingContactModal.contactList.contacts.first().click();
+    await app.activitiesPage.expectUrlContains(/contacts/);
+  });
+
+  test("should Cancel Adding To Existing Contact @criticalPath @jira(XRT-242))", async () => {
+    await app.activitiesPage.addContactModal.buttonAddToExistingContact.click();
+    await app.activitiesPage.addToExistingContactModal.buttonCancel.click();
+    await expectElementVisibility(app.activitiesPage.addToExistingContactModal.rootEl, false);
   });
 });

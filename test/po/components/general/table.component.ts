@@ -7,7 +7,9 @@ export class Table extends Element {
 
   constructor(locator: Locator) {
     super(locator);
-    this.rows = this.el.locator("tbody tr, [data-test-id='transaction-list-row'], li");
+    this.rows = this.rootEl.locator(
+      "[aria-label='Deposit Notification Table'] tr , [data-test-id^='table-row'], [data-test-id='transaction-list-row'], li.MuiListItem-gutters, [data-test-id^='translation-table-row']"
+    );
   }
 
   clickRow(index: number): Promise<void> {
@@ -19,16 +21,19 @@ export class Table extends Element {
     return this.rows.count();
   }
 
-  async checkColumnVisibility(column: PORTFOLIO_COLUMNS | ACTIVITY_COLUMNS, visibility: boolean): Promise<any> {
-    const rowsCount: number = await this.getRowsCount();
+  async checkColumnVisibility(column: PORTFOLIO_COLUMNS | ACTIVITY_COLUMNS, visibility: boolean): Promise<void> {
+    const assert = expect(
+      this.rootEl
+        .locator("[data-test-id='portfolio-table-head']>tr>th>span, [data-test-id^='transaction-list-header']", {
+          hasText: column,
+        })
+        .nth(0)
+    );
 
-    for (let i = 0; i < rowsCount; i++) {
-      const assert = expect(this.rows.nth(i).locator(`[data-test-id$='${column}']`));
-      if (visibility) {
-        await assert.toBeVisible();
-      } else {
-        await assert.toBeHidden();
-      }
+    if (visibility) {
+      await assert.toBeVisible();
+    } else {
+      await assert.toBeHidden();
     }
   }
 

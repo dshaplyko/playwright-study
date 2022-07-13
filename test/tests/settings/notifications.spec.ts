@@ -8,15 +8,14 @@ test.describe("Settings Page -> Notifications Tab @jira(PWU-331)", () => {
     await settingsPage.clickTab(SETTINGS_TABS.NOTIFICATIONS);
   });
 
-  test("should open Notifications Tab @smoke @jira(BCTGWEBPWU-371)", async ({ settingsPage }) => {
+  test("should open Notifications Tab @smoke @jira(XRT-399)", async ({ settingsPage }) => {
     await expectElementToHaveText(settingsPage.tabHeader, "Alert Preferences");
     await settingsPage.activeTab.checkOptionsVisibility();
     await expectElementVisibility(settingsPage.activeTab.updateButton, true);
   });
 
-  test("should save notification preferences @criticalPath @jira(BCTGWEBPWU-382)", async ({ settingsPage }) => {
+  test("should save notification preferences @criticalPath @jira(XRT-398)", async ({ settingsPage }) => {
     await settingsPage.activeTab.updateButton.click();
-    await expectElementVisibility(settingsPage.tooltip, true);
-    await expectElementToHaveText(settingsPage.tooltip, "Preferences Saved");
+    await settingsPage.checkTooltip("Preferences Saved");
   });
 });

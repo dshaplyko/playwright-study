@@ -12,7 +12,24 @@ import { Transfer } from "../components/funds/forms/transfer.form.component";
 import { BankAccounts } from "../components/funds/forms/bankAccounts.form.component";
 import { AddBank } from "../components/funds/forms/addBank.form.component";
 import { ConfirmationModal } from "../components/general/modals/confirmationModal.component";
-import { CURRENCIES, BANK_TRANSFER_FORMS } from "../../config";
+import {
+  CURRENCIES,
+  BANK_TRANSFER_FORMS,
+  URLs,
+  SG_DEPOSIT_METADATA,
+  BANK_DATA_MODALS,
+  WITHDRAWAL_DATA,
+  BANK_DATA,
+  SG_SUBMIT_MIN_ERROR,
+  SG_SUBMIT_MAX_ERROR,
+  SG_TRANSACTION_METADATA,
+  BANK_DATA_EMPTY,
+  BASE_URL,
+  SG_CONFIG,
+} from "../../config";
+import { Logger } from "../../logger/logger";
+import { generateRandomString } from "../../utils";
+const logger = new Logger("Funds Page");
 
 export class FundsPage extends BasePage {
   readonly url: string;
@@ -80,7 +97,7 @@ export class FundsPage extends BasePage {
     this.quickTips = new Element(this.quickTipsLocator.locator("div[aria-expanded]"));
     this.feesScheduleLink = this.quickTipsLocator.locator("a[href*='fees']");
     this.activityLink = this.quickTipsLocator.locator("a[href*='activity']");
-    this.expandQuckTipsButton = new Element(this.quickTips.el.locator("div:has(> svg[data-test-id*='expand'])"));
+    this.expandQuckTipsButton = new Element(this.quickTips.rootEl.locator("div:has(> svg[data-test-id*='expand'])"));
     this.paymentIn = new Widget(this.page.locator("div[data-test-id='funds-payment-in']"));
     this.paymentOut = new Widget(this.page.locator("div[data-test-id='funds-payment-out']"));
     this.transferFunds = new Widget(this.page.locator("div[data-test-id='funds-transfer-funds']"));
@@ -122,10 +139,114 @@ export class FundsPage extends BasePage {
     await this.currencyList.chooseCurrency(currency);
     await this.fiatCard.bankTransferButton.click();
     await this.bankAccountsForm.addBankButton.click();
-    await this.addBankForm.method.selectByText(form);
+    await this.addBankForm.method.clickByText(form);
   }
 
   async goto() {
     await super.goto(this.url);
+  }
+
+  async mockBankData(data: any): Promise<void> {
+    await this.api.mockData(data, URLs.BANK_METADATA);
+  }
+
+  async mockTransactionData(): Promise<void> {
+    await this.api.mockData(SG_DEPOSIT_METADATA, URLs.DEPOSIT_METADATA);
+    await this.paymentIn.click();
+  }
+
+  async mockModalData(): Promise<void> {
+    await this.api.mockData(BANK_DATA_MODALS, URLs.BANK_INFO);
+    await this.goto();
+    await this.paymentOut.click();
+  }
+
+  async mockBankInfo(data: "full" | "empty"): Promise<void> {
+    const bankData = data === "full" ? BANK_DATA : BANK_DATA_EMPTY;
+    await this.api.mockData(bankData, URLs.BANK_INFO);
+  }
+
+  async mockTransferData(): Promise<void> {
+    await this.api.mockData(WITHDRAWAL_DATA, URLs.WITHDRAWAL_METADATA);
+    await this.mockBankInfo("full");
+    await this.goto();
+    await this.paymentOut.click();
+  }
+
+  async emulateTransferError(error: "min" | "max"): Promise<void> {
+    const transferError = error === "max" ? SG_SUBMIT_MAX_ERROR : SG_SUBMIT_MIN_ERROR;
+    await this.api.emulateNetworkError(transferError, URLs.SUBMIT_CASH_WITHDRAWAL);
+    await this.fiatCard.bankTransferButton.click();
+  }
+
+  async mockSuccessfulTransaction(currency: "cash" | "coin"): Promise<void> {
+    const transactionCurrency = currency === "cash" ? URLs.SUBMIT_CASH_WITHDRAWAL : URLs.SUBMIT_COIN_WITHDRAWAL;
+    await this.api.mockData(SG_TRANSACTION_METADATA, transactionCurrency);
+  }
+
+  async mockConfig(config: any, account: any): Promise<void> {
+    await this.api.mockConfig(config);
+    await this.api.mockUser(account);
+    await this.goto();
+  }
+
+  async createBankWithRandomName(): Promise<string> {
+    const bankName: string = generateRandomString(10);
+    logger.info(`Random Bank Name is ${bankName}`);
+
+    await this.currencyList.chooseCurrency(CURRENCIES.HKD);
+    await this.fiatCard.bankTransferButton.click();
+    await this.bankAccountsForm.addBankButton.click();
+    await this.addBankForm.submitBankForm({
+      beneficiary: bankName,
+      swiftCode: "BOFAUS3N",
+      accountNumber: "GB29 NWBK 6016 1331 9268 19",
+      beneficiaryAddress: "Test address",
+      beneficiaryName: bankName,
+      recipientAddress: "Test address",
+      optionalReference: "Test reference",
+      bankNickname: "Test nickname",
+    });
+    return bankName;
+  }
+
+  async checkIfBalanceIsEnough(): Promise<void> {
+    const fiatBalance = await this.bankTransferForm.getFiatBalance();
+    if (fiatBalance < 20) {
+      await this.goto();
+      await this.transferFunds.click();
+      await this.currencyList.chooseCurrency(CURRENCIES.USD);
+      await this.transferFundsForm.makeTransfer("Exchange", "Primary");
+      await this.goto();
+      await this.paymentOut.click();
+      await this.currencyList.chooseCurrency(CURRENCIES.USD);
+      await this.fiatCard.bankTransferButton.click();
+      await this.bankAccountsForm.getBankCard(0).click();
+      await this.bankAccountForm.continueButton.click();
+    }
+  }
+
+  async makeTransferBTC(amount: number): Promise<void> {
+    await this.page.goto(`${BASE_URL}/funds`);
+    await this.transferFunds.click();
+    await this.currencyList.chooseCurrency(CURRENCIES.BTC);
+    logger.info("Making Exchange->Primary transfer using BTC");
+    await this.transferFundsForm.makeTransfer("Exchange", "Primary", amount);
+  }
+
+  async hideAddBankButton(option: boolean): Promise<void> {
+    await this.api.mockConfig({
+      site: {
+        payoutAddBankDisable: option,
+      },
+    });
+  }
+
+  async showUtilizedBalance(option: boolean): Promise<void> {
+    const config = JSON.parse(JSON.stringify(SG_CONFIG));
+    config.features.funds.withdrawal.balance.utilized.enabled = option;
+    await this.api.mockConfig({
+      features: config.features,
+    });
   }
 }

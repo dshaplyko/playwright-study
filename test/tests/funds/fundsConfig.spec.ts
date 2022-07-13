@@ -8,14 +8,9 @@ test.describe("Hidden Logic of Funds Page @jira(PWU-47)", () => {
   });
 
   configurationFundsMap.forEach(({ testId, configOptions, accountOptions, tab }) => {
-    test(`should disable the viewing of ${tab} tab @criticalPath @jira(BCTGWEBPWU-${testId})`, async ({
-      api,
-      fundsPage,
-    }) => {
-      await api.mockConfig(configOptions);
-      await api.mockUser(accountOptions);
-      await fundsPage.goto();
-      await expectElementVisibility(fundsPage[tab].el, false);
+    test(`should disable the viewing of ${tab} tab @criticalPath ${testId})`, async ({ fundsPage }) => {
+      await fundsPage.mockConfig(configOptions, accountOptions);
+      await expectElementVisibility(fundsPage[tab].rootEl, false);
     });
   });
 });

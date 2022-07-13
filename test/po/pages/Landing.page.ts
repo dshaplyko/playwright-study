@@ -1,4 +1,5 @@
 import { Page, Locator } from "@playwright/test";
+import { generateMaintenancePeriod } from "../../utils";
 import { BasePage } from "./Base.page";
 
 export class LandingPage extends BasePage {
@@ -14,8 +15,6 @@ export class LandingPage extends BasePage {
 
   readonly contactUs: Locator;
 
-  readonly maintenanceBanner: Locator;
-
   constructor(page: Page, url = "/") {
     super(page);
     this.url = url;
@@ -24,7 +23,6 @@ export class LandingPage extends BasePage {
     this.marketInsights = this.page.locator("div[data-test-id='home-market-insights']");
     this.announcements = this.page.locator("div[data-test-id='home-announcements']");
     this.contactUs = this.page.locator("div[data-test-id='home-contact-us']");
-    this.maintenanceBanner = this.page.locator("div:has(>svg[data-testid='ErrorIcon']~span)");
   }
 
   getDisclaimer(name: string): Locator {
@@ -37,5 +35,29 @@ export class LandingPage extends BasePage {
 
   async goto() {
     await super.goto(this.url);
+  }
+
+  async disableOrderBook(): Promise<void> {
+    await this.api.mockConfig({
+      features: {
+        trade: {
+          enabled: false,
+        },
+        orderBook: false,
+      },
+    });
+    await this.goto();
+  }
+
+  async mockMaintenancePeriod(): Promise<void> {
+    const { timeFrom, timeTo } = generateMaintenancePeriod();
+
+    await this.api.mockConfig({
+      site: {
+        maintenanceStartTime: timeFrom,
+        maintenanceEndTime: timeTo,
+      },
+    });
+    await this.goto();
   }
 }

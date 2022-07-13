@@ -1,27 +1,32 @@
 export const profileLinkMap = [
   {
-    jiraId: "@jira(BCTGWEBPWU-346)",
+    jiraId: "@jira(XRT-346)",
     link: "announcementsLink",
     page: /announcements/,
   },
   {
-    jiraId: "@jira(BCTGWEBPWU-349)",
+    jiraId: "@jira(XRT-349)",
     link: "inThePressLink",
     page: /press/,
   },
   {
-    jiraId: "@jira(BCTGWEBPWU-351)",
+    jiraId: "@jira(XRT-351)",
     link: "marketInsightsLink",
     page: /market/,
   },
   {
-    jiraId: "@jira(BCTGWEBPWU-352)",
+    jiraId: "@jira(XRT-352)",
     link: "reportsLink",
     page: /reports/,
   },
   {
-    jiraId: "@jira(BCTGWEBPWU-354)",
+    jiraId: "@jira(XRT-354)",
     link: "settingsLink",
     page: /settings/,
+  },
+  {
+    jiraId: "@jira(XRT-414)",
+    link: "digitalAssetAddressLink",
+    page: /contacts/,
   },
 ];

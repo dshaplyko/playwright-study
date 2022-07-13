@@ -20,14 +20,14 @@ export class Block extends Element {
 
   constructor(locator: Locator) {
     super(locator);
-    this.addNewButton = this.el.locator("button[data-test-id='add-new-method-button']");
-    this.existingKeys = this.el.locator("div[data-test-id*='method-key-']");
-    this.saveButton = this.el.locator("button", { hasText: "Save" });
-    this.resetSecretButton = this.el.locator("button", { hasText: "Reset Secret" });
-    this.deleteButton = this.el.locator("button", { hasText: "Delete" });
-    this.apiKey = this.el.locator("[data-test-id*='settings-api-key-displayApiKey']");
-    this.secret = this.el.locator("span", { hasText: "Secret" });
-    this.accountGroup = this.el.locator("[data-test-id*='settings-api-key-accountGroupUuid']");
+    this.addNewButton = this.rootEl.locator("button[data-test-id='add-new-method-button']");
+    this.existingKeys = this.rootEl.locator("div[data-test-id*='method-key-']");
+    this.saveButton = this.rootEl.locator("button", { hasText: "Save" });
+    this.resetSecretButton = this.rootEl.locator("button", { hasText: "Reset Secret" });
+    this.deleteButton = this.rootEl.locator("button", { hasText: "Delete" });
+    this.apiKey = this.rootEl.locator("[data-test-id*='settings-api-key-displayApiKey']");
+    this.secret = this.rootEl.locator("span", { hasText: "Secret" });
+    this.accountGroup = this.rootEl.locator("[data-test-id*='settings-api-key-accountGroupUuid']");
   }
 
   getExistingKey(index: number): Locator {

@@ -6,8 +6,9 @@ import methods from "./test/utils/expectExtend";
 
 const config: PlaywrightTestConfig = {
   globalSetup: require.resolve("./global-setup"),
+  // globalTeardown: require.resolve("./global-teardown"),
   expect: {
-    timeout: 35000,
+    timeout: 20 * 1000,
   },
   use: {
     baseURL: BASE_URL,
@@ -24,8 +25,9 @@ const config: PlaywrightTestConfig = {
   },
   testDir: "./test/tests",
   workers: 4,
-  retries: 1,
-  timeout: 75000,
+  // retries: 1,
+  timeout: 90 * 1000,
+  maxFailures: 10,
   reporter: [
     ["list"],
     [

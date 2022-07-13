@@ -8,14 +8,17 @@ export class ContactList extends Element {
 
   readonly contacts: Locator;
 
+  readonly names: Locator;
+
   constructor(locator: Locator) {
     super(locator);
-    this.searchBar = this.el.locator("#seacrh-contact");
-    this.addNewContactButton = this.el.locator("[data-test-id='button-add-new-contact']");
-    this.contacts = this.el.locator("[data-test-id*='addresses-list-row-address']");
+    this.searchBar = this.rootEl.locator("#seacrh-contact");
+    this.addNewContactButton = this.rootEl.locator("[data-test-id='button-add-new-contact']");
+    this.contacts = this.rootEl.locator("[data-test-id*='addresses-list-row-address']");
+    this.names = this.contacts.locator("p");
   }
 
-  getContactsText(): Promise<string[]> {
-    return this.contacts.locator("p").allTextContents();
+  getContactsCount(): Promise<number> {
+    return this.contacts.count();
   }
 }

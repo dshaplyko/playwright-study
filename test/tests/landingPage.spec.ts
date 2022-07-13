@@ -1,5 +1,5 @@
 import { test } from "../po/pages";
-import { expectElementVisibility, expectElementToHaveText, generateMaintenancePeriod, useState } from "../utils";
+import { expectElementVisibility, expectElementToHaveText, useState } from "../utils";
 import { landingPageFooterMap, landingPageMaintenanceMap, SCHEDULED_MAINTENANCE_MESSAGE } from "../config";
 
 test.describe.parallel("Landing Page @jira(PWU-313)", () => {
@@ -7,31 +7,21 @@ test.describe.parallel("Landing Page @jira(PWU-313)", () => {
 
   test.beforeEach(async ({ landingPage }) => await landingPage.goto());
 
-  test("should render Landing Page for non-authorized users @smoke @jira(BCTGWEBPWU-403) @jira(BCTGWEBPWU-406) @jira(BCTGWEBPWU-444)", async ({
+  test("should render Landing Page for non-authorized users @smoke @jira(XRT-67) @jira(XRT-264) @jira(XRT-266) @jira(XRT-276)", async ({
     landingPage,
   }) => {
     await expectElementVisibility(landingPage.priceTicker, true);
     await expectElementVisibility(landingPage.header.logo, true);
-    await expectElementVisibility(landingPage.header.blockchainExplorerLink, true);
     await expectElementVisibility(landingPage.header.loginButton, true);
     await expectElementVisibility(landingPage.header.registerButton, true);
     await expectElementVisibility(landingPage.header.languageSelector, true);
     await expectElementVisibility(landingPage.orderBook, true);
   });
 
-  test("should turn off Order Book Component on the Landing Page @criticalPath @jira(BCTGWEBPWU-445)", async ({
-    api,
+  test("should turn off Order Book Component on the Landing Page @criticalPath @jira(XRT-277)", async ({
     landingPage,
   }) => {
-    await api.mockConfig({
-      features: {
-        trade: {
-          enabled: false,
-        },
-        orderBook: false,
-      },
-    });
-    await landingPage.goto();
+    await landingPage.disableOrderBook();
     await expectElementVisibility(landingPage.orderBook, false);
   });
 
@@ -48,8 +38,8 @@ test.describe.parallel("Landing Page @jira(PWU-313)", () => {
       isMarketInsightsVisible,
       isAnnouncementsVisible,
     }) => {
-      test(name, async ({ api, landingPage }) => {
-        await api.useConfig(config);
+      test(name, async ({ landingPage }) => {
+        await landingPage.api.useConfig(config);
         await landingPage.goto();
         await expectElementVisibility(landingPage.footer, true);
         await expectElementVisibility(landingPage.getDisclaimer(disclaimer), true);
@@ -65,28 +55,16 @@ test.describe.parallel("Landing Page @jira(PWU-313)", () => {
   );
 
   landingPageMaintenanceMap.forEach(({ name, config, message }) => {
-    test(name, async ({ api, landingPage }) => {
-      await api.mockConfig(config);
+    test(name, async ({ landingPage }) => {
+      await landingPage.api.mockConfig(config);
       await landingPage.goto();
       await expectElementVisibility(landingPage.maintenanceBanner, true);
       await expectElementToHaveText(landingPage.maintenanceBanner, message);
     });
   });
 
-  test("should display banner when maintenance is scheduled @extended @jira(BCTGWEBPWU-764)", async ({
-    api,
-    landingPage,
-  }) => {
-    const { timeFrom, timeTo } = generateMaintenancePeriod();
-
-    const config = {
-      site: {
-        maintenanceStartTime: timeFrom,
-        maintenanceEndTime: timeTo,
-      },
-    };
-    await api.mockConfig(config);
-    await landingPage.goto();
+  test("should display banner when maintenance is scheduled @extended @jira(XRT-281)", async ({ landingPage }) => {
+    await landingPage.mockMaintenancePeriod();
     await expectElementVisibility(landingPage.maintenanceBanner, true);
     await expectElementToHaveText(landingPage.maintenanceBanner, SCHEDULED_MAINTENANCE_MESSAGE);
   });

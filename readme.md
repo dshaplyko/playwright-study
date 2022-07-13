@@ -12,7 +12,7 @@
 
 ## 1 - Description
 
-- playwright v.18: https://playwright.dev/
+- playwright v1.20: https://playwright.dev/
 - Typescript: https://www.typescriptlang.org/
 
 <a name="installation"/>

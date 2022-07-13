@@ -1,24 +1,5 @@
 import { WIDGETS } from "../enums";
 
-export const clickTradingButtonsMap = [
-  {
-    button: "paymentIn",
-    url: /funds/,
-  },
-  {
-    button: "paymentOut",
-    url: /funds/,
-  },
-  {
-    button: "transferFunds",
-    url: /funds/,
-  },
-  {
-    button: "IRFQ",
-    url: /buysell/,
-  },
-];
-
 export const headerLinksMap = [
   {
     testName: "activity",
@@ -39,10 +20,6 @@ export const headerLinksMap = [
   {
     testName: "buysell",
     link: "buySellLink",
-  },
-  {
-    testName: "contacts",
-    link: "digitalAssetAddressLink",
   },
 ];
 
@@ -94,55 +71,49 @@ export const portfolioMap = [
 
 export const featureHighlightMap = [
   {
-    testName: "should display Get Verified as a feature Highlight @criticalPath @jira(BCTGWEBPWU-81)",
+    testName: "Get Verified @criticalPath @jira(XRT-94)",
     config: {
       items: ["GET_VERIFIED"],
     },
   },
   {
-    testName: "should display Cash Out as a feature Highlight @criticalPath @jira(BCTGWEBPWU-82)",
+    testName: "Cash Out @jira(XRT-96)",
     config: {
       items: ["CASH_OUT"],
     },
   },
   {
-    testName: "should display Payment In as a feature Highlight @criticalPath @jira(BCTGWEBPWU-83)",
+    testName: "Payment In @jira(XRT-97)",
     config: {
       items: ["DEPOSIT_CASH"],
     },
   },
   {
-    testName: "should display Purchase as a feature Highlight @criticalPath @jira(BCTGWEBPWU-84)",
+    testName: "Purchase @jira(XRT-100)",
     config: {
       items: ["BUY_COIN"],
     },
   },
   {
-    testName: "should display Transfer In as a feature Highlight @criticalPath @jira(BCTGWEBPWU-85)",
+    testName: "Transfer In @jira(XRT-98)",
     config: {
       items: ["DEPOSIT_COIN"],
     },
   },
   {
-    testName: "should display Enable 2 Factor @criticalPath @jira(BCTGWEBPWU-86)",
+    testName: "Enable 2 Factor @jira(XRT-99)",
     config: {
       items: ["ENABLE_TWO_FACTOR"],
     },
   },
   {
-    testName: "should display Your Console @criticalPath @jira(BCTGWEBPWU-87)",
+    testName: "Your Console @jira(XRT-101)",
     config: {
       items: ["NEW_SITE_CONSOLE"],
     },
   },
   {
-    testName: "should display Register External Users @criticalPath @jira(BCTGWEBPWU-88)",
-    config: {
-      items: ["REGISTER_EXTERNAL_ADDRESSES"],
-    },
-  },
-  {
-    testName: "should display Customer Support @criticalPath @jira(BCTGWEBPWU-89)",
+    testName: "Customer Support @criticalPath @jira(XRT-102)",
     config: {
       items: ["CUSTOMER_SUPPORT"],
     },
@@ -151,17 +122,17 @@ export const featureHighlightMap = [
 
 export const tradingButtonsMap = [
   {
-    testName: "should disable Payment In Button @criticalPath @jira(BCTGWEBPWU-78)",
+    testName: "Payment In Button @jira(XRT-92)",
     config: {
       depositRestricted: true,
       tradeRestricted: false,
     },
     paymentIn: true,
-    paymentOut: true,
+    paymentOut: false,
     exchange: false,
   },
   {
-    testName: "should disable Payment Out Button @criticalPath @jira(BCTGWEBPWU-79)",
+    testName: "Payment Out Button @jira(XRT-93)",
     config: {
       withdrawalRestricted: true,
       tradeRestricted: false,
@@ -171,12 +142,12 @@ export const tradingButtonsMap = [
     exchange: false,
   },
   {
-    testName: "should disable Exchange Button @criticalPath @jira(BCTGWEBPWU-80)",
+    testName: "Exchange Button @jira(XRT-95)",
     config: {
       tradeRestricted: true,
     },
     paymentIn: false,
-    paymentOut: true,
+    paymentOut: false,
     exchange: true,
   },
 ];
@@ -184,7 +155,7 @@ export const tradingButtonsMap = [
 export const configOptionsMap = [
   {
     testName:
-      "should hide Payment in / Payment out / Transfer Funds buttons on the Portfolio Page @criticalPath @jira(BCTGWEBPWU-67)",
+      "hide Payment in / Payment out / Transfer Funds buttons on the Portfolio Page @criticalPath @jira(XRT-82)",
     config: {
       features: {
         funds: {
@@ -202,8 +173,7 @@ export const configOptionsMap = [
     cashOut: false,
   },
   {
-    testName:
-      "should hide Exchange button and column / Transfer Funds button on the Portfolio Page @criticalPath @jira(BCTGWEBPWU-68) @jira(BCTGWEBPWU-69)",
+    testName: "hide Exchange button and column / Transfer Funds button @jira(XRT-81) @jira(XRT-83)",
     config: {
       features: {
         trade: {
@@ -221,8 +191,7 @@ export const configOptionsMap = [
     cashOut: false,
   },
   {
-    testName:
-      "should turn on Leverage button and column on the Portfolio Page @criticalPath @jira(BCTGWEBPWU-70) @jira(BCTGWEBPWU-71)",
+    testName: "turn on Leverage button and column @jira(XRT-84) @jira(XRT-85)",
     config: {
       leverage: {
         trade: {
@@ -240,7 +209,7 @@ export const configOptionsMap = [
     cashOut: false,
   },
   {
-    testName: "should turn on Buy and hide IRFQ buttons on the Portfolio Page @criticalPath @jira(BCTGWEBPWU-72)",
+    testName: "turn on Buy and hide IRFQ buttons @jira(XRT-86)",
     config: {
       features: {
         buyonly: true,
@@ -256,7 +225,7 @@ export const configOptionsMap = [
     cashOut: false,
   },
   {
-    testName: "should turn on Cash Out button on the Portfolio Page @criticalPath @jira(BCTGWEBPWU-73)",
+    testName: "turn on Cash Out button @jira(XRT-87)",
     config: {
       features: {
         debitCards: true,
@@ -275,7 +244,7 @@ export const configOptionsMap = [
 
 export const configWidgetsMap = [
   {
-    testName: "should disable Digital Assets and FIAT Currencies widgets @criticalPath @jira(BCTGWEBPWU-75)",
+    testName: "Digital Assets and FIAT Currencies widgets @jira(XRT-89)",
     config: {
       portfolio: {
         showAssetsBox: false,
@@ -284,13 +253,11 @@ export const configWidgetsMap = [
     yourPortfolio: true,
     digitalAssets: false,
     fiatCurrencies: false,
-    chart: true,
     tradingButtons: true,
     holdingList: true,
-    yourConsole: true,
   },
   {
-    testName: "should disable Your Portfolio widget @criticalPath @jira(BCTGWEBPWU-74)",
+    testName: "Your Portfolio widget @jira(XRT-88)",
     config: {
       features: {
         dashboardTotalBalance: false,
@@ -299,13 +266,11 @@ export const configWidgetsMap = [
     yourPortfolio: false,
     digitalAssets: true,
     fiatCurrencies: true,
-    chart: true,
     tradingButtons: true,
     holdingList: true,
-    yourConsole: true,
   },
   {
-    testName: "should disable All Widgets @criticalPath @jira(BCTGWEBPWU-76)",
+    testName: "All Widgets @jira(XRT-90)",
     config: {
       portfolio: {
         showBalanceBox: false,
@@ -314,13 +279,11 @@ export const configWidgetsMap = [
     yourPortfolio: false,
     digitalAssets: false,
     fiatCurrencies: false,
-    chart: true,
     tradingButtons: true,
     holdingList: true,
-    yourConsole: true,
   },
   {
-    testName: "should disable All except of Feature Highlight Component @criticalPath @jira(BCTGWEBPWU-77)",
+    testName: "All except of Feature Highlight Component @jira(XRT-91)",
     config: {
       portfolio: {
         showAsset: false,
@@ -329,9 +292,7 @@ export const configWidgetsMap = [
     yourPortfolio: false,
     digitalAssets: false,
     fiatCurrencies: false,
-    chart: false,
     tradingButtons: false,
     holdingList: false,
-    yourConsole: true,
   },
 ];

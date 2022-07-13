@@ -8,7 +8,7 @@ export class Chart extends Element {
 
   constructor(locator: Locator) {
     super(locator);
-    this.currency = this.el.locator("text[dominant-baseline='text-after-edge'] tspan");
-    this.percentage = this.el.locator("text[dominant-baseline='hanging'] tspan");
+    this.currency = this.rootEl.locator("text[dominant-baseline='text-after-edge'] tspan");
+    this.percentage = this.rootEl.locator("text[dominant-baseline='hanging'] tspan");
   }
 }

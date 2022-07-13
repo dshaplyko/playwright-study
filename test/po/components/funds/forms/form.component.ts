@@ -1,4 +1,5 @@
 import { Locator } from "@playwright/test";
+import { getValueAsNumber } from "../../../../utils";
 import { Element } from "../../basic/element";
 import { Table } from "../../general/table.component";
 
@@ -29,6 +30,8 @@ export class Form extends Element {
 
   readonly maximumFee: Locator;
 
+  readonly utilizedBalance: Locator;
+
   readonly amountField: Element;
 
   readonly paymentInButton: Locator;
@@ -43,29 +46,30 @@ export class Form extends Element {
 
   constructor(locator: Locator) {
     super(locator);
-    this.header = this.el.locator("[data-test-id*='methods-header'], [data-test-id*='title']");
-    this.bankWireButton = this.el.locator("[data-test-id='funds-payment-method-button-bank-wire']");
-    this.errorMessage = this.el.locator(
+    this.header = this.rootEl.locator("[data-test-id*='methods-header'], [data-test-id*='title']");
+    this.bankWireButton = this.rootEl.locator("[data-test-id='funds-payment-method-button-bank-wire']");
+    this.errorMessage = this.rootEl.locator(
       "[data-test-id='fiat-payment-in-method-error-disabled'], span[data-test-id='payment-error-cannot-create'], span[data-test-id='fiat-payment-in-form-error']"
     );
-    this.infoMessage = this.el.locator("span[data-test-id='payment-info-message']");
-    this.qrCode = this.el.locator("[data-test-id='payment-qr-code']");
-    this.createNewAddressButton = this.el.locator("button[data-test-id*='create-new-address']");
-    this.alertMessage = this.el.locator("span[data-test-id='payment-alert-message']");
-    this.destinationAddress = this.el.locator("span[data-test-id='payment-destination-address']");
-    this.balance = this.el.locator("[data-test-id$='balance']");
-    this.bankTransferButton = this.el.locator("[data-test-id='funds-payment-method-button-bank']");
-    this.transferOutButton = this.el.locator("[data-test-id='funds-payment-method-button-wallet']");
-    this.networkFee = this.el.locator("span[data-test-id='funds-payment-out-balance-network-fee']");
-    this.maximumFee = this.el.locator("span[data-test-id='funds-payment-out-balance-max']");
-    this.amountField = new Element(this.el.locator("input[placeholder*='0']"));
-    this.paymentInButton = this.el.locator("button[type='submit']");
-    this.percentControls = this.el.locator(
+    this.infoMessage = this.rootEl.locator("span[data-test-id='payment-info-message']");
+    this.qrCode = this.rootEl.locator("[data-test-id='payment-qr-code']");
+    this.createNewAddressButton = this.rootEl.locator("button[data-test-id*='create-new-address']");
+    this.alertMessage = this.rootEl.locator("span[data-test-id='payment-alert-message']");
+    this.destinationAddress = this.rootEl.locator("span[data-test-id='payment-destination-address']");
+    this.balance = this.rootEl.locator("[data-test-id$='balance']");
+    this.bankTransferButton = this.rootEl.locator("[data-test-id='funds-payment-method-button-bank']");
+    this.transferOutButton = this.rootEl.locator("[data-test-id='funds-payment-method-button-wallet']");
+    this.networkFee = this.rootEl.locator("span[data-test-id='funds-payment-out-balance-network-fee']");
+    this.maximumFee = this.rootEl.locator("span[data-test-id='funds-payment-out-balance-max']");
+    this.utilizedBalance = this.rootEl.locator("span[data-test-id='funds-payment-out-balance-utilized']");
+    this.amountField = new Element(this.rootEl.locator("input[placeholder*='0']"));
+    this.paymentInButton = this.rootEl.locator("button[type='submit']");
+    this.percentControls = this.rootEl.locator(
       "input[name='percentControls'], input[name='percentageChoiceRadioGroup'], input[name='bankTransferPercentControls']"
     );
-    this.continueButton = this.el.locator("text='Continue'");
-    this.deleteButton = this.el.locator("text='Delete'");
-    this.bankWireNotification = new Table(this.el.locator("[aria-label='Deposit Notification Table']"));
+    this.continueButton = this.rootEl.locator("text='Continue'");
+    this.deleteButton = this.rootEl.locator("text='Delete'");
+    this.bankWireNotification = new Table(this.rootEl.locator(".MuiTableContainer-root"));
   }
 
   async calculateFeesSum(): Promise<number> {
@@ -75,8 +79,9 @@ export class Form extends Element {
     return Number(sum.toFixed(2));
   }
 
-  async getFiatBalance(): Promise<string> {
-    return this.balance.textContent();
+  async getFiatBalance(): Promise<number> {
+    const fiatBalance = await this.balance.textContent();
+    return parseInt(fiatBalance.match(/[\d,.]/g).join(""));
   }
 
   async getTotalBalance(): Promise<number> {
@@ -93,5 +98,10 @@ export class Form extends Element {
     } else if (percent === 100) {
       await this.percentControls.nth(3).click();
     }
+  }
+
+  async getValueFromAmount(): Promise<string> {
+    const value = await this.amountField.getValue();
+    return String(getValueAsNumber(value));
   }
 }

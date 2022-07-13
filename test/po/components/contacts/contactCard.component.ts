@@ -32,18 +32,18 @@ export class ContactCard extends Element {
   constructor(locator: Locator, page: Page) {
     super(locator);
     this.page = page;
-    this.contactIcon = this.el.locator("div[data-test-id='contact-icon']");
-    this.editButton = this.el.locator("button[data-test-id='edit-button']");
-    this.transferOutDigitalAssetButton = this.el.locator("a", { hasText: "Transfer out Digital Assets" });
-    this.contactNameInput = this.el.locator("div[data-test-id='contact-name-input'] input");
-    this.referenceNameInput = this.el.locator("input[placeholder*='digital asset address name.']");
-    this.digitalAssetAddressInput = this.el.locator("input[placeholder*='digital asset address.']");
-    this.digitalAsset = new Dropdown(this.el.locator("#currency"), this.page);
-    this.cancelButton = this.el.locator("button[data-test-id='cancel-button']");
-    this.saveButton = this.el.locator("button[data-test-id='save-button']");
-    this.deleteContactButton = this.el.locator("button[data-test-id='delete-contact-button']");
-    this.deleteAddressButton = this.el.locator("button[data-test-id='delete-address-button']");
-    this.addNewAddressButton = this.el.locator("button[data-test-id='add-new-address-button']");
+    this.contactIcon = this.rootEl.locator("div[data-test-id='contact-icon']");
+    this.editButton = this.rootEl.locator("button[data-test-id='edit-button']");
+    this.transferOutDigitalAssetButton = this.rootEl.locator("button", { hasText: "Transfer out Digital Assets" });
+    this.contactNameInput = this.rootEl.locator("div[data-test-id='contact-name-input'] input");
+    this.referenceNameInput = this.rootEl.locator("input[placeholder*='digital asset address name.']");
+    this.digitalAssetAddressInput = this.rootEl.locator("input[placeholder*='digital asset address.']");
+    this.digitalAsset = new Dropdown(this.rootEl.locator("#currency"), this.page);
+    this.cancelButton = this.rootEl.locator("button[data-test-id='cancel-button']");
+    this.saveButton = this.rootEl.locator("button[data-test-id='save-button']");
+    this.deleteContactButton = this.rootEl.locator("button[data-test-id='delete-contact-button']");
+    this.deleteAddressButton = this.rootEl.locator("button[data-test-id='delete-address-button']");
+    this.addNewAddressButton = this.rootEl.locator("button[data-test-id='add-new-address-button']");
   }
 
   async fillContactCard({
@@ -60,7 +60,7 @@ export class ContactCard extends Element {
     await this.contactNameInput.fill(name);
     await this.referenceNameInput.fill(reference);
     await this.digitalAssetAddressInput.fill(assetAddress);
-    await this.digitalAsset.selectByText(currency);
+    await this.digitalAsset.clickByText(currency);
     await this.saveButton.click();
   }
 

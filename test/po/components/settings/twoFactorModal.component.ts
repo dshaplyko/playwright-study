@@ -12,9 +12,9 @@ export class TwoFactorModal extends Modal {
 
   constructor(locator: Locator, page: Page) {
     super(locator, page);
-    this.heading = this.el.locator("[data-test-id='key-add-heading']");
-    this.qrCode = this.el.locator("[data-test-id='add-new-otp-qr-code']");
-    this.codeInput = this.el.locator("#code");
-    this.errorMessage = this.el.locator("[data-test-id='code-validation-error']");
+    this.heading = this.rootEl.locator("[data-test-id='key-add-heading']");
+    this.qrCode = this.rootEl.locator("[data-test-id='add-new-otp-qr-code']");
+    this.codeInput = this.rootEl.locator("#code");
+    this.errorMessage = this.rootEl.locator("[data-test-id='code-validation-error']");
   }
 }

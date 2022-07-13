@@ -1,15 +1,5 @@
 import { Page } from "@playwright/test";
-import {
-  loginRequestBody,
-  SG_CONFIG,
-  SG_USER,
-  SG_NEXT_STEPS,
-  BASE_URL,
-  TRANSACTION_FILTER_TYPES,
-  TRANSACTION_STATUSES,
-  URLs,
-  TWO_FA_DATA,
-} from "../../config";
+import { SG_CONFIG, SG_USER, SG_NEXT_STEPS, URLs, SG_CURRENT, ACCOUNTS } from "../../config";
 import { Logger } from "../../logger/logger";
 const logger = new Logger("API requests");
 
@@ -18,23 +8,6 @@ export class Api {
 
   constructor(page: Page) {
     this.page = page;
-  }
-
-  async loginViaApi() {
-    await this.page.goto("/user");
-    const response: any = await this.page.request.post(`${BASE_URL}/moon/v1/login`, {
-      data: JSON.stringify(loginRequestBody),
-    });
-    const { authToken }: any = await response.json();
-    logger.debug(authToken);
-    await this.page.request.post(`${BASE_URL}/moon/v1/login`, {
-      data: JSON.stringify(loginRequestBody),
-    });
-    await this.page.evaluate(`window.localStorage.setItem('authToken', '${authToken}')`);
-    await this.page.goto("/portfolio");
-    await this.page.waitForURL(/portfolio/, {
-      waitUntil: "domcontentloaded",
-    });
   }
 
   async useConfig(config: any, url: URLs = URLs.CONFIG): Promise<void> {
@@ -95,6 +68,11 @@ export class Api {
       ...config.twofa,
     };
 
+    body.features.simpleTrade.basket = {
+      ...body.features.simpleTrade.basket,
+      ...config.basket,
+    };
+
     logger.debug(JSON.stringify(body));
     await this.useConfig(body);
   }
@@ -110,8 +88,20 @@ export class Api {
     await this.useConfig(body, URLs.ACCOUNT);
   }
 
+  async mockCurrent(config: any): Promise<void> {
+    const body = JSON.parse(JSON.stringify(SG_CURRENT));
+
+    body.accountGroupsData = {
+      ...body.accountGroupsData,
+      ...config,
+    };
+    body.data = [ACCOUNTS];
+    logger.debug(JSON.stringify(body));
+    await this.useConfig(body, URLs.CURRENT);
+  }
+
   async mockNextSteps(config: any): Promise<void> {
-    const body = JSON.parse(JSON.stringify(SG_NEXT_STEPS));
+    const body = { ...SG_NEXT_STEPS };
 
     body.data = {
       ...body.data,
@@ -134,70 +124,29 @@ export class Api {
     });
   }
 
-  async mock2FAresponse(config: any): Promise<void> {
-    const body = JSON.parse(JSON.stringify(TWO_FA_DATA));
-
-    body.twoFactor.actions = config;
-    await this.page.route(URLs.LOGIN, (route) => {
-      route.fulfill({
-        status: 401,
-        body: JSON.stringify(body),
-      });
-    });
-  }
-
-  async showTwoFA(enabled: boolean, showDisableButton = true): Promise<void> {
-    const data = {
-      twofa: {
-        enabled,
-        showDisableButton,
-      },
-    };
-
-    return this.mockConfig(data);
-  }
-
   async unrout(url: URLs): Promise<void> {
     await this.page.unroute(url);
   }
 
   async unroutAll(): Promise<void> {
-    Object.values(URLs).forEach(async (value) => {
-      await this.page.unroute(value);
-    });
+    for (const url in URLs) {
+      if ({}.hasOwnProperty.call(url, URLs)) {
+        await this.page.unroute(URLs[url]);
+      }
+    }
   }
 
   async getResponseBody(request: string, action: Promise<void>): Promise<any> {
     try {
-      const [Response] = await Promise.all([
+      const [response] = await Promise.all([
         this.page.waitForResponse((response) => response.url().includes(request), {
           timeout: 10000,
         }),
         action,
       ]);
-      return Response.json();
+      return response.json();
     } catch (e) {
       throw new Error(`The ${request} request has not been intercepted`);
     }
-  }
-
-  async getFiltersFromResponse(action: Promise<void>): Promise<{
-    types: string[];
-    currencies: string[];
-    statuses: string[];
-  }> {
-    const { types, statuses, currencies } = await this.getResponseBody("filters", action);
-    logger.debug(
-      JSON.stringify({
-        types,
-        statuses,
-        currencies,
-      })
-    );
-    return {
-      types: types.map((item: string) => TRANSACTION_FILTER_TYPES[item]),
-      currencies,
-      statuses: statuses.map((item: string) => TRANSACTION_STATUSES[item]),
-    };
   }
 }

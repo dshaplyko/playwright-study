@@ -15,8 +15,6 @@ export class Header extends Element {
 
   readonly buySellLink: Locator;
 
-  readonly digitalAssetAddressLink: Locator;
-
   readonly notificationsButton: Locator;
 
   readonly profileButton: Locator;
@@ -31,18 +29,17 @@ export class Header extends Element {
 
   constructor(locator: Locator) {
     super(locator);
-    this.logo = this.el.locator("a[href='/']");
-    this.portfolioLink = this.el.locator("a[href*='portfolio']");
-    this.activitiesLink = this.el.locator("a[href*='activity']");
-    this.fundsLink = this.el.locator("a[href*='funds']");
-    this.tradeLink = this.el.locator("a[href*='trade']");
-    this.buySellLink = this.el.locator("a[href*='buysell']");
-    this.digitalAssetAddressLink = this.el.locator("a[href*='contacts']");
-    this.notificationsButton = this.el.locator("button[data-test-id='notifications-menu-item']");
-    this.profileButton = this.el.locator("button[data-test-id='button-profile']");
-    this.loginButton = this.el.locator("a[href*='signin']");
-    this.registerButton = this.el.locator("a[href*='register']");
-    this.blockchainExplorerLink = this.el.locator("a[href*='anxexplorer']");
-    this.languageSelector = this.el.locator("div[data-test-id='language-selector']");
+    this.logo = this.rootEl.locator("a[href='/']");
+    this.portfolioLink = this.rootEl.locator("a[href*='portfolio']");
+    this.activitiesLink = this.rootEl.locator("a[href*='activity']");
+    this.fundsLink = this.rootEl.locator("a[href*='funds']");
+    this.tradeLink = this.rootEl.locator("a[href*='trade']");
+    this.buySellLink = this.rootEl.locator("a[href*='buysell']");
+    this.notificationsButton = this.rootEl.locator("button[data-test-id='notifications-menu-item']");
+    this.profileButton = this.rootEl.locator("button[data-test-id='button-profile']");
+    this.loginButton = this.rootEl.locator("a[href*='signin']");
+    this.registerButton = this.rootEl.locator("a[href*='register']");
+    this.blockchainExplorerLink = this.rootEl.locator("a[href*='anxexplorer']");
+    this.languageSelector = this.rootEl.locator("div[data-test-id='language-selector']");
   }
 }

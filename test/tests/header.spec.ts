@@ -7,23 +7,20 @@ test.describe("Header Component", () => {
     await portfolioPage.goto();
   });
 
-  test("should display header with all necessary elements @smoke @jira(BCTGWEBPWU-34) @jira(BCTGWEBPWU-405)", async ({
-    portfolioPage,
-  }) => {
-    await expectElementVisibility(portfolioPage.header.el, true);
+  test("should display header with all necessary elements @smoke @jira(XRT-223)", async ({ portfolioPage }) => {
+    await expectElementVisibility(portfolioPage.header.rootEl, true);
     await expectElementVisibility(portfolioPage.header.logo, true);
     await expectElementVisibility(portfolioPage.header.portfolioLink, true);
     await expectElementVisibility(portfolioPage.header.activitiesLink, true);
     await expectElementVisibility(portfolioPage.header.fundsLink, true);
     await expectElementVisibility(portfolioPage.header.tradeLink, true);
     await expectElementVisibility(portfolioPage.header.buySellLink, true);
-    await expectElementVisibility(portfolioPage.header.digitalAssetAddressLink, true);
     await expectElementVisibility(portfolioPage.header.notificationsButton, true);
     await expectElementVisibility(portfolioPage.header.profileButton, true);
   });
 
   headerLinksMap.forEach(({ testName, link }) => {
-    test(`clicking on ${testName} link should lead to ${testName} page @criticalPath @jira(BCTGWEBPWU-35)`, async ({
+    test(`clicking on ${testName} link should lead to ${testName} page @criticalPath @jira(XRT-224)`, async ({
       portfolioPage,
     }) => {
       await portfolioPage.header[link].click();
@@ -31,16 +28,16 @@ test.describe("Header Component", () => {
     });
   });
 
-  test("clicking on logo should lead to Home Page @smoke @jira(BCTGWEBPWU-38)", async ({ portfolioPage }) => {
+  test("clicking on logo should lead to Home Page @smoke @jira(XRT-227)", async ({ portfolioPage }) => {
     await portfolioPage.header.logo.click();
     await portfolioPage.expectUrlContains("/");
   });
 
-  test("clicking notifications button should open Notifications menu @smoke @jira(BCTGWEBPWU-37)", async ({
+  test("clicking notifications button should open Notifications menu @smoke @jira(XRT-226)", async ({
     portfolioPage,
   }) => {
     await portfolioPage.header.notificationsButton.click();
-    await expectElementVisibility(portfolioPage.notifications.el, true);
+    await expectElementVisibility(portfolioPage.notifications.rootEl, true);
   });
 
   test("should open iframe on the Exchange page @smoke @jira(PWU-536)", async ({ portfolioPage }) => {

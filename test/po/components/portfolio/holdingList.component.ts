@@ -5,8 +5,6 @@ import { calculateSumFromTable, getValueAsNumber } from "../../../utils";
 export class HoldingList extends Table {
   readonly currencyRows: Locator;
 
-  readonly distributionRows: Locator;
-
   readonly totalRows: Locator;
 
   readonly totalRowsCurrency: Locator;
@@ -19,18 +17,20 @@ export class HoldingList extends Table {
 
   readonly qrCode: Locator;
 
+  readonly currencyImages: Locator;
+
   constructor(locator: Locator) {
     super(locator);
-    this.currencyRows = this.rows.locator("th[data-test-id='currency'] div, [data-test-id*='irfq-holidng-list-item']");
-    this.totalRows = this.rows.locator("td[data-test-id='total'] div[class*='css-0']");
-    this.totalRowsCurrency = this.rows.locator("td[data-test-id='total'] div[class*='80u1qc']");
-    this.primaryRows = this.rows.locator("td[data-test-id='primary'] div[class*='css-0']");
-    this.exchangeRows = this.rows.locator("td[data-test-id='exchange'] div[class*='css-0']");
+    this.currencyRows = this.rows.locator("td[data-test-id^='currency'] div, [data-test-id*='irfq-holidng-list-item']");
+    this.totalRows = this.rows.locator("td[data-test-id^='total'] [data-test-id^='originalCcy']");
+    this.totalRowsCurrency = this.rows.locator("td[data-test-id^='total'] span[data-test-id*='userCcy']");
+    this.primaryRows = this.rows.locator("td[data-test-id^='primary'] [data-test-id^='originalCcy']");
+    this.exchangeRows = this.rows.locator("td[data-test-id^='exchange'] [data-test-id^='originalCcy']");
     this.brokerageRows = this.rows.locator(
-      "td[data-test-id='brokerage'] div[class*='css-0'], [data-test-id*='irfq-holidng-list-balance']"
+      "td[data-test-id^='brokerage'] [data-test-id^='originalCcy'], [data-test-id*='irfq-holidng-list-balance']"
     );
-    this.distributionRows = this.rows.locator("td[data-test-id='distribution']");
     this.qrCode = this.currencyRows.locator("a[href*='BTC']");
+    this.currencyImages = this.currencyRows.locator("img");
   }
 
   getTotal(index: number) {
@@ -49,16 +49,12 @@ export class HoldingList extends Table {
     return this.exchangeRows.nth(index).innerText();
   }
 
-  getPercentage(index: number) {
-    return this.distributionRows.nth(index - 1).innerText();
-  }
-
   getCurrency(index: number) {
     return this.currencyRows.nth(index - 1).innerText();
   }
 
   async clickCurrencyByText(text: string): Promise<void> {
-    return this.currencyRows.locator(`text=${text}`).click();
+    return this.currencyRows.locator(`text=${text}`).first().click();
   }
 
   async getCurrencies(): Promise<string[]> {
@@ -69,26 +65,15 @@ export class HoldingList extends Table {
     return currencies;
   }
 
-  async getPercentages(): Promise<number[]> {
-    await this.waitForVisible();
-    const texts: string[] = await this.distributionRows.allInnerTexts();
-    return texts.map((item) => getValueAsNumber(item));
-  }
-
   async calculateTotalBalance(): Promise<number> {
     await this.waitForVisible();
     return calculateSumFromTable(await this.totalRowsCurrency.allInnerTexts());
   }
 
-  async calculateTotalPercentage(): Promise<number> {
-    await this.waitForVisible();
-    return Math.ceil(calculateSumFromTable(await this.distributionRows.allInnerTexts()));
-  }
-
   async checkSumOfEachColumn(): Promise<any> {
     const rowsCount: number = await this.getRowsCount();
 
-    for (let i = 1; i < rowsCount; i++) {
+    for (let i = 0; i < rowsCount; i++) {
       return expect(Math.trunc(getValueAsNumber(await this.getTotal(i)))).toEqual(
         Math.trunc(
           calculateSumFromTable([await this.getBrokerage(i), await this.getExchange(i), await this.getPrimary(i)])
@@ -105,5 +90,13 @@ export class HoldingList extends Table {
   async getCurrencyAmount<T>(currency: T): Promise<number> {
     const index = await this.getCurrencyIndex(currency);
     return getValueAsNumber(await this.getBrokerage(index));
+  }
+
+  async checkImagesVisibility(): Promise<void> {
+    const rowsCount: number = await this.getRowsCount();
+
+    for (let i = 0; i < rowsCount; i++) {
+      await expect(this.currencyImages.nth(i)).toBeVisible();
+    }
   }
 }

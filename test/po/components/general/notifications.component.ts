@@ -16,11 +16,11 @@ export class Notifications extends Element {
 
   constructor(locator: Locator) {
     super(locator);
-    this.list = this.el.locator("[data-test-id='notifications-list']");
+    this.list = this.rootEl.locator("[data-test-id='notifications-list']");
     this.transactionDates = this.list.locator("[data-test-id='notifications-transaction-date']");
-    this.latestTransactionTime = this.transactionDates.nth(0);
-    this.removeIcons = this.el.locator("[data-testid='RemoveCircleOutlineIcon']");
-    this.placeholder = this.el.locator("[data-test-id='notifications-placeholder']");
+    this.latestTransactionTime = this.transactionDates.first();
+    this.removeIcons = this.rootEl.locator("[data-testid='RemoveCircleOutlineIcon']");
+    this.placeholder = this.rootEl.locator("[data-test-id='notifications-placeholder']");
   }
 
   async getAllDates(): Promise<string[]> {

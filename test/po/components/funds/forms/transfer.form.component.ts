@@ -32,27 +32,27 @@ export class Transfer extends Form {
 
   constructor(locator: Locator) {
     super(locator);
-    this.walletAddressInput = this.el.locator("#funds-digital-payment-out-wallet-form-coin-address");
-    this.amountToBeSentInput = this.el.locator("#funds-digital-payment-out-wallet-form-amount-to-sent");
-    this.equivalentAmountInput = this.el.locator("#funds-digital-payment-out-wallet-form-equivalent-amount");
-    this.totalTransferOutFromWalletInput = this.el.locator("#funds-digital-payment-out-wallet-form-amount");
-    this.maximumButton = this.el.locator(
+    this.walletAddressInput = this.rootEl.locator("#funds-digital-payment-out-wallet-form-coin-address");
+    this.amountToBeSentInput = this.rootEl.locator("#funds-digital-payment-out-wallet-form-amount-to-sent");
+    this.equivalentAmountInput = this.rootEl.locator("#funds-digital-payment-out-wallet-form-equivalent-amount");
+    this.totalTransferOutFromWalletInput = this.rootEl.locator("#funds-digital-payment-out-wallet-form-amount");
+    this.maximumButton = this.rootEl.locator(
       "button[data-test-id='funds-digital-payment-out-wallet-form-maximum'], button[data-test-id='funds-payment-out-bank-transfer-form-max-button']"
     );
-    this.paymentOutButton = this.el.locator(
+    this.paymentOutButton = this.rootEl.locator(
       "button[data-test-id='funds-digital-payment-out-wallet-form-payment-out'], button[data-test-id='funds-payment-out-bank-transfer-form-payment-out-button']"
     );
-    this.successMessage = this.el.locator("p");
+    this.successMessage = this.rootEl.locator("p");
     this.activityLink = this.successMessage.locator("a[href*='activity']");
-    this.doneButton = this.el.locator("button[data-test-id='results-done-button']");
-    this.errorInvalidAddress = this.el.locator(
+    this.doneButton = this.rootEl.locator("button[data-test-id='results-done-button']");
+    this.errorInvalidAddress = this.rootEl.locator(
       "[data-test-id='funds-digital-payment-out-wallet-form-general-submit-errors']"
     );
-    this.errorInsufficientAmount = this.el.locator(
+    this.errorInsufficientAmount = this.rootEl.locator(
       "[data-test-id='funds-payment-out-bank-transfer-form-field-amount-error']"
     );
-    this.currency = this.el.locator("span[data-test-id='funds-payment-out-bank-transfer-form-currency']");
-    this.bankMethod = this.el.locator("span[data-test-id='funds-payment-out-bank-transfer-form-bank-method']");
-    this.bankName = this.el.locator("span[data-test-id='funds-payment-out-bank-transfer-form-bank-name']");
+    this.currency = this.rootEl.locator("span[data-test-id='funds-payment-out-bank-transfer-form-currency']");
+    this.bankMethod = this.rootEl.locator("span[data-test-id='funds-payment-out-bank-transfer-form-bank-method']");
+    this.bankName = this.rootEl.locator("span[data-test-id='funds-payment-out-bank-transfer-form-bank-name']");
   }
 }

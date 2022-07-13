@@ -11,9 +11,9 @@ export class ConfirmationModal extends Modal {
 
   constructor(locator: Locator, page: Page) {
     super(locator, page);
-    this.paymentOutButton = this.el.locator("button[data-test-id='funds-confirmation-dialog-primary-button']");
-    this.amount = this.el.locator("span[data-test-id='funds-confirmation-dialog-total-amount']");
-    this.deleteButton = this.el.locator("button", { hasText: "Delete" });
+    this.paymentOutButton = this.rootEl.locator("button[data-test-id='funds-confirmation-dialog-primary-button']");
+    this.amount = this.rootEl.locator("span[data-test-id='funds-confirmation-dialog-total-amount']");
+    this.deleteButton = this.rootEl.locator("button", { hasText: "Delete" });
   }
 
   async getBalance(): Promise<number> {

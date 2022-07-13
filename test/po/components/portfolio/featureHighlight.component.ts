@@ -14,10 +14,10 @@ export class FeatureHighlight extends Element {
 
   constructor(locator: Locator) {
     super(locator);
-    this.name = new Element(this.el.locator("h4"));
-    this.goToConsoleButton = this.el.locator("[data-test-id='go-to-console']");
-    this.enable2FButton = this.el.locator("[data-test-id='enable-2fa']");
-    this.verifyButton = this.el.locator("[data-test-id='verify']");
-    this.secondButton = this.el.locator("a").nth(1);
+    this.name = new Element(this.rootEl.locator("h4"));
+    this.goToConsoleButton = this.rootEl.locator("[data-test-id='go-to-console']");
+    this.enable2FButton = this.rootEl.locator("[data-test-id='enable-2fa']");
+    this.verifyButton = this.rootEl.locator("[data-test-id='verify']");
+    this.secondButton = this.rootEl.locator("a").nth(1);
   }
 }

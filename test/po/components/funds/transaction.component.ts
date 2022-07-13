@@ -8,7 +8,11 @@ export class Transaction extends Element {
 
   constructor(locator: Locator) {
     super(locator);
-    this.title = this.el.locator("span[data-test-id$='recent-transactions-title']");
-    this.lines = this.el.locator("div[data-test-id$='recent-transactions-records']>div");
+    this.title = this.rootEl.locator("span[data-test-id$='recent-transactions-title']");
+    this.lines = this.rootEl.locator("div[data-test-id$='recent-transactions-records']>div");
+  }
+
+  getTransaction(index: number): Locator {
+    return this.lines.nth(index - 1);
   }
 }

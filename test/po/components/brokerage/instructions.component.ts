@@ -8,8 +8,8 @@ export class Instructions extends Element {
 
   constructor(locator: Locator) {
     super(locator);
-    this.expandCollapseButton = this.el.locator("button");
-    this.contentArea = this.el.locator("div.MuiCollapse-root.MuiCollapse-vertical");
+    this.expandCollapseButton = this.rootEl.locator("button");
+    this.contentArea = this.rootEl.locator("div.MuiCollapse-root.MuiCollapse-vertical");
   }
 
   async isExpanded(): Promise<boolean> {

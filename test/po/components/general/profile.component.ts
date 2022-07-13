@@ -27,19 +27,22 @@ export class Profile extends Element {
 
   readonly switchAccount: Locator;
 
+  readonly digitalAssetAddressLink: Locator;
+
   constructor(locator: Locator) {
     super(locator);
-    this.userEmail = this.el.locator("[data-testid='PersonIcon']");
-    this.blockchainExplorerLink = this.el.locator("button:has(> svg[data-testid='ExploreOutlinedIcon'])");
-    this.consoleLink = this.el.locator("a[href*='console'], a[href*='admin']");
-    this.stagingModeLink = this.el.locator("button:has(> svg[data-testid='TelegramIcon'])");
-    this.announcementsLink = this.el.locator("a[href*=announcements]");
-    this.inThePressLink = this.el.locator("a[href*=press]");
-    this.marketInsightsLink = this.el.locator("a[href*=market]");
-    this.reportsLink = this.el.locator("a[href*=reports]");
-    this.settingsLink = this.el.locator("a[href*=settings]");
-    this.languageSelector = this.el.locator("[data-testid='LanguageIcon']");
-    this.logoutButton = this.el.locator("button", { hasText: "Logout" });
-    this.switchAccount = this.el.locator("a>svg[data-testid='SyncIcon']");
+    this.userEmail = this.rootEl.locator("[data-testid='PersonIcon']");
+    this.blockchainExplorerLink = this.rootEl.locator("button:has(> svg[data-testid='ExploreIcon'])");
+    this.consoleLink = this.rootEl.locator("a[href*='console'], a[href*='admin']");
+    this.stagingModeLink = this.rootEl.locator("button:has(> svg[data-testid='SendIcon'])");
+    this.announcementsLink = this.rootEl.locator("a[href*=announcements]");
+    this.inThePressLink = this.rootEl.locator("a[href*=press]");
+    this.marketInsightsLink = this.rootEl.locator("a[href*=market]");
+    this.reportsLink = this.rootEl.locator("a[href*=reports]");
+    this.settingsLink = this.rootEl.locator("a[href*=settings]");
+    this.languageSelector = this.rootEl.locator("[data-testid='LanguageIcon']");
+    this.logoutButton = this.rootEl.locator("button", { hasText: "Logout" });
+    this.switchAccount = this.rootEl.locator("button:has-text('Switch')");
+    this.digitalAssetAddressLink = this.rootEl.locator("a[href='/contacts']");
   }
 }

@@ -5,25 +5,39 @@ export enum WIDGETS {
   FIAT_CURRENCIES = "fiat-currencies",
 }
 
-export enum STATES {
-  ENABLED = "enabled",
-  DISABLED = "disabled",
-  SELECTED = "selected",
+export enum ATTRIBUTES {
+  ENABLED = "aria-enabled",
+  DISABLED = "aria-disabled",
+  SELECTED = "aria-selected",
+  PLACEHOLDER = "placeholder",
 }
 
 export enum PORTFOLIO_COLUMNS {
-  CURRENCY = "currency",
-  DISRTIBUTION = "distribution",
-  TOTAL = "total",
-  PRIMARY = "primary",
-  BROKERAGE = "brokerage",
-  EXCHANGE = "exchange",
-  LEVERAGE = "leverage",
-  BUY = "unsettled-buy",
-  SELL = "unsettled-sell",
+  CURRENCY = "Currency",
+  DISRTIBUTION = "Distribution",
+  TOTAL = "Total",
+  PRIMARY = "Primary",
+  BROKERAGE = "Brokerage",
+  EXCHANGE = "Exchange",
+  LEVERAGE = "Leverage",
+  BUY = "Unsettled Buy",
+  SELL = "Unsettled Sell",
 }
 
 export enum ACTIVITY_COLUMNS {
+  METHOD = "Method",
+  AMOUNT = "Amount",
+  CURRENCY = "Currency",
+  ACCOUNT_GROUP = "Account Group",
+  GROUP_OWNER = "Account Group Owner",
+  FEE = "Fee",
+  DESCRIPTION = "Description",
+  STATUS = "Status",
+  INITIATED = "Initiated",
+  INITIATED_BY = "Initiated By",
+}
+
+export enum ACTIVITY_COLUMNS_NAMES {
   METHOD = "method",
   AMOUNT = "amount",
   CURRENCY = "currency",
@@ -44,10 +58,10 @@ export enum FEATURE_HIGHLIGHT {
   BUY_COIN = "purchase-",
   DEPOSIT_COIN = "transfer-in-",
   ENABLE_TWO_FACTOR = "enable-2-factor-security",
-  REGISTER_EXTERNAL_ADDRESSES = "register-external-addresses",
   CUSTOMER_SUPPORT = "customer-support",
   ACCOUNT_BOX = "premium",
   UPGRADE_YOUR_ACCOUNT = "upgrade-your-account",
+  YOUR_CONSOLE = "cta-enabled-card",
 }
 
 export enum REPORT_TYPES {
@@ -64,6 +78,24 @@ export enum TRANSACTION_FILTER_TYPES {
   Transaction = "Transaction",
   Withdrawal = "Payment Out",
   RFS = "RFS",
+  MarginInterest = "Margin Interest",
+  MarginLoan = "Margin Loan",
+  MarginLiq = "Liquidation RFQ Trade",
+}
+
+export enum TRANSACTION_FILTER_CURRENCIES {
+  BTC = "BTC",
+  USDT = "USDT-ERC20",
+  SGD = "SGD",
+  ETH = "ETH",
+  BCH = "BCH",
+  USD = "USD",
+  USDC = "USDC",
+  SUSHI = "SUSHI",
+  PHP = "PHP",
+  EUR = "EUR",
+  CAD = "CAD",
+  BRL = "BRL",
 }
 
 export enum TRANSACTION_STATUSES {
@@ -113,6 +145,10 @@ export enum URLs {
   SECURITY = "**/2fa/otp*",
   API = "**/settings/apiKey*",
   LOGIN = "**/login*",
+  OTP = "**/2fa/otp/*",
+  POSTS = "**/post?category*",
+  CURRENT = "**/accounts/current*",
+  LIMIT = "**/user/limit*",
 }
 
 export enum SETTINGS_TABS {
@@ -135,6 +171,7 @@ export enum CURRENCIES {
   BAT = "BAT",
   USD = "USD",
   USDT = "USDT",
+  USDT_ERC20 = "USDT-ERC20",
   EUR = "EUR",
   HKD = "HKD",
   BTC = "BTC",
@@ -144,6 +181,8 @@ export enum CURRENCIES {
   JPY = "JPY",
   SGD = "SGD",
   IRFQ = "iRFQ 3",
+  ETH = "ETH",
+  BCH = "BCH",
 }
 
 export enum BANK_TRANSFER_FORMS {
@@ -209,10 +248,53 @@ export enum USER_VERIFICATION_MESSAGES {
 }
 
 export enum ACCOUNT_GROUPS {
-  DEFAULT = "Default",
+  DEFAULT = "andy.wong+transferTest@osl.com",
   ACCOUNT_GROUP_2 = "AccountGroup2",
-  ACCOUNT_GROUP_3 = "AccountGroup3",
-  ACCOUNT_GROUP_4 = "AccountGroup4",
-  ACCOUNT_GROUP_5 = "AccountGroup5",
-  TEST_GROUP_2 = "testGroup2",
+  DEMO = "billy.chan+demo@osl.com",
+}
+
+export enum CONSOLE_ITEMS {
+  ACCOUNT = "My Account",
+  TRANSLATION = "Translation",
+  FEATURES = "Features",
+  PAGES = "Pages",
+  IMAGES = "Images",
+  THEMING = "Theming",
+  GENERAL = "General",
+  POSTS = "Posts",
+  SOCIAL_MEDIA = "Social media",
+  MEDIA = "Media",
+  EXTERNAL_LINKS = "External links",
+}
+
+export enum FEATURES_OPTIONS {
+  ANNOUNCEMENTS = "Announcements",
+  API = "Api",
+  MARKET_INSIGHTS = "Market Insights",
+  IN_THE_PRESS = "In The Press",
+  BLOCKCHAIN_EXPLORER = "Blockchain Explorer",
+  BOOTLOADER_LOGO = "Bootloader Logo",
+  ORDER_BOOK = "Order Book",
+  TICKER = "Ticker",
+  TRADE = "Trade",
+}
+
+export enum PAGES {
+  ABOUT = "about",
+  FEES = "fees",
+  SECURITY = "security",
+}
+
+export enum MEDIA {
+  TWITTER = "twitter",
+  FACEBOOK = "facebook",
+  YOUTUBE = "youtube",
+  QQ = "qq",
+}
+
+export enum LIMIT_ROWS {
+  TYPE,
+  EXPOSURE,
+  TOTAL,
+  USAGE,
 }

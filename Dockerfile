@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright:v1.19.1 as base
+FROM mcr.microsoft.com/playwright:v1.23.2-focal as base
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -13,4 +13,4 @@ CMD ["npm", "run", "test:smoke"]
 # Build full e2e image
 FROM base as image-full
 RUN echo "Execute npm run test ..."
-CMD ["npm", "run", "test"]
+CMD ["npm", "run", "test:criticalPath"]

@@ -11,11 +11,11 @@ export class Bar extends Element {
   constructor(locator: Locator) {
     super(locator);
     this.paymentIn = new Element(
-      this.el.locator("button[data-test-id$='payment-in'], button[data-test-id$='deposit']")
+      this.rootEl.locator("button[data-test-id$='payment-in'], button[data-test-id$='deposit']")
     );
     this.paymentOut = new Element(
-      this.el.locator("button[data-test-id$='payment-out'], button[data-test-id$='withdrawal']")
+      this.rootEl.locator("button[data-test-id$='payment-out'], button[data-test-id$='withdrawal']")
     );
-    this.transferFunds = new Element(this.el.locator("button[data-test-id$='funds']"));
+    this.transferFunds = new Element(this.rootEl.locator("button[data-test-id$='funds']"));
   }
 }

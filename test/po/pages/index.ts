@@ -9,10 +9,11 @@ import { BrokeragePage } from "./Brokerage.page";
 import { SettingsPage } from "./Settings.page";
 import { RegistrationPage } from "./Registration.page";
 import { ReportsPage } from "./Reports.page";
+import { ConsolePage } from "./Console.page";
+import { InfoPage } from "./Info.page";
 import { Api } from "../api/api";
 
 export const test = baseTest.extend<{
-  api: Api;
   activitiesPage: ActivitiesPage;
   fundsPage: FundsPage;
   loginPage: LoginPage;
@@ -23,6 +24,8 @@ export const test = baseTest.extend<{
   settingsPage: SettingsPage;
   registrationPage: RegistrationPage;
   reportsPage: ReportsPage;
+  consolePage: ConsolePage;
+  infoPage: InfoPage;
 }>({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
@@ -54,8 +57,11 @@ export const test = baseTest.extend<{
   reportsPage: async ({ page }, use) => {
     await use(new ReportsPage(page));
   },
-  api: async ({ page }, use) => {
-    await use(new Api(page));
+  consolePage: async ({ page }, use) => {
+    await use(new ConsolePage(page));
+  },
+  infoPage: async ({ page }, use) => {
+    await use(new InfoPage(page));
   },
 });
 
@@ -80,6 +86,10 @@ export class Application {
 
   readonly reportsPage: ReportsPage;
 
+  readonly consolePage: ConsolePage;
+
+  readonly infoPage: InfoPage;
+
   constructor(page: Page) {
     this.loginPage = new LoginPage(page);
     this.api = new Api(page);
@@ -91,5 +101,7 @@ export class Application {
     this.settingsPage = new SettingsPage(page);
     this.registrationPage = new RegistrationPage(page);
     this.reportsPage = new ReportsPage(page);
+    this.consolePage = new ConsolePage(page);
+    this.infoPage = new InfoPage(page);
   }
 }

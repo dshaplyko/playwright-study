@@ -1,7 +1,7 @@
 import { Locator } from "@playwright/test";
 import { Table } from "../general/table.component";
 import { Logger } from "../../../logger/logger";
-import { ACTIVITY_COLUMNS } from "../../../config";
+import { ACTIVITY_COLUMNS_NAMES } from "../../../config";
 const logger = new Logger("Transaction Activity");
 
 export class TransactionActivity extends Table {
@@ -33,12 +33,27 @@ export class TransactionActivity extends Table {
     this.buttonAddToContact = this.rows.locator("button[aria-label*='Contact']");
   }
 
-  async getColumnText(column: ACTIVITY_COLUMNS): Promise<string[]> {
-    await this[column].nth(0).waitFor();
+  getColumn(column: ACTIVITY_COLUMNS_NAMES): Locator {
+    return this[column];
+  }
+
+  async getTextFromLine(index: number): Promise<string> {
+    const transactionText =
+      (await this.getColumnText(ACTIVITY_COLUMNS_NAMES.AMOUNT))[index] +
+      " " +
+      (await this.getColumnText(ACTIVITY_COLUMNS_NAMES.CURRENCY))[index] +
+      " " +
+      (await this.getColumnText(ACTIVITY_COLUMNS_NAMES.STATUS))[index];
+    logger.debug(`Transaction line is: ${transactionText}`);
+    return transactionText;
+  }
+
+  async getColumnText(column: ACTIVITY_COLUMNS_NAMES): Promise<string[]> {
+    await this.getColumn(column).first().waitFor();
     const count = await this.rows.count();
     const textArr = [];
     for (let i = 0; i < count; i++) {
-      textArr.push(await this[column].nth(i).innerText());
+      textArr.push(await this.getColumn(column).nth(i).innerText());
     }
     logger.debug(`${JSON.stringify(textArr, null, "\t")}`);
     return textArr;
