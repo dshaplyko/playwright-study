@@ -26,7 +26,7 @@
     "url": "git+https://gitlab.com/_bcgroup/platform/core_svcs/platform-web-ui-e2e.git"
   },
   "keywords": [],
-  "author": "Dzmitry_Shaplyka@epam.com",
+  "author": "dmitryshaplyko@gmail.com",
   "license": "MIT",
   "dependencies": {
     "@types/node": "^18.0.3",
