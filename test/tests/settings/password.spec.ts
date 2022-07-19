@@ -17,9 +17,9 @@ test.describe("Settings Page -> Password Tab @jira(PWU-329)", () => {
   });
 
   test("should change password @criticalPath @jira(XRT-391)", async ({ settingsPage }) => {
-    await settingsPage.activeTab.currentPasswordInput.fill("T9hsy3434ssghsy(");
-    await settingsPage.activeTab.newPasswordInput.fill("T8hsy3434ssghsy(");
-    await settingsPage.activeTab.reenterPaswordInput.fill("T8hsy3434ssghsy(");
+    await settingsPage.activeTab.currentPasswordInput.fill("Pass@12345(");
+    await settingsPage.activeTab.newPasswordInput.fill("Pass@12345(");
+    await settingsPage.activeTab.reenterPaswordInput.fill("Pass@12345(");
     await settingsPage.mockPasswordChange();
     await settingsPage.checkTooltip("Password Changed");
     await expectElementToHaveValue(settingsPage.activeTab.currentPasswordInput, "");
@@ -46,8 +46,8 @@ test.describe("Settings Page -> Password Tab @jira(PWU-329)", () => {
   }) => {
     await settingsPage.activeTab.saveButton.click();
     await settingsPage.activeTab.currentPasswordInput.fill("qwerty");
-    await settingsPage.activeTab.newPasswordInput.fill("T8hsy3434ssghsy(");
-    await settingsPage.activeTab.reenterPaswordInput.fill("T9hsy3434ssghsy(");
+    await settingsPage.activeTab.newPasswordInput.fill("Pass@12345(");
+    await settingsPage.activeTab.reenterPaswordInput.fill("Pass@123456(");
     await expectElementVisibility(settingsPage.activeTab.errorMessage, true);
     await expectElementToHaveText(settingsPage.activeTab.errorMessage, "Passwords do not match.");
   });
@@ -59,15 +59,15 @@ test.describe("Settings Page -> Password Tab @jira(PWU-329)", () => {
     await expectElementVisibility(settingsPage.activeTab.formStrength, true);
     await expectElementToHaveText(settingsPage.activeTab.formStrength, PASSWORD_STRENGTH.WEAK);
 
-    await settingsPage.activeTab.newPasswordInput.fill("T8hsy");
+    await settingsPage.activeTab.newPasswordInput.fill("Pass@1234");
     await expectElementVisibility(settingsPage.activeTab.formStrength, true);
     await expectElementToHaveText(settingsPage.activeTab.formStrength, PASSWORD_STRENGTH.MEDIUM);
 
-    await settingsPage.activeTab.newPasswordInput.fill("T8hsy3434");
+    await settingsPage.activeTab.newPasswordInput.fill("Pass@12345");
     await expectElementVisibility(settingsPage.activeTab.formStrength, true);
     await expectElementToHaveText(settingsPage.activeTab.formStrength, PASSWORD_STRENGTH.STRONG);
 
-    await settingsPage.activeTab.newPasswordInput.fill("T8hsy3434ssghsy(");
+    await settingsPage.activeTab.newPasswordInput.fill("Pass@123456(");
     await expectElementVisibility(settingsPage.activeTab.formStrength, true);
     await expectElementToHaveText(settingsPage.activeTab.formStrength, PASSWORD_STRENGTH.VERY_STRONG);
   });
@@ -77,8 +77,8 @@ test.describe("Settings Page -> Password Tab @jira(PWU-329)", () => {
   }) => {
     await settingsPage.activeTab.saveButton.click();
     await settingsPage.activeTab.currentPasswordInput.fill("qwerty");
-    await settingsPage.activeTab.newPasswordInput.fill("T8hsy3434ssghsy(");
-    await settingsPage.activeTab.reenterPaswordInput.fill("T8hsy3434ssghsy(");
+    await settingsPage.activeTab.newPasswordInput.fill("Pass@12345(");
+    await settingsPage.activeTab.reenterPaswordInput.fill("Pass@12345(");
     await settingsPage.activeTab.saveButton.click();
     await expectElementVisibility(settingsPage.activeTab.errorMessage, true);
     await expectElementToHaveText(settingsPage.activeTab.errorMessage, "Your password is incorrect");
