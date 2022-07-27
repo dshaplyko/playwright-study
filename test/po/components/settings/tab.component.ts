@@ -4,6 +4,7 @@ import { NOTIFICATION_OPTIONS } from "../../../config";
 import { Dropdown } from "../basic/dropdown";
 import { Element } from "../basic/element";
 import { Logger } from "../../../logger/logger";
+import { PairedDevices } from "./pairedDevices.component";
 const logger = new Logger("Settings Tab");
 
 export class Tab extends Element {
@@ -49,6 +50,8 @@ export class Tab extends Element {
 
   readonly onboardingService: Locator;
 
+  readonly pairedDevicesSection: PairedDevices;
+
   constructor(locator: Locator, page: Page) {
     super(locator);
     this.page = page;
@@ -75,6 +78,7 @@ export class Tab extends Element {
     this.personalButton = this.rootEl.locator("button", { hasText: "Personal" });
     this.companyButton = this.rootEl.locator("button", { hasText: "Company" });
     this.onboardingService = this.rootEl.locator("#onboardingservice");
+    this.pairedDevicesSection = new PairedDevices(this.rootEl.locator("[data-test-id='paired-section']"), this.page);
   }
 
   getNotificationOption(option: NOTIFICATION_OPTIONS): Locator {

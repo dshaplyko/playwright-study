@@ -17,7 +17,6 @@ import {
   FUNDS_ALERT_DIGITAL_ASSET,
   FUNDS_ERROR_SELECT_PAYMENT,
   CURRENCIES,
-  COMPARE_CONDITIONS,
 } from "../../config";
 const digitalAssetCurrency = CURRENCIES.BTC;
 
@@ -71,8 +70,8 @@ test.describe("Transfer Funds Page: Payment In tab @jira(PWU-34)", () => {
     test(name, async ({ fundsPage }) => {
       await fundsPage[tab].click();
       const { fiatCurrencies, digitalAssets } = await fundsPage.currencyList.getCurrencies();
-      expectNumbersComparison(fiatCurrencies.length, 0, COMPARE_CONDITIONS.MORE);
-      expectNumbersComparison(digitalAssets.length, 0, COMPARE_CONDITIONS.MORE);
+      expectNumbersComparison(fiatCurrencies.length, 0, "MORE_THAN");
+      expectNumbersComparison(digitalAssets.length, 0, "MORE_THAN");
     });
   });
 
@@ -142,7 +141,7 @@ test.describe("Transfer Funds Page: Payment In tab @jira(PWU-34)", () => {
       await fundsPage.recentTransactions.waitForVisible();
       await expectElementToHaveText(fundsPage.recentTransactions.title, title);
       await expectElementVisibility(fundsPage.recentTransactions.lines, true);
-      expectNumbersComparison(await fundsPage.recentTransactions.lines.count(), 1, COMPARE_CONDITIONS.MORE);
+      expectNumbersComparison(await fundsPage.recentTransactions.lines.count(), 1, "MORE_THAN");
     });
   });
 });

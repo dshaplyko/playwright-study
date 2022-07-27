@@ -26,6 +26,56 @@ export const quoteData = {
   },
 };
 
+export const basketQuoteData = {
+  status: 200,
+  data: {
+    responseCode: "FULL_QUOTE",
+    isPtsSufficient: true,
+    timeToLive: 6902,
+    quoteResponses: [
+      {
+        responseCode: "FULL_QUOTE",
+        settlementCurrency: "USD",
+        tradedCurrency: "BCH",
+        quotedSettlementCurrencyAmount: 0.09,
+        quotedTradedCurrencyAmount: 0.00091808,
+        retailRateInSettlementCurrency: 99.011944,
+        quoteId: "bbe24b5f-06a4-4bd2-9e8b-b51a7ecd965d",
+        timeToLive: 6902,
+        quoteExpiresAt: "Jul 14, 2022 3:54:53 PM",
+        quoteCreatedAt: "Jul 14, 2022 3:54:46 PM",
+        isMtPreDealPreCheckSuccess: false,
+      },
+      {
+        responseCode: "FULL_QUOTE",
+        settlementCurrency: "USD",
+        tradedCurrency: "ETH",
+        quotedSettlementCurrencyAmount: 3.01,
+        quotedTradedCurrencyAmount: 0.00281409,
+        retailRateInSettlementCurrency: 1069.71455,
+        quoteId: "5bfbdace-3f96-4517-933d-46523fa6da60",
+        timeToLive: 6923,
+        quoteExpiresAt: "Jul 14, 2022 3:54:53 PM",
+        quoteCreatedAt: "Jul 14, 2022 3:54:46 PM",
+        isMtPreDealPreCheckSuccess: false,
+      },
+      {
+        responseCode: "FULL_QUOTE",
+        settlementCurrency: "USD",
+        tradedCurrency: "BTC",
+        quotedSettlementCurrencyAmount: 6.9,
+        quotedTradedCurrencyAmount: 0.00165326,
+        retailRateInSettlementCurrency: 4172.86738,
+        quoteId: "e7bc45a8-5a70-4761-b557-6dae7bfdd91f",
+        timeToLive: 6955,
+        quoteExpiresAt: "Jul 14, 2022 3:54:53 PM",
+        quoteCreatedAt: "Jul 14, 2022 3:54:46 PM",
+        isMtPreDealPreCheckSuccess: false,
+      },
+    ],
+  },
+};
+
 export const quoteErrorData = {
   status: 200,
   data: {

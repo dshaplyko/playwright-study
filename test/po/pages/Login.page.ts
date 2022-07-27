@@ -48,15 +48,17 @@ export class LoginPage extends BasePage {
     await this.captcha.locator("span.recaptcha-checkbox-checked").waitFor();
   }
 
-  async login(obj: { email: string; password: string } = TEST_USERS.MAIN): Promise<void> {
+  async login(obj: { email: string; password: string }, waitFor = true): Promise<void> {
     await this.emailField.type(obj.email);
     await this.passwordField.type(obj.password);
     await this.rememberMe.click();
     await this.bypassCaptcha();
     await this.loginButton.click();
-    await this.page.waitForURL(/portfolio/, {
-      waitUntil: "commit",
-    });
+    if (waitFor) {
+      await this.page.waitForURL(/portfolio/, {
+        waitUntil: "commit",
+      });
+    }
     await this.page.waitForResponse(/account/);
   }
 
@@ -71,10 +73,10 @@ export class LoginPage extends BasePage {
   async loginAsUser(): Promise<void> {
     try {
       await this.globalGoto();
-      await this.login();
-      logger.info("customerdemo+epam@osl.com is logged in");
+      await this.login(TEST_USERS.TRADER);
+      logger.info("andy.wong@osl.com is logged in");
     } catch (e) {
-      throw new Error(`Was not able to login using customerdemo+epam@osl.com creds, ${e}`);
+      throw new Error(`Was not able to login using andy.wong@osl.com creds, ${e}`);
     }
   }
 

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright:v1.23.2-focal as base
+FROM mcr.microsoft.com/playwright:v1.24.0-focal as base
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci

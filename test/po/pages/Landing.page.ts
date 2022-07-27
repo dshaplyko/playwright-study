@@ -1,11 +1,10 @@
 import { Page, Locator } from "@playwright/test";
+import { SG_CONFIG } from "../../config";
 import { generateMaintenancePeriod } from "../../utils";
 import { BasePage } from "./Base.page";
 
 export class LandingPage extends BasePage {
   readonly url: string;
-
-  readonly footer: Locator;
 
   readonly orderBook: Locator;
 
@@ -18,7 +17,6 @@ export class LandingPage extends BasePage {
   constructor(page: Page, url = "/") {
     super(page);
     this.url = url;
-    this.footer = this.page.locator("div[data-test-id='home-footer']");
     this.orderBook = this.page.locator("div[data-test-id='order-book']");
     this.marketInsights = this.page.locator("div[data-test-id='home-market-insights']");
     this.announcements = this.page.locator("div[data-test-id='home-announcements']");
@@ -29,8 +27,10 @@ export class LandingPage extends BasePage {
     return this.footer.locator(`text=${name}`);
   }
 
-  getColumn(name: string): Locator {
-    return this.footer.locator(`text=${name}`);
+  getFooterLink(name: "about" | "faq" | "security" | "terms" | "privacy"): Locator {
+    return this.footer.locator("a", {
+      hasText: name,
+    });
   }
 
   async goto() {
@@ -52,12 +52,27 @@ export class LandingPage extends BasePage {
   async mockMaintenancePeriod(): Promise<void> {
     const { timeFrom, timeTo } = generateMaintenancePeriod();
 
-    await this.api.mockConfig({
-      site: {
-        maintenanceStartTime: timeFrom,
-        maintenanceEndTime: timeTo,
-      },
+    await this.api.mockSiteData({
+      maintenanceStartTime: timeFrom,
+      maintenanceEndTime: timeTo,
     });
+    await this.goto();
+  }
+
+  async mockLandingPage(obj: any): Promise<void> {
+    const mockData = { ...SG_CONFIG };
+    mockData.features.footer.aboutUs = obj.aboutUs;
+    mockData.features.footer.contacts = obj.contacts;
+    mockData.features.footer.faq = obj.faq;
+    mockData.features.footer.security = obj.security;
+    mockData.features.footer.privacyPolicy = obj.privacy;
+    mockData.features.footer.termsOfUse = obj.terms;
+    mockData.features.marketInsight = obj.marketInsight;
+    mockData.features.announcements = obj.announcements;
+    mockData.features.newsStories = obj.announcements;
+    mockData.i18n.en_US["footer.label.disclaimer"] = obj.disclaimer;
+
+    await this.api.mockConfig(mockData);
     await this.goto();
   }
 }

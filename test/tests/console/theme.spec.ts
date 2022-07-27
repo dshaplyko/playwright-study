@@ -47,4 +47,8 @@ test.describe("Console Page - Theme Tab @jira(UCP-144)", () => {
     await consolePage.getTab(CONSOLE_ITEMS.THEMING).sampleSelect.clickByText("Activity");
     await expectElementVisibility(consolePage.getTab(CONSOLE_ITEMS.THEMING).adcivitiesPreview, true);
   });
+
+  test("should have components for color options @criticalPath @jira(XRT-443)", async ({ consolePage }) => {
+    await consolePage.getTab(CONSOLE_ITEMS.THEMING).verifyColorsVisibility();
+  });
 });

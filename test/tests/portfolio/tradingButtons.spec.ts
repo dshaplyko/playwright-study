@@ -42,7 +42,8 @@ test.describe("Clicking Trading Related buttons", async () => {
     await expectElementToHaveText(fundsPage.transferFundsForm.currency, fiatCurrency);
   });
 
-  test("should redirect to Brokerage page after clicking iRFQ button @criticalPath @jira(XRT-61)", async ({
+  // TODO: Not relevant for the new Brokerage Page
+  test.skip("should redirect to Brokerage page after clicking iRFQ button @criticalPath @jira(XRT-61)", async ({
     portfolioPage,
     brokeragePage,
   }) => {

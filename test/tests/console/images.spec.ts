@@ -30,4 +30,15 @@ test.describe("Console Page - Images @jira(UCP-131)", () => {
     await consolePage.modal.buttonCancel.click();
     await expectElementVisibility(consolePage.modal.rootEl, false);
   });
+
+  test("should be able to upload a new image @criticalPath @jira(XRT-452)", async ({ consolePage }) => {
+    await consolePage.getTab(CONSOLE_ITEMS.IMAGES).selectImageOption("Banner Image 3");
+    await consolePage.getTab(CONSOLE_ITEMS.IMAGES).uploadFile("newbg.jpg");
+    await consolePage.getTab(CONSOLE_ITEMS.IMAGES).uploadThisImageButton.click();
+    await consolePage.checkTooltip(/Page Banner (.*) Upload Success/);
+
+    await consolePage.getTab(CONSOLE_ITEMS.IMAGES).revertImage(2);
+    await consolePage.modal.okButton.click();
+    await consolePage.checkTooltip("Image reverted");
+  });
 });

@@ -1,18 +1,16 @@
-// playwright.config.ts
 import { PlaywrightTestConfig, expect } from "@playwright/test";
 import { BASE_URL } from "./test/config/constants";
 import path from "path";
 import methods from "./test/utils/expectExtend";
 
 const config: PlaywrightTestConfig = {
-  globalSetup: require.resolve("./global-setup"),
-  // globalTeardown: require.resolve("./global-teardown"),
+  // globalSetup: require.resolve("./global-setup"),
   expect: {
     timeout: 20 * 1000,
   },
   use: {
     baseURL: BASE_URL,
-    storageState: "./test/config/states/state.json",
+    storageState: "./test/config/states/states.json",
     viewport: {
       width: 1280,
       height: 720,
@@ -25,7 +23,7 @@ const config: PlaywrightTestConfig = {
   },
   testDir: "./test/tests",
   workers: 4,
-  // retries: 1,
+  retries: 1,
   timeout: 90 * 1000,
   maxFailures: 10,
   reporter: [

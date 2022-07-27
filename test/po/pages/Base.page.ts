@@ -4,7 +4,16 @@ import { Profile } from "../components/general/profile.component";
 import { Logger } from "../../logger/logger";
 import { Notifications } from "../components/general/notifications.component";
 import { TwoFactor } from "../components/general/twoFactor.component";
-import { ACCOUNTS, ACCOUNT_GROUP, ACCOUNT_GROUPS, CURRENCIES, REPORT_TYPES, TWO_FA_DATA, URLs } from "../../config";
+import {
+  ACCOUNTS,
+  ACCOUNT_GROUP,
+  ACCOUNT_GROUPS,
+  CURRENCIES,
+  REPORT_TYPES,
+  SG_USER,
+  TWO_FA_DATA,
+  URLs,
+} from "../../config";
 import { Modal } from "../components/general/modals/modal.component";
 import {
   expectElementToHaveText,
@@ -24,6 +33,8 @@ export abstract class BasePage {
   readonly api: Api;
 
   readonly header: Header;
+
+  readonly footer: Locator;
 
   readonly profile: Profile;
 
@@ -57,10 +68,13 @@ export abstract class BasePage {
 
   readonly maintenanceBanner: Locator;
 
+  readonly pageNotFound: Locator;
+
   constructor(page: Page) {
     this.page = page;
     this.header = new Header(this.page.locator("header[data-test-id='application-header']"));
-    this.profile = new Profile(this.page.locator("[data-test-id='profile'] ul"));
+    this.footer = this.page.locator("[data-test-id='home-footer']");
+    this.profile = new Profile(this.page.locator("[data-test-id='profile'] ul"), this.page);
     this.notifications = new Notifications(this.page.locator("[data-test-id='notifications-popup']"));
     this.quickLinks = this.page.locator("nav[data-test-id='quick-links']");
     this.priceTicker = this.page.locator("div[data-test-id='price-ticker']");
@@ -80,6 +94,7 @@ export abstract class BasePage {
       )
     );
     this.maintenanceBanner = this.page.locator("div:has(>svg[data-testid='ErrorIcon']~span)");
+    this.pageNotFound = this.page.locator("img[src='/images/pages/404-wheel.gif']");
     this.api = new Api(this.page);
   }
 
@@ -165,17 +180,13 @@ export abstract class BasePage {
   }
 
   async showTwoFA(enabled: boolean, showDisableButton = true): Promise<void> {
-    const data = {
-      twofa: {
-        enabled,
-        showDisableButton,
-      },
-    };
-
-    return this.api.mockConfig(data);
+    return this.api.mock2FAData({
+      enabled,
+      showDisableButton,
+    });
   }
 
-  async checkTooltip(text?: string, isVisible = true): Promise<void> {
+  async checkTooltip(text?: string | RegExp, isVisible = true): Promise<void> {
     await expectElementVisibility(this.tooltip, isVisible);
     if (text) await expectElementToHaveText(this.tooltip, text);
   }
@@ -194,25 +205,36 @@ export abstract class BasePage {
       accountGroups: [accountGroup],
       cashCcy: "USD",
     });
-    await this.api.mockCurrent({
-      accountGroups: [
+    await this.api.mockCurrent(
+      [
         {
           accounts: ACCOUNTS,
           accountGroup: accountGroup,
         },
       ],
-      event: "account",
-      totalAccountGroups: 1,
+      1
+    );
+  }
+
+  async clearLocalStorage(): Promise<void> {
+    await this.page.addInitScript(() => {
+      window.localStorage.setItem("currentSubaccount", "");
     });
   }
 
   async mockUserPermissions(permissions: string[]): Promise<void> {
-    await this.page.addInitScript(() => {
-      window.localStorage.setItem("currentSubaccount", "");
-    });
+    await this.clearLocalStorage();
     const newAccountGroup = { ...ACCOUNT_GROUP };
     newAccountGroup.owned = false;
     newAccountGroup.permissions = permissions;
     await this.mockAccountGroups(newAccountGroup);
+  }
+
+  async mockCustodyAccount(option: boolean): Promise<void> {
+    const mockData = { ...SG_USER };
+    mockData.data.isCustodyOnly = option;
+    mockData.data.accountGroups.forEach((group) => (group.ownerProfile.isCustodyOnly = option));
+    await this.api.mockData(mockData, URLs.ACCOUNT);
+    await this.clearLocalStorage();
   }
 }

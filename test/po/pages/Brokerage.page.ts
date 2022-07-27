@@ -4,7 +4,7 @@ import { Instructions } from "../components/brokerage/instructions.component";
 import { HoldingList } from "../components/portfolio/holdingList.component";
 import { BasePage } from "./Base.page";
 import { Logger } from "../../logger/logger";
-import { LIMIT_ROWS, URLs, quoteErrorData, timeToLiveData, quoteData } from "../../config";
+import { LIMIT_ROWS, URLs, quoteErrorData, timeToLiveData, quoteData, basketQuoteData } from "../../config";
 import { Table } from "../components/general/table.component";
 import { expectElementToContainText, expectElementToHaveText, convertNumberToString } from "../../utils";
 const logger = new Logger("Brokerage Page");
@@ -46,7 +46,7 @@ export class BrokeragePage extends BasePage {
 
   readonly errorMessage: Locator;
 
-  constructor(page: Page, url = "/buysell") {
+  constructor(page: Page, url = "/buysell?brokerageV1=true") {
     super(page);
     this.url = url;
     this.pageHeader = this.page.locator("div[data-test-id='irfq-page-title']");
@@ -69,7 +69,7 @@ export class BrokeragePage extends BasePage {
   }
 
   async goto() {
-    await super.goto(this.url);
+    await this.page.goto(this.url);
   }
 
   private async getBrokerageResponse(url: string, action: Promise<void>): Promise<string> {
@@ -99,12 +99,8 @@ export class BrokeragePage extends BasePage {
     return this.limitTable.rootEl.locator("td.MuiTableCell-body").nth(row);
   }
 
-  async disableBasket(): Promise<void> {
-    await this.api.mockConfig({
-      basket: {
-        enabled: false,
-      },
-    });
+  async enableBasket(option: boolean): Promise<void> {
+    await this.api.mockBasketData(option);
     await this.goto();
   }
 
@@ -142,10 +138,13 @@ export class BrokeragePage extends BasePage {
   }
 
   async getTradingPair(): Promise<{ defaultFiat: string; defaultCoin: string }> {
-    const { defaultFiat, defaultCoin } = await this.api.getResponseBody(
-      "defaultCurrencyPair",
-      this.header.buySellLink.click()
-    );
+    const { defaultFiat, defaultCoin } = await this.api.getResponseBody("defaultCurrencyPair", this.goto());
     return { defaultFiat, defaultCoin };
+  }
+
+  async mockBasketQuoteData(): Promise<void> {
+    const mockData = { ...basketQuoteData };
+    mockData.data.quoteResponses.splice(0, 2);
+    await this.api.mockData(mockData, URLs.BASKET_QUOTE);
   }
 }

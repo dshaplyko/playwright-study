@@ -5,6 +5,7 @@ import {
   USER_DATA,
   RESET_EMAIL_MESSAGE,
   SITE_NOT_AVAILABLE,
+  INVALID_CAPTCHA,
 } from "../config";
 import { expectElementToHaveText, expectElementVisibility, waitSeveralSec, useState } from "../utils";
 
@@ -69,5 +70,27 @@ test.describe.parallel("Login", () => {
     await loginPage.loginButton.click();
     await expectElementVisibility(loginPage.errorMessage, true);
     await expectElementToHaveText(loginPage.errorMessage, SITE_NOT_AVAILABLE);
+  });
+
+  test("should not login when Captcha box not checked @extended @jira(XRT-575)", async ({ loginPage }) => {
+    await loginPage.emailField.type(TEST_USERS.MAIN.email);
+    await loginPage.passwordField.type(TEST_USERS.MAIN.password);
+    await loginPage.loginButton.click();
+    await expectElementVisibility(loginPage.errorMessage, true);
+    await expectElementToHaveText(loginPage.errorMessage, INVALID_CAPTCHA);
+  });
+
+  test("should redirect to the page from the /config @extended @jira(XRT-597)", async ({ loginPage }) => {
+    await loginPage.api.mockInitialUrl("/funds");
+    await loginPage.goto();
+    await loginPage.login(TEST_USERS.MAIN, false);
+    await loginPage.expectUrlContains("/funds");
+  });
+
+  test("should display 404 page when url is incorrect @extended @jira(XRT-598)", async ({ loginPage }) => {
+    await loginPage.api.mockInitialUrl("/asdasdasd");
+    await loginPage.goto();
+    await loginPage.login(TEST_USERS.MAIN, false);
+    await expectElementVisibility(loginPage.pageNotFound, true);
   });
 });

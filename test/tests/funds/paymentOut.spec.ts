@@ -254,11 +254,10 @@ test.describe("Transfer Funds Page: Payment Out @jira(PWU-34)", () => {
     await activitiesPage.activityFilter.buttonConfirm.click();
     expectItemToContainText(await activitiesPage.transactionActivity.getTextFromLine(0), [CURRENCIES.USD, "100"]);
 
-    // TODO: Commented until websockets are revised
-    // await fundsPage.goto();
-    // await fundsPage.paymentOut.click();
-    // const expectedString = new RegExp(`100.*${CURRENCIES.USD}`);
-    // await expectElementToHaveText(fundsPage.recentTransactions.getTransaction(1), expectedString);
+    await fundsPage.goto();
+    await fundsPage.paymentOut.click();
+    const expectedString = new RegExp(`100.*${CURRENCIES.USD}`);
+    await expectElementToHaveText(fundsPage.recentTransactions.getTransaction(1), expectedString);
   });
 
   test("should hide Add Bank button @criticalPath @jira(XRT-520)", async ({ fundsPage }) => {

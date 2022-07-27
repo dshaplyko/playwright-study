@@ -4,16 +4,9 @@ import {
   expectElementToHaveText,
   expectToHaveCount,
   expectElementToHaveAttribute,
-  expectItemToContainText,
+  expectElementEquality,
 } from "../../utils";
-import {
-  CURRENCIES,
-  PRIMARY_HINT,
-  EXCHANGE_HINT,
-  BROKERAGE_HINT,
-  transferFundsPaymentMap,
-  ATTRIBUTES,
-} from "../../config";
+import { CURRENCIES, PRIMARY_HINT, EXCHANGE_HINT, BROKERAGE_HINT, ATTRIBUTES } from "../../config";
 const digitalAssetCurrency = CURRENCIES.BTC;
 
 test.describe("Transfer Funds Page: Transfer Funds @jira(PWU-34)", () => {
@@ -36,37 +29,104 @@ test.describe("Transfer Funds Page: Transfer Funds @jira(PWU-34)", () => {
     await expectToHaveCount(fundsPage.transferFundsForm.percentControls, 4);
   });
 
-  transferFundsPaymentMap.forEach(({ jiraId, type, currency }) => {
-    test(`should make Transfer Funds Payment for ${type} currency @smoke ${jiraId}`, async ({
-      fundsPage,
-      portfolioPage,
-    }) => {
-      await fundsPage.transferFunds.click();
-      await fundsPage.currencyList.chooseCurrency(currency);
-      await expectElementVisibility(fundsPage.transferFundsForm.rootEl, true);
-      await expectElementToHaveText(fundsPage.transferFundsForm.currency, currency);
+  test("should make transfer Primary->Brokerage for fiat currency @criticalPath @jira(XRT-217)", async ({
+    fundsPage,
+    portfolioPage,
+  }) => {
+    await fundsPage.transferFunds.click();
+    await fundsPage.currencyList.chooseCurrency(CURRENCIES.USD);
+    const initialPrimaryBalance = await fundsPage.transferFundsForm.getBalance("Primary");
+    const initialZMBalance = await fundsPage.transferFundsForm.getBalance("Brokerage");
+    await fundsPage.transferFundsForm.makeTransfer("Primary", "Brokerage", 10000);
+    await fundsPage.menuBar.paymentIn.click();
+    await fundsPage.menuBar.transferFunds.click();
+    const expectedString = new RegExp(`${CURRENCIES.USD}.*Primary.*Brokerage`);
+    await expectElementToHaveText(fundsPage.recentTransactions.getTransaction(1), expectedString);
 
-      const { balanceFrom, balanceTo } = await fundsPage.transferFundsForm.executeTransferFromNonZeroBalance();
-      await fundsPage.transferFundsForm.choosePercentControl(25);
-      await fundsPage.transferFundsForm.transferFundsButton.click();
-      await expectElementVisibility(fundsPage.transferFundsForm.successMessage, true);
+    await fundsPage.currencyList.chooseCurrency(CURRENCIES.USD);
+    const updatedPrimaryBalance = await fundsPage.transferFundsForm.getBalance("Primary");
+    const updatedBrokerageBalance = await fundsPage.transferFundsForm.getBalance("Brokerage");
+    expectElementEquality(updatedPrimaryBalance, initialPrimaryBalance - 10000);
+    expectElementEquality(updatedBrokerageBalance, initialZMBalance + 10000);
 
-      await fundsPage.transferFundsForm.doneButton.click();
-      await fundsPage.goto();
-      await fundsPage.transferFunds.click();
-      const expectedString = new RegExp(`${currency}.*${balanceFrom}.*${balanceTo}`);
-      await expectElementToHaveText(fundsPage.recentTransactions.getTransaction(1), expectedString);
+    await portfolioPage.goto();
+    expectElementEquality(await portfolioPage.holdingList.getBrokerageAmount(CURRENCIES.USD), updatedBrokerageBalance);
+    expectElementEquality(await portfolioPage.holdingList.getPrimaryAmount(CURRENCIES.USD), updatedPrimaryBalance);
+  });
 
-      await fundsPage.currencyList.chooseCurrency(currency);
-      const primaryBalance = await fundsPage.transferFundsForm.primaryBalance.innerText();
-      const brokerageBalance = await fundsPage.transferFundsForm.brokerageBalance.innerText();
+  test("should make transfer Brokerage->Primary for fiat currency @criticalPath @jira(XRT-216)", async ({
+    fundsPage,
+    portfolioPage,
+  }) => {
+    await fundsPage.transferFunds.click();
+    await fundsPage.currencyList.chooseCurrency(CURRENCIES.USD);
+    const initialPrimaryBalance = await fundsPage.transferFundsForm.getBalance("Primary");
+    const initialZMBalance = await fundsPage.transferFundsForm.getBalance("Brokerage");
+    await fundsPage.transferFundsForm.makeTransfer("Brokerage", "Primary", 10000);
+    await fundsPage.menuBar.paymentIn.click();
+    await fundsPage.menuBar.transferFunds.click();
+    const expectedString = new RegExp(`${CURRENCIES.USD}.*Brokerage.*Primary`);
+    await expectElementToHaveText(fundsPage.recentTransactions.getTransaction(1), expectedString);
 
-      await portfolioPage.goto();
-      expectItemToContainText(await portfolioPage.holdingList.getLineByText(currency), [
-        primaryBalance,
-        brokerageBalance,
-      ]);
-    });
+    await fundsPage.currencyList.chooseCurrency(CURRENCIES.USD);
+    const updatedPrimaryBalance = await fundsPage.transferFundsForm.getBalance("Primary");
+    const updatedBrokerageBalance = await fundsPage.transferFundsForm.getBalance("Brokerage");
+    expectElementEquality(updatedPrimaryBalance, initialPrimaryBalance + 10000);
+    expectElementEquality(updatedBrokerageBalance, initialZMBalance - 10000);
+
+    await portfolioPage.goto();
+    expectElementEquality(await portfolioPage.holdingList.getBrokerageAmount(CURRENCIES.USD), updatedBrokerageBalance);
+    expectElementEquality(await portfolioPage.holdingList.getPrimaryAmount(CURRENCIES.USD), updatedPrimaryBalance);
+  });
+
+  test("should make transfer Primary->Brokerage for crypto currency @criticalPath @jira(XRT-495)", async ({
+    fundsPage,
+    portfolioPage,
+  }) => {
+    await fundsPage.transferFunds.click();
+    await fundsPage.currencyList.chooseCurrency(CURRENCIES.BTC);
+    const initialPrimaryBalance = await fundsPage.transferFundsForm.getBalance("Primary");
+    const initialZMBalance = await fundsPage.transferFundsForm.getBalance("Brokerage");
+    await fundsPage.transferFundsForm.makeTransfer("Primary", "Brokerage", 1);
+    await fundsPage.menuBar.paymentIn.click();
+    await fundsPage.menuBar.transferFunds.click();
+    const expectedString = new RegExp(`${CURRENCIES.BTC}.*Primary.*Brokerage`);
+    await expectElementToHaveText(fundsPage.recentTransactions.getTransaction(1), expectedString);
+
+    await fundsPage.currencyList.chooseCurrency(CURRENCIES.BTC);
+    const updatedPrimaryBalance = await fundsPage.transferFundsForm.getBalance("Primary");
+    const updatedBrokerageBalance = await fundsPage.transferFundsForm.getBalance("Brokerage");
+    expectElementEquality(updatedPrimaryBalance, initialPrimaryBalance - 1);
+    expectElementEquality(updatedBrokerageBalance, initialZMBalance + 1);
+
+    await portfolioPage.goto();
+    expectElementEquality(await portfolioPage.holdingList.getBrokerageAmount(CURRENCIES.BTC), updatedBrokerageBalance);
+    expectElementEquality(await portfolioPage.holdingList.getPrimaryAmount(CURRENCIES.BTC), updatedPrimaryBalance);
+  });
+
+  test("should make transfer Brokerage->Primary for crypto currency @criticalPath @jira(XRT-591)", async ({
+    fundsPage,
+    portfolioPage,
+  }) => {
+    await fundsPage.transferFunds.click();
+    await fundsPage.currencyList.chooseCurrency(CURRENCIES.BTC);
+    const initialPrimaryBalance = await fundsPage.transferFundsForm.getBalance("Primary");
+    const initialZMBalance = await fundsPage.transferFundsForm.getBalance("Brokerage");
+    await fundsPage.transferFundsForm.makeTransfer("Brokerage", "Primary", 1);
+    await fundsPage.menuBar.paymentIn.click();
+    await fundsPage.menuBar.transferFunds.click();
+    const expectedString = new RegExp(`${CURRENCIES.BTC}.*Brokerage.*Primary`);
+    await expectElementToHaveText(fundsPage.recentTransactions.getTransaction(1), expectedString);
+
+    await fundsPage.currencyList.chooseCurrency(CURRENCIES.BTC);
+    const updatedPrimaryBalance = await fundsPage.transferFundsForm.getBalance("Primary");
+    const updatedBrokerageBalance = await fundsPage.transferFundsForm.getBalance("Brokerage");
+    expectElementEquality(updatedPrimaryBalance, initialPrimaryBalance + 1);
+    expectElementEquality(updatedBrokerageBalance, initialZMBalance - 1);
+
+    await portfolioPage.goto();
+    expectElementEquality(await portfolioPage.holdingList.getBrokerageAmount(CURRENCIES.BTC), updatedBrokerageBalance);
+    expectElementEquality(await portfolioPage.holdingList.getPrimaryAmount(CURRENCIES.BTC), updatedPrimaryBalance);
   });
 
   test("should populate the placeholder on the Transfer Funds tab @extended @jira(XRT-214)", async ({ fundsPage }) => {

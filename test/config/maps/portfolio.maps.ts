@@ -48,10 +48,10 @@ export const quickLinksMap = [
     link: "privacy policy",
     pageTo: "pages/privacy",
   },
-  {
-    link: "contact us",
-    pageTo: "pages/contact",
-  },
+  // {
+  //   link: "contact us",
+  //   pageTo: "pages/contact",
+  // },
 ];
 
 export const portfolioMap = [
@@ -72,51 +72,35 @@ export const portfolioMap = [
 export const featureHighlightMap = [
   {
     testName: "Get Verified @criticalPath @jira(XRT-94)",
-    config: {
-      items: ["GET_VERIFIED"],
-    },
+    config: ["GET_VERIFIED"],
   },
   {
     testName: "Cash Out @jira(XRT-96)",
-    config: {
-      items: ["CASH_OUT"],
-    },
+    config: ["CASH_OUT"],
   },
   {
     testName: "Payment In @jira(XRT-97)",
-    config: {
-      items: ["DEPOSIT_CASH"],
-    },
+    config: ["DEPOSIT_CASH"],
   },
   {
     testName: "Purchase @jira(XRT-100)",
-    config: {
-      items: ["BUY_COIN"],
-    },
+    config: ["BUY_COIN"],
   },
   {
     testName: "Transfer In @jira(XRT-98)",
-    config: {
-      items: ["DEPOSIT_COIN"],
-    },
+    config: ["DEPOSIT_COIN"],
   },
   {
     testName: "Enable 2 Factor @jira(XRT-99)",
-    config: {
-      items: ["ENABLE_TWO_FACTOR"],
-    },
+    config: ["ENABLE_TWO_FACTOR"],
   },
   {
     testName: "Your Console @jira(XRT-101)",
-    config: {
-      items: ["NEW_SITE_CONSOLE"],
-    },
+    config: ["NEW_SITE_CONSOLE"],
   },
   {
     testName: "Customer Support @criticalPath @jira(XRT-102)",
-    config: {
-      items: ["CUSTOMER_SUPPORT"],
-    },
+    config: ["CUSTOMER_SUPPORT"],
   },
 ];
 

@@ -12,15 +12,15 @@
 
 ## 1 - Description
 
-- playwright v1.20: https://playwright.dev/
+- playwright v1.24: https://playwright.dev/
 - Typescript: https://www.typescriptlang.org/
 
 <a name="installation"/>
 
 ## 2 - Installation
 
-- Project requires [Node.js](https://nodejs.org/) v14+ to run.
-- Execute the scripts
+Node version - 16.13.x (latest stable)
+NPM version - 8 (with `lockfileVersion: 2`)
 
 ```sh
 1. npm i

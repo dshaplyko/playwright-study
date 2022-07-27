@@ -48,19 +48,18 @@ test.describe("Brokerage Page @jira(PWU-71)", () => {
     brokeragePage,
     portfolioPage,
   }) => {
-    await brokeragePage.goto();
-    const brokerageBTC = await brokeragePage.holdingList.getCurrencyAmount(CURRENCIES.BTC);
-    const brokerageUSD = await brokeragePage.holdingList.getCurrencyAmount(CURRENCIES.USD);
+    const brokerageBTC = await brokeragePage.holdingList.getBrokerageAmount(CURRENCIES.BTC);
+    const brokerageUSD = await brokeragePage.holdingList.getBrokerageAmount(CURRENCIES.USD);
 
     await portfolioPage.goto();
-    const portfolioBTC = await portfolioPage.holdingList.getCurrencyAmount(CURRENCIES.BTC);
-    const portfolioUSD = await portfolioPage.holdingList.getCurrencyAmount(CURRENCIES.USD);
+    const portfolioBTC = await portfolioPage.holdingList.getBrokerageAmount(CURRENCIES.BTC);
+    const portfolioUSD = await portfolioPage.holdingList.getBrokerageAmount(CURRENCIES.USD);
     expectElementEquality(brokerageBTC, portfolioBTC);
     expectElementEquality(brokerageUSD, portfolioUSD);
   });
 
   test("should turn off appearance of IRFQ 3 @criticalPath @jira(XRT-260)", async ({ brokeragePage }) => {
-    await brokeragePage.disableBasket();
+    await brokeragePage.enableBasket(false);
     await brokeragePage.digitalAssetsList.click();
     await expectElementToHaveText(brokeragePage.digitalAssetsList.options, [CURRENCIES.IRFQ], false);
   });
@@ -114,8 +113,7 @@ test.describe("Brokerage Page @jira(PWU-71)", () => {
     await brokeragePage.verifyLimitTable(limitData);
   });
 
-  test("should set default trading pair @extended @jira(XRT-556)", async ({ portfolioPage, brokeragePage }) => {
-    await portfolioPage.goto();
+  test("should set default trading pair @extended @jira(XRT-556)", async ({ brokeragePage }) => {
     const { defaultFiat, defaultCoin } = await brokeragePage.getTradingPair();
     expectElementEquality(await brokeragePage.digitalAssetsList.input.inputValue(), defaultCoin);
     expectElementEquality(await brokeragePage.tradePairList.input.inputValue(), defaultFiat);

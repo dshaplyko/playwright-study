@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from "@playwright/test";
-import { REPORT_TYPES, COMPARE_CONDITIONS, ATTRIBUTES } from "../config";
+import { REPORT_TYPES, ATTRIBUTES } from "../config";
 import { checkArrayType } from "./main";
 
 export const expectPageURLContains = async (page: Page, toContain: string | RegExp): Promise<void> => {
@@ -158,28 +158,28 @@ export const expectElementToHaveValue = async (element: Locator, toContain: stri
 export const expectNumbersComparison = (
   numbers: string[] | number,
   toCompare: number,
-  condition: COMPARE_CONDITIONS
+  condition: "MORE_THAN" | "MORE_OR_EQUAL" | "LESS_THAN" | "LESS_OR_EQUAL"
 ): void => {
-  const customExpect = (item: string[] | number, message: string, condition: COMPARE_CONDITIONS) => {
+  const customExpect = (item: string[] | number, message: string) => {
     const assert = expect(item, message);
-    if (condition === COMPARE_CONDITIONS.MORE) {
+    if (condition === "MORE_THAN") {
       return assert.toBeGreaterThan(toCompare);
-    } else if (condition === COMPARE_CONDITIONS.LESS) {
+    } else if (condition === "LESS_THAN") {
       return assert.toBeLessThan(toCompare);
-    } else if (condition === COMPARE_CONDITIONS.MORE_OR_EQUAL) {
+    } else if (condition === "MORE_OR_EQUAL") {
       return assert.toBeGreaterThanOrEqual(toCompare);
-    } else if (condition === COMPARE_CONDITIONS.LESS_OR_EQUAL) {
+    } else if (condition === "LESS_OR_EQUAL") {
       return assert.toBeLessThanOrEqual(toCompare);
     }
   };
 
   if (typeof numbers === "number") {
-    return customExpect(numbers, `${numbers} is not ${condition} than ${toCompare}`, condition);
+    return customExpect(numbers, `${numbers} is not ${condition} than ${toCompare}`);
   } else {
     const absNumbers = numbers.map((number: string) => Math.abs(parseInt(number)));
 
     return absNumbers.forEach((number: number) => {
-      return customExpect(number, `Items from ${JSON.stringify(numbers)} not ${condition} ${toCompare}`, condition);
+      return customExpect(number, `Items from ${JSON.stringify(numbers)} not ${condition} ${toCompare}`);
     });
   }
 };

@@ -22,6 +22,7 @@ import { TwoFactorModal } from "../components/settings/twoFactorModal.component"
 import { ConfirmationModal } from "../components/general/modals/confirmationModal.component";
 import { expectElementVisibility, expectToHaveCount, waitSeveralSec } from "../../utils";
 import { Logger } from "../../logger/logger";
+import { Modal } from "../components/general/modals/modal.component";
 const logger = new Logger("Settings Page");
 
 export class SettingsPage extends BasePage {
@@ -36,6 +37,8 @@ export class SettingsPage extends BasePage {
   readonly addTwoFactorModal: TwoFactorModal;
 
   readonly confirmationModal: ConfirmationModal;
+
+  readonly unpairDeviceModal: Modal;
 
   readonly apiBlocks: Block;
 
@@ -55,6 +58,7 @@ export class SettingsPage extends BasePage {
       ),
       this.page
     );
+    this.unpairDeviceModal = new Modal(this.page.locator("div[role='presentation']"), this.page);
     this.apiBlocks = new Block(this.page.locator("div[data-test-id='settings-api-key-container']>div"));
   }
 
@@ -167,31 +171,9 @@ export class SettingsPage extends BasePage {
     });
   }
 
-  async disableSecuritySetting(otp: boolean, yubikey: boolean): Promise<void> {
-    await this.api.mockConfig({
-      security: {
-        otp: {
-          enabled: otp,
-        },
-        yubikey: {
-          enabled: yubikey,
-        },
-      },
-    });
-    await this.goto();
-  }
-
   async mockSecurityKeys(keys = OTP_KEYS): Promise<void> {
     await this.api.mockData(keys, URLs.SECURITY);
     await this.goto();
-  }
-
-  async mockMandatory2FA(): Promise<void> {
-    await this.api.mockConfig({
-      twoFactor: {
-        mandatory: true,
-      },
-    });
   }
 
   async mockAddingOTP(): Promise<void> {
@@ -200,11 +182,9 @@ export class SettingsPage extends BasePage {
   }
 
   async mockVerifyConfig(personal: boolean, company: boolean): Promise<void> {
-    await this.api.mockConfig({
-      verify: {
-        personalEnabled: personal,
-        companyEnabled: company,
-      },
+    await this.api.mockVerifyData({
+      personalEnabled: personal,
+      companyEnabled: company,
     });
     await this.goto();
   }
@@ -226,6 +206,14 @@ export class SettingsPage extends BasePage {
   async disableBaseCurrency(option: boolean): Promise<void> {
     const config = JSON.parse(JSON.stringify(SG_CONFIG));
     config.features.settings.noBaseCurrencySelection = option;
-    await this.api.mockConfig(config);
+    await this.api.useConfig(config);
+  }
+
+  async mockPairedDevicesSection(strategy: "ON" | "AUTO", devicesNumber = 99): Promise<void> {
+    const mockData = JSON.parse(JSON.stringify(SG_CONFIG)) as typeof SG_CONFIG;
+    mockData.auth.pairing.strategy = strategy;
+    mockData.auth.pairing.devices.max_paired = devicesNumber.toString();
+    await this.api.useConfig(mockData);
+    await this.goto();
   }
 }

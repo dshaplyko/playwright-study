@@ -1,5 +1,4 @@
 import { Locator, Page } from "@playwright/test";
-import { MEDIA } from "../../../../config";
 import { Main } from "./main.component";
 
 export class SocialMedia extends Main {
@@ -16,7 +15,7 @@ export class SocialMedia extends Main {
     this.browseForImageButton = this.rootEl.locator("button", { hasText: "Browse for Image" });
   }
 
-  getSocialMedia(media: MEDIA): Locator {
+  getSocialMedia(media: "twitter" | "facebook" | "youtube" | "qq"): Locator {
     return this.rootEl.locator(`[data-test-id='social-media-icon-${media}']`);
   }
 

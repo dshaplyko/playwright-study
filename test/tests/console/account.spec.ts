@@ -1,5 +1,5 @@
 import { test } from "../../po/pages";
-import { COMPARE_CONDITIONS, CONSOLE_ITEMS } from "../../config";
+import { CONSOLE_ITEMS } from "../../config";
 import { expectElementToHaveText, expectElementVisibility, expectNumbersComparison } from "../../utils";
 
 test.describe("Console Page - My Account @jira(PWU-403)", () => {
@@ -30,10 +30,6 @@ test.describe("Console Page - My Account @jira(PWU-403)", () => {
 
   test("language selector should contain proper options @extended @jira(XRT-418)", async ({ consolePage }) => {
     await consolePage.consoleHeader.languageSelector.click();
-    expectNumbersComparison(
-      await consolePage.consoleHeader.languageSelector.options.count(),
-      1,
-      COMPARE_CONDITIONS.MORE
-    );
+    expectNumbersComparison(await consolePage.consoleHeader.languageSelector.options.count(), 1, "MORE_THAN");
   });
 });

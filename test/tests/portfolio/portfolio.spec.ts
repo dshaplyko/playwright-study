@@ -14,6 +14,7 @@ import {
   expectElementEquality,
   expectElementToBeDisabled,
   expectArrayIncludes,
+  expectElementToHaveText,
 } from "../../utils";
 
 test.describe("Portfolio - Trade SG Config @jira(PWU-22)", () => {
@@ -96,5 +97,38 @@ test.describe("Portfolio - Trade SG Config @jira(PWU-22)", () => {
 
     await fundsPage.goto();
     await expectElementVisibility(fundsPage.subAccountIndicator, false);
+  });
+
+  test("should get base currency from /baseCurrency response @extended @jira(XRT-576)", async ({ portfolioPage }) => {
+    await portfolioPage.mockBaseCurrency(CURRENCIES.SGD);
+    await portfolioPage.goto();
+    await expectElementToHaveText(portfolioPage.getWidget(WIDGETS.YOUR_PORTFOLIO).currency, CURRENCIES.SGD);
+  });
+
+  test("should get base currency (fiat) from /defaultCurrencyPair response @extended @jira(XRT-577)", async ({
+    portfolioPage,
+  }) => {
+    await portfolioPage.mockBaseCurrency("");
+    await portfolioPage.mockDefaultCurrencyPair(CURRENCIES.USD, CURRENCIES.BTC);
+    await portfolioPage.goto();
+    await expectElementToHaveText(portfolioPage.getWidget(WIDGETS.YOUR_PORTFOLIO).currency, CURRENCIES.USD);
+  });
+
+  test("should get base currency (crypto) from /defaultCurrencyPair response @extended @jira(XRT-578)", async ({
+    portfolioPage,
+  }) => {
+    await portfolioPage.mockBaseCurrency("");
+    await portfolioPage.mockDefaultCurrencyPair("", CURRENCIES.BTC);
+    await portfolioPage.goto();
+    await expectElementToHaveText(portfolioPage.getWidget(WIDGETS.YOUR_PORTFOLIO).currency, CURRENCIES.BTC);
+  });
+
+  test("should set BCT as default currency when nothing is selected @extended @jira(XRT-579)", async ({
+    portfolioPage,
+  }) => {
+    await portfolioPage.mockBaseCurrency("");
+    await portfolioPage.mockDefaultCurrencyPair("", "");
+    await portfolioPage.goto();
+    await expectElementToHaveText(portfolioPage.getWidget(WIDGETS.YOUR_PORTFOLIO).currency, CURRENCIES.BTC);
   });
 });

@@ -1,5 +1,5 @@
 import { test } from "../../po/pages";
-import { COMPARE_CONDITIONS, CONSOLE_ITEMS } from "../../config";
+import { CONSOLE_ITEMS } from "../../config";
 import {
   expectArraySorted,
   expectElementToContainText,
@@ -21,7 +21,7 @@ test.describe("Console Page - Posts @jira(UCP-49)", () => {
     await expectElementVisibility(consolePage.getTab(CONSOLE_ITEMS.POSTS).sort.rootEl, true);
     await expectElementVisibility(consolePage.getTab(CONSOLE_ITEMS.POSTS).postsFilter.rootEl, true);
     await expectElementVisibility(consolePage.getTab(CONSOLE_ITEMS.POSTS).filter.rootEl, true);
-    expectNumbersComparison(await consolePage.getTab(CONSOLE_ITEMS.POSTS).items.count(), 1, COMPARE_CONDITIONS.MORE);
+    expectNumbersComparison(await consolePage.getTab(CONSOLE_ITEMS.POSTS).items.count(), 1, "MORE_THAN");
   });
 
   test("should open empty posts tab @criticalPath @jira(XRT-434)", async ({ consolePage }) => {
@@ -53,7 +53,7 @@ test.describe("Console Page - Posts @jira(UCP-49)", () => {
     await consolePage.getTab(CONSOLE_ITEMS.POSTS).filter.clickByText("Outdated");
     const outdatedCount = await consolePage.getTab(CONSOLE_ITEMS.POSTS).items.count();
 
-    expectNumbersComparison(defaultCount, outdatedCount, COMPARE_CONDITIONS.MORE);
+    expectNumbersComparison(defaultCount, outdatedCount, "MORE_THAN");
   });
 
   test("should save/delete a post @criticalPath @jira(XRT-439), @jira(XRT-440), @jira(XRT-441)", async ({

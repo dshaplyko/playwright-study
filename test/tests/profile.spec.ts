@@ -1,6 +1,6 @@
 import { test } from "../po/pages";
-import { profileLinkMap } from "../config";
-import { expectElementVisibility, expectPageURLContains } from "../utils";
+import { LANGUAGES, profileLinkMap } from "../config";
+import { expectElementVisibility, expectPageURLContains, expectElementEquality } from "../utils";
 
 test.describe.parallel("Profile Component for Admin/Owner", () => {
   test.beforeEach(async ({ portfolioPage }) => {
@@ -51,5 +51,31 @@ test.describe.parallel("Profile Component for Admin/Owner", () => {
     await portfolioPage.header.profileButton.click();
     await portfolioPage.profile.stagingModeLink.click();
     await expectElementVisibility(portfolioPage.stagingModeLabel, false);
+  });
+
+  test("should be able to switch languages @criticalPath @jira(XRT-355)", async ({ portfolioPage }) => {
+    const quickTipsTextEnglish = await portfolioPage.quickTipsText.innerText();
+    await portfolioPage.header.profileButton.click();
+    await portfolioPage.profile.languageSelector.click();
+    await portfolioPage.profile.switchLanguageTo(LANGUAGES.SIMPLIFIED_CHINESE);
+    const quickTipsTextChinese = await portfolioPage.quickTipsText.innerText();
+    expectElementEquality(quickTipsTextEnglish, quickTipsTextChinese, false);
+
+    await portfolioPage.profile.languageSelector.click();
+    await portfolioPage.profile.switchLanguageTo(LANGUAGES.ENGLISH);
+    const newQuickTipsTextEnglish = await portfolioPage.quickTipsText.innerText();
+    expectElementEquality(quickTipsTextEnglish, newQuickTipsTextEnglish, true);
+  });
+
+  test("should have page elements on the market insights page @criticalPath @jira(XRT-357)", async ({
+    portfolioPage,
+    infoPage,
+  }) => {
+    await portfolioPage.header.profileButton.click();
+    await portfolioPage.profile.marketInsightsLink.click();
+    await expectElementVisibility(infoPage.articleHeader, true);
+    await expectElementVisibility(infoPage.articleBody, true);
+    await expectElementVisibility(infoPage.articleMenuButtons, true);
+    await expectElementVisibility(infoPage.footer, true);
   });
 });

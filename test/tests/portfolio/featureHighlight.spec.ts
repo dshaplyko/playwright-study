@@ -6,7 +6,7 @@ test.describe("Portfolio - Feature highlight widgets @jira(PWU-108)", () => {
   featureHighlightMap.forEach(({ testName, config }) => {
     test(`should display ${testName} as a feature highlight @criticalPath`, async ({ portfolioPage }) => {
       await portfolioPage.mockFeatureHighlight(config);
-      await expectElementVisibility(portfolioPage.getFeatureHighlight(FEATURE_HIGHLIGHT[config.items[0]]).rootEl, true);
+      await expectElementVisibility(portfolioPage.getFeatureHighlight(FEATURE_HIGHLIGHT[config[0]]).rootEl, true);
     });
   });
 });

@@ -24,8 +24,8 @@ import {
   SG_SUBMIT_MAX_ERROR,
   SG_TRANSACTION_METADATA,
   BANK_DATA_EMPTY,
-  BASE_URL,
   SG_CONFIG,
+  SG_USER,
 } from "../../config";
 import { Logger } from "../../logger/logger";
 import { generateRandomString } from "../../utils";
@@ -184,10 +184,18 @@ export class FundsPage extends BasePage {
     await this.api.mockData(SG_TRANSACTION_METADATA, transactionCurrency);
   }
 
-  async mockConfig(config: any, account: any): Promise<void> {
-    await this.api.mockConfig(config);
-    await this.api.mockUser(account);
-    await this.goto();
+  async blockFundsOptions(withdrawal: boolean, deposit: boolean, trade: boolean): Promise<void> {
+    const mockData = { ...SG_USER };
+    mockData.data.accountGroups.forEach((group) => {
+      group.ownerProfile.withdrawalRestricted = withdrawal;
+      group.ownerProfile.depositRestricted = deposit;
+      group.ownerProfile.tradeRestricted = trade;
+    });
+    mockData.data.withdrawalRestricted = withdrawal;
+    mockData.data.depositRestricted = deposit;
+    mockData.data.tradeRestricted = trade;
+    await this.clearLocalStorage();
+    return this.api.mockUser(mockData.data);
   }
 
   async createBankWithRandomName(): Promise<string> {
@@ -216,7 +224,7 @@ export class FundsPage extends BasePage {
       await this.goto();
       await this.transferFunds.click();
       await this.currencyList.chooseCurrency(CURRENCIES.USD);
-      await this.transferFundsForm.makeTransfer("Exchange", "Primary");
+      await this.transferFundsForm.makeTransfer("Exchange", "Primary", "half");
       await this.goto();
       await this.paymentOut.click();
       await this.currencyList.chooseCurrency(CURRENCIES.USD);
@@ -226,19 +234,9 @@ export class FundsPage extends BasePage {
     }
   }
 
-  async makeTransferBTC(amount: number): Promise<void> {
-    await this.page.goto(`${BASE_URL}/funds`);
-    await this.transferFunds.click();
-    await this.currencyList.chooseCurrency(CURRENCIES.BTC);
-    logger.info("Making Exchange->Primary transfer using BTC");
-    await this.transferFundsForm.makeTransfer("Exchange", "Primary", amount);
-  }
-
   async hideAddBankButton(option: boolean): Promise<void> {
-    await this.api.mockConfig({
-      site: {
-        payoutAddBankDisable: option,
-      },
+    await this.api.mockSiteData({
+      payoutAddBankDisable: option,
     });
   }
 

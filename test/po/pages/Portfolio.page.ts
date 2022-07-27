@@ -4,7 +4,16 @@ import { Widget } from "../components/general/widget.component";
 import { HoldingList } from "../components/portfolio/holdingList.component";
 import { FeatureHighlight } from "../components/portfolio/featureHighlight.component";
 import { TradingButtons } from "../components/portfolio/tradingButtons.component";
-import { WIDGETS, FEATURE_HIGHLIGHT, DECIMAL_PART, NOTIFICATIONS_DATA, URLs, SG_CONFIG_OLD } from "../../config";
+import {
+  WIDGETS,
+  FEATURE_HIGHLIGHT,
+  DECIMAL_PART,
+  NOTIFICATIONS_DATA,
+  URLs,
+  SG_CONFIG_OLD,
+  CURRENCIES,
+  SG_NEXT_STEPS,
+} from "../../config";
 import { Logger } from "../../logger/logger";
 import { GroupHead } from "../components/portfolio/groupHead.component";
 import { CardGroup } from "../components/portfolio/cardGroup.component";
@@ -44,6 +53,8 @@ export class PortfolioPage extends BasePage {
 
   readonly accountList: Dropdown;
 
+  readonly quickTipsText: Locator;
+
   constructor(page: Page, url = "/portfolio") {
     super(page);
     this.url = url;
@@ -51,6 +62,7 @@ export class PortfolioPage extends BasePage {
     this.tradingButtons = new TradingButtons(this.page.locator("div[data-test-id='trading-related-area']"));
     this.quickTips = this.page.locator("div[data-test-id='quick-tips']");
     this.quickTipsLink = this.quickTips.locator("a[href*=funds]").first();
+    this.quickTipsText = this.quickTips.locator("span").first();
     this.cardsView = this.page.locator("button[data-test-id='toggle-cards-view-button']");
     this.rowsView = this.page.locator("button[data-test-id='toggle-rows-view-button']");
     this.currencyFilter = new Dropdown(this.page.locator("[data-test-id='ccy-type-filter-switch']"), this.page);
@@ -111,8 +123,8 @@ export class PortfolioPage extends BasePage {
     await this.goto();
   }
 
-  async mockFeatureHighlight(config: any): Promise<void> {
-    await this.api.mockConfig(SG_CONFIG_OLD);
+  async mockFeatureHighlight(config: typeof SG_NEXT_STEPS.data.items): Promise<void> {
+    await this.api.useConfig(SG_CONFIG_OLD);
     await this.api.mockUser({
       roles: ["ROLE_USER"],
       isPtsEnabled: true,
@@ -166,12 +178,10 @@ export class PortfolioPage extends BasePage {
   }
 
   async enableTrading(option: boolean): Promise<void> {
-    await this.api.mockConfig({
-      site: {
-        displayUnsettled: {
-          enabled: option,
-        },
-      },
+    await this.api.mockFeaturesSiteData({
+      isEnabled: true,
+      isMaitenanceBannerDisplayed: true,
+      isDisplayedUnsettled: option,
     });
     await this.goto();
   }
@@ -191,5 +201,24 @@ export class PortfolioPage extends BasePage {
     for (let i = 0; i < tablesCount; i++) {
       await expectElementVisibility(this.getGroupTable(i).currencyRows.first(), option);
     }
+  }
+
+  async mockBaseCurrency(currency: CURRENCIES | ""): Promise<void> {
+    await this.api.mockData(
+      {
+        baseCurrency: currency,
+      },
+      URLs.BASE_CURRENCY
+    );
+  }
+
+  async mockDefaultCurrencyPair(defaultFiat: CURRENCIES | "", defaultCoin: CURRENCIES | ""): Promise<void> {
+    await this.api.mockData(
+      {
+        defaultFiat,
+        defaultCoin,
+      },
+      URLs.DEFAULT_CURRENCY
+    );
   }
 }

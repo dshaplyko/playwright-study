@@ -88,16 +88,14 @@ export class ConsolePage extends BasePage {
     await super.goto(this.url);
   }
 
-  async mockEmptyItems(items: "POSTS" | "PAGES"): Promise<void> {
+  async mockEmptyItems(items: "POSTS" | "PAGES" | "MEDIA"): Promise<void> {
     await this.api.mockData([], URLs[items]);
     await this.openTab(CONSOLE_ITEMS[items]);
   }
 
   async mockPDAX(): Promise<void> {
-    await this.api.mockConfig({
-      site: {
-        enum: "_OSLLC_COM",
-      },
+    await this.api.mockSiteData({
+      enum: "_OSLLC_COM",
     });
   }
 }

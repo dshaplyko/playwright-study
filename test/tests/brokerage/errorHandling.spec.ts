@@ -5,13 +5,15 @@ import {
   RFQ_QUOTES_NOT_AVAILABLE,
   RFQ_MAXIMUM_SELL_ERROR,
   URLs,
-  RFQ_BASIC_ERROR,
+  RFQ_CUSTOMER_SUPPORT,
   brokerageErrorsMap,
   brokerageNetworkErrorMap,
   RFQ_MINIMUM_SELL_ERROR,
   networkErrorData,
   tradeErrorData,
   tradeError,
+  RFQ_INSUFFIENCT_AMOUNT,
+  RFQ_QUOTE_EXPIRED,
 } from "../../config";
 import { expectElementVisibility, expectElementToHaveText } from "../../utils";
 
@@ -31,11 +33,12 @@ test.describe("Brokerage Page - Error Handling @jira(PWU-71)", () => {
   });
 
   test("should display error when IRFQ3 is selected @extended @jira(XRT-253)", async ({ brokeragePage }) => {
+    await brokeragePage.mockBasketQuoteData();
     await brokeragePage.digitalAssetsList.clickByText(CURRENCIES.IRFQ);
     await brokeragePage.sellButton.click();
     await brokeragePage.tradePairList.clickByText(CURRENCIES.USD);
     await brokeragePage.tradeAmount.fill("10");
-    await brokeragePage.checkQuoteSave();
+    await brokeragePage.quotePriceButton.click();
     await expectElementVisibility(brokeragePage.errorMessage, true);
     await expectElementToHaveText(brokeragePage.errorMessage, RFQ_QUOTES_NOT_AVAILABLE);
     await expectElementVisibility(brokeragePage.quotePriceButton, false);
@@ -75,7 +78,7 @@ test.describe("Brokerage Page - Error Handling @jira(PWU-71)", () => {
       await brokeragePage.tradeAmount.fill("40");
       await brokeragePage.quotePriceButton.click();
       await expectElementVisibility(brokeragePage.errorMessage, true);
-      await expectElementToHaveText(brokeragePage.errorMessage, RFQ_BASIC_ERROR);
+      await expectElementToHaveText(brokeragePage.errorMessage, RFQ_CUSTOMER_SUPPORT);
     });
   });
 
@@ -102,7 +105,7 @@ test.describe("Brokerage Page - Error Handling @jira(PWU-71)", () => {
     await brokeragePage.quotePriceButton.click();
     await brokeragePage.confirmButton.click();
     await expectElementVisibility(brokeragePage.errorMessage, true);
-    await expectElementToHaveText(brokeragePage.errorMessage, "The quote has expired. Please try again.");
+    await expectElementToHaveText(brokeragePage.errorMessage, RFQ_QUOTE_EXPIRED);
   });
 
   test("should handle SYSTEM_ERROR @extended @jira(XRT-566)", async ({ brokeragePage }) => {
@@ -115,6 +118,16 @@ test.describe("Brokerage Page - Error Handling @jira(PWU-71)", () => {
     await brokeragePage.quotePriceButton.click();
     await brokeragePage.confirmButton.click();
     await expectElementVisibility(brokeragePage.errorMessage, true);
-    await expectElementToHaveText(brokeragePage.errorMessage, RFQ_BASIC_ERROR);
+    await expectElementToHaveText(brokeragePage.errorMessage, RFQ_CUSTOMER_SUPPORT);
+  });
+
+  test("should not trade over the limit @criticalPath @jira(XRT-543)", async ({ brokeragePage }) => {
+    await brokeragePage.digitalAssetsList.clickByText(CURRENCIES.BTC);
+    await brokeragePage.buyButton.click();
+    await brokeragePage.tradePairList.clickByText(CURRENCIES.USD);
+    await brokeragePage.tradeAmount.fill("1001");
+    await brokeragePage.checkQuoteSave();
+    await expectElementVisibility(brokeragePage.errorMessage, true);
+    await expectElementToHaveText(brokeragePage.errorMessage, RFQ_INSUFFIENCT_AMOUNT);
   });
 });

@@ -23,10 +23,14 @@ test.describe.parallel("Reports Page @jira(PWU-263)", () => {
 
   test("should display error message when there is no report @extended @jira(XRT-329)", async ({ reportsPage }) => {
     await reportsPage.goto();
-    await reportsPage.getReportForm(REPORT_FORM.TRANSACTION).dateFrom.selectCurrentDay();
-    await reportsPage.getReportForm(REPORT_FORM.TRANSACTION).exportButton.click();
-    await expectElementVisibility(reportsPage.getReportForm(REPORT_FORM.TRANSACTION).errorMessage, true);
-    await expectElementToHaveText(reportsPage.getReportForm(REPORT_FORM.TRANSACTION).errorMessage, NO_REPORT_MESSAGE);
+    await reportsPage.getReportForm(REPORT_FORM.TRANSFER_FUNDS).dateFrom.selectCurrentDay();
+    await reportsPage.getReportForm(REPORT_FORM.TRANSFER_FUNDS).dateTo.selectCurrentDay();
+    await reportsPage.getReportForm(REPORT_FORM.TRANSFER_FUNDS).exportButton.click();
+    await expectElementVisibility(reportsPage.getReportForm(REPORT_FORM.TRANSFER_FUNDS).errorMessage, true);
+    await expectElementToHaveText(
+      reportsPage.getReportForm(REPORT_FORM.TRANSFER_FUNDS).errorMessage,
+      NO_REPORT_MESSAGE
+    );
   });
 
   test("should turn off reports feature @extended @jira(XRT-521)", async ({ reportsPage, portfolioPage }) => {

@@ -1,4 +1,5 @@
 import { Locator, Page } from "@playwright/test";
+import { expectElementVisibility } from "../../../../utils";
 import { Dropdown } from "../../basic/dropdown";
 import { Main } from "./main.component";
 
@@ -23,5 +24,11 @@ export class Theming extends Main {
     this.confirmPaymentInButton = this.rootEl.locator("button", { hasText: "Confirm Payment Out" });
     this.samplesButton = this.rootEl.locator("button", { hasText: "Button without any color" });
     this.adcivitiesPreview = this.rootEl.locator(".MuiTableHead-root");
+  }
+
+  async verifyColorsVisibility() {
+    for (let i = 0; i < (await this.colorOptions.count()); i++) {
+      await expectElementVisibility(this.colorOptions.nth(i), true);
+    }
   }
 }

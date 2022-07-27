@@ -38,7 +38,6 @@ test.describe("Two Factor Modal @jira(PWU-70)", () => {
   test("should display on all pages @criticalPath @jira(XRT-323)", async ({
     activitiesPage,
     fundsPage,
-    brokeragePage,
     settingsPage,
   }) => {
     await activitiesPage.goto();
@@ -46,9 +45,6 @@ test.describe("Two Factor Modal @jira(PWU-70)", () => {
 
     await fundsPage.goto();
     await expectElementVisibility(fundsPage.twoFactorModal.rootEl, true);
-
-    await brokeragePage.goto();
-    await expectElementVisibility(brokeragePage.twoFactorModal.rootEl, true);
 
     await settingsPage.goto();
     await expectElementVisibility(settingsPage.twoFactorModal.rootEl, true);

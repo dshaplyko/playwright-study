@@ -37,25 +37,25 @@ export const configurationFundsMap = [
         },
       },
     },
-    accountOptions: {
-      tradeRestricted: true,
-    },
+    isTradeRestricted: true,
+    isDepositRestricted: false,
+    isWithdrawalRestricted: false,
     tab: "transferFunds",
   },
   {
     testId: "@jira(XRT-186)",
     configOptions: {},
-    accountOptions: {
-      depositRestricted: true,
-    },
+    isTradeRestricted: false,
+    isDepositRestricted: true,
+    isWithdrawalRestricted: false,
     tab: "paymentIn",
   },
   {
     testId: "@jira(XRT-187)",
     configOptions: {},
-    accountOptions: {
-      withdrawalRestricted: true,
-    },
+    isTradeRestricted: false,
+    isDepositRestricted: false,
+    isWithdrawalRestricted: true,
     tab: "paymentOut",
   },
 ];
@@ -153,57 +153,5 @@ export const paymentOutModalMap = [
     name: "should display for EUR currency @criticalPath @jira(XRT-196) @jira(XRT-190)",
     currency: CURRENCIES.EUR,
     expectedMessage: /EUR apply./,
-  },
-  // TODO: Currency is turned off on trade-sg
-  // {
-  //   name: "should display for GBP currency @criticalPath @jira(XRT-196) @jira(XRT-193)",
-  //   currency: CURRENCIES.GBP,
-  //   expectedMessage: "GBP apply.",
-  // }
-];
-
-export const paymentInModalFiatMap = [
-  {
-    name: "should display for All Fiat (Except of CHF) currencies @criticalPath @jira(XRT-198)",
-    currency: CURRENCIES.USD,
-    expectedMessage:
-      /Please supply the intended amount of your Payment In. The following screen will provide the payment details. Please also note the following:/,
-  },
-  // TODO: Currency is turned off on trade-sg
-  // {
-  //   name: "should display for CHF currency @criticalPath @jira(XRT-199)",
-  //   currency: CURRENCIES.CHF,
-  //   expectedMessage: "Please specify the Payment In amount and do not enter cents. Please also note the following:",
-  // },
-];
-
-export const paymentInModalDigitalAssetMap = [
-  {
-    name: "should display for All Digital Assets (Except of XRP) @criticalPath @jira(XRT-200)",
-    currency: CURRENCIES.BTC,
-    expectedMessage:
-      /Please supply the intended amount of your Payment In. The following screen will provide the payment details. Please also note the following:/,
-    isAdditionalLabelVisible: true,
-  },
-  // TODO: Currency is turned off on trade-sg
-  // {
-  //   name: "should display for XRP @criticalPath @jira(XRT-201)",
-  //   currency: CURRENCIES.XRP,
-  //   expectedMessage:
-  //     "Please supply the intended amount of your Payment In. The following screen will provide the payment details. Please also note the following:",
-  //   isAdditionalLabelVisible: false,
-  // },
-];
-
-export const transferFundsPaymentMap = [
-  {
-    jiraId: "@jira(XRT-216) @jira(XRT-217)",
-    type: "FIAT",
-    currency: CURRENCIES.USD,
-  },
-  {
-    jiraId: "@jira(XRT-495)",
-    type: "crypto",
-    currency: CURRENCIES.BTC,
   },
 ];

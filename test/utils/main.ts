@@ -17,8 +17,8 @@ export const waitSeveralSec = (milliseconds: number): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 };
 
-export const useState = (state: "clean" | "admin") => {
-  const path = state === "admin" ? "./test/config/states/admin.json" : "./test/config/states/default.json";
+export const useState = (state: "clean" | "trader") => {
+  const path = state === "trader" ? "./test/config/states/trader.json" : "./test/config/states/default.json";
 
   test.use({
     storageState: path,

@@ -1,10 +1,9 @@
 import { Locator, Page } from "@playwright/test";
 import { Form } from "./form.component";
-import { getValueAsNumber } from "../../../../utils";
 import { Dropdown } from "../../basic/dropdown";
-import { BALANCE_ENUM } from "../../../../config";
 import { Element } from "../../basic/element";
 import { TransactionTypes } from "../../../../config";
+import { getValueAsNumber } from "../../../../utils";
 export class TransferFunds extends Form {
   readonly page: Page;
 
@@ -12,9 +11,13 @@ export class TransferFunds extends Form {
 
   readonly exchangeBalance: Locator;
 
+  readonly zmBalance: Locator;
+
   readonly brokerageBalance: Locator;
 
   readonly balances: Locator;
+
+  readonly buckets: Locator;
 
   readonly hints: Locator;
 
@@ -40,8 +43,10 @@ export class TransferFunds extends Form {
     super(locator);
     this.page = page;
     this.balances = this.rootEl.locator("span[data-test-id='funds-transfer-funds-balance']");
+    this.buckets = this.rootEl.locator("span.MuiTypography-H14");
     this.primaryBalance = this.balances.nth(0);
     this.exchangeBalance = this.balances.nth(1);
+    this.zmBalance = this.balances.nth(1);
     this.brokerageBalance = this.balances.nth(2);
     this.hints = this.rootEl.locator("button>svg[data-testid='InfoOutlinedIcon']");
     this.primaryHint = new Element(this.hints.nth(0));
@@ -63,20 +68,28 @@ export class TransferFunds extends Form {
     });
   }
 
-  async findNonZeroBalance(): Promise<TransactionTypes> {
-    const texts = (await this.balances.allInnerTexts()).map((balance) => getValueAsNumber(balance));
-    const nonZeroIndex = texts.findIndex((item) => item > 0);
-    return BALANCE_ENUM[nonZeroIndex] as TransactionTypes;
+  async getBalance(balance: TransactionTypes) {
+    let balanceString: string | number;
+
+    switch (balance) {
+      case "Primary":
+        balanceString = await this.primaryBalance.innerText();
+        break;
+      case "Exchange":
+        balanceString = await this.exchangeBalance.innerText();
+        break;
+      case "Brokerage":
+        balanceString = await this.brokerageBalance.innerText();
+        break;
+      case "ExtTradeVenue-ZM":
+        balanceString = await this.zmBalance.innerText();
+        break;
+    }
+    return getValueAsNumber(balanceString);
   }
 
-  async chooseTransferTo(selectedOption: string): Promise<TransactionTypes> {
-    if (selectedOption === "Primary") {
-      await this.transferTo.clickByText("Exchange");
-      return "Exchange" as TransactionTypes;
-    } else {
-      await this.transferTo.clickByText("Primary");
-      return "Primary" as TransactionTypes;
-    }
+  getBucket(index: number): Locator {
+    return this.buckets.nth(index - 1);
   }
 
   async makeTransferFrom(selectedOption: TransactionTypes): Promise<void> {
@@ -87,21 +100,12 @@ export class TransferFunds extends Form {
     await this.transferTo.clickByText(selectedOption);
   }
 
-  async makeTransfer(from: TransactionTypes, to: TransactionTypes, amount = 50): Promise<void> {
+  async makeTransfer(from: TransactionTypes, to: TransactionTypes, amount: number | "half"): Promise<void> {
     await this.makeTransferFrom(from);
     await this.makeTransferTo(to);
-    await this.choosePercentControl(amount);
+    await this.amountField.typeText(`${amount}`);
+    if (amount === "half") await this.choosePercentControl(50);
     await this.transferFundsButton.click();
     await this.doneButton.click();
-  }
-
-  async executeTransferFromNonZeroBalance(): Promise<{
-    balanceFrom: TransactionTypes;
-    balanceTo: TransactionTypes;
-  }> {
-    const balanceFrom = await this.findNonZeroBalance();
-    await this.makeTransferFrom(balanceFrom);
-    const balanceTo = await this.chooseTransferTo(balanceFrom);
-    return { balanceFrom, balanceTo };
   }
 }

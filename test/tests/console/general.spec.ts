@@ -1,5 +1,5 @@
 import { test } from "../../po/pages";
-import { COMPARE_CONDITIONS, CONSOLE_ITEMS } from "../../config";
+import { CONSOLE_ITEMS } from "../../config";
 import {
   expectElementToHaveText,
   expectElementVisibility,
@@ -37,7 +37,7 @@ test.describe("Console Page - General Tab @jira(UCP-52)", () => {
     expectNumbersComparison(
       await consolePage.getTab(CONSOLE_ITEMS.GENERAL).defaultLanguage.options.count(),
       1,
-      COMPARE_CONDITIONS.MORE
+      "MORE_THAN"
     );
   });
 

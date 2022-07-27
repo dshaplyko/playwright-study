@@ -84,11 +84,14 @@ export const BROKERAGE_HINT =
   "Used for Trading on OTC and RFQ only. You can transfer funds from PRIMARY to BROKERAGE or BROKERAGE to PRIMARY";
 export const FIAT_CURRENCIES = ["USD", "EUR", "AUD", "SGD", "HKD", "JPY", "CHF", "GBP", "PHP"];
 export const DIGITAL_CURRENCIES = ["BTC", "USDC", "USDT", "ETH", "BCH", "SUSHI"];
-export type TransactionTypes = "Primary" | "Exchange" | "Brokerage";
+export type TransactionTypes = "Primary" | "Exchange" | "Brokerage" | "ExtTradeVenue-ZM";
 export const RFQ_TRADING_PROHIBITED =
   "Your trading activity is temporarily unavailable.For any assistance, please contact our customer hotline.";
 export const RFQ_QUOTES_NOT_AVAILABLE = "Quote(s) are only available for above digital assets.";
 export const RFQ_MAXIMUM_SELL_ERROR = /Exceeds the maximum size of \[ (\d)+[.](\d)+ ]/;
 export const RFQ_MINIMUM_SELL_ERROR = /Less than the minimum size of \[ (\d){1}[.](\d)+ ]/;
-export const RFQ_BASIC_ERROR =
+export const RFQ_INSUFFIENCT_AMOUNT = "Insufficient limit for submitted quotation, please refer to your limit usage.";
+export const RFQ_CUSTOMER_SUPPORT =
   /Request cannot be completed at the moment. Please contact our customer support for assistance./;
+export const RFQ_QUOTE_EXPIRED = "The quote has expired. Please try again.";
+export const INVALID_CAPTCHA = "Invalid captcha entered. Please try again.";

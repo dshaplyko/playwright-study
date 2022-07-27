@@ -11,6 +11,7 @@ import { RegistrationPage } from "./Registration.page";
 import { ReportsPage } from "./Reports.page";
 import { ConsolePage } from "./Console.page";
 import { InfoPage } from "./Info.page";
+import { FeesPage } from "./Fees.page";
 import { Api } from "../api/api";
 
 export const test = baseTest.extend<{
@@ -26,6 +27,7 @@ export const test = baseTest.extend<{
   reportsPage: ReportsPage;
   consolePage: ConsolePage;
   infoPage: InfoPage;
+  feesPage: FeesPage;
 }>({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
@@ -63,6 +65,9 @@ export const test = baseTest.extend<{
   infoPage: async ({ page }, use) => {
     await use(new InfoPage(page));
   },
+  feesPage: async ({ page }, use) => {
+    await use(new FeesPage(page));
+  },
 });
 
 export class Application {
@@ -90,6 +95,8 @@ export class Application {
 
   readonly infoPage: InfoPage;
 
+  readonly feesPage: FeesPage;
+
   constructor(page: Page) {
     this.loginPage = new LoginPage(page);
     this.api = new Api(page);
@@ -103,5 +110,6 @@ export class Application {
     this.reportsPage = new ReportsPage(page);
     this.consolePage = new ConsolePage(page);
     this.infoPage = new InfoPage(page);
+    this.feesPage = new FeesPage(page);
   }
 }

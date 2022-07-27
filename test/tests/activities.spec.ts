@@ -1,7 +1,6 @@
 import { test } from "../po/pages";
 import {
   ACTIVITY_COLUMNS_NAMES,
-  COMPARE_CONDITIONS,
   reportDownloadMap,
   currenciesMap,
   presetDatesMap,
@@ -63,7 +62,7 @@ test.describe.parallel("Activities Page @jira(PWU-25)", () => {
         await activitiesPage.historicalReports.filterBy("type", type);
         await activitiesPage.historicalReports.currency.click();
         const currencyOptions = await activitiesPage.historicalReports.currency.options.count();
-        expectNumbersComparison(currencyOptions, 1, COMPARE_CONDITIONS.MORE);
+        expectNumbersComparison(currencyOptions, 1, "MORE_THAN");
       });
     });
 
@@ -212,8 +211,8 @@ test.describe.parallel("Activities Page @jira(PWU-25)", () => {
       await activitiesPage.activityFilter.amountTo.type(amountTo.toString());
       await activitiesPage.activityFilter.buttonConfirm.click();
       const amount: string[] = await activitiesPage.transactionActivity.getColumnText(ACTIVITY_COLUMNS_NAMES.AMOUNT);
-      expectNumbersComparison(amount, amountFrom, COMPARE_CONDITIONS.MORE_OR_EQUAL);
-      expectNumbersComparison(amount, amountTo, COMPARE_CONDITIONS.LESS);
+      expectNumbersComparison(amount, amountFrom, "MORE_OR_EQUAL");
+      expectNumbersComparison(amount, amountTo, "LESS_THAN");
     });
 
     presetDatesMap.forEach(({ period, option, difference }) => {
@@ -224,11 +223,7 @@ test.describe.parallel("Activities Page @jira(PWU-25)", () => {
         await activitiesPage.activityFilter.presetPeriodButtons.nth(option).click();
         const dateFrom = await activitiesPage.activityFilter.dateFrom.input.convertValueToDate();
         const dateTo = await activitiesPage.activityFilter.dateTo.input.convertValueToDate();
-        expectNumbersComparison(
-          calculateDateDifference(dateFrom, dateTo),
-          difference,
-          COMPARE_CONDITIONS.MORE_OR_EQUAL
-        );
+        expectNumbersComparison(calculateDateDifference(dateFrom, dateTo), difference, "MORE_OR_EQUAL");
       });
     });
 

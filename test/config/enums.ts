@@ -22,6 +22,7 @@ export enum PORTFOLIO_COLUMNS {
   LEVERAGE = "Leverage",
   BUY = "Unsettled Buy",
   SELL = "Unsettled Sell",
+  EX_TRADE_VENUE = "ExtTradeVenue-ZM",
 }
 
 export enum ACTIVITY_COLUMNS {
@@ -84,6 +85,7 @@ export enum TRANSACTION_FILTER_TYPES {
 }
 
 export enum TRANSACTION_FILTER_CURRENCIES {
+  JPY = "JPY",
   BTC = "BTC",
   USDT = "USDT-ERC20",
   SGD = "SGD",
@@ -96,6 +98,7 @@ export enum TRANSACTION_FILTER_CURRENCIES {
   EUR = "EUR",
   CAD = "CAD",
   BRL = "BRL",
+  KRW = "KRW",
 }
 
 export enum TRANSACTION_STATUSES {
@@ -109,13 +112,6 @@ export enum TRANSACTION_STATUSES {
   REVERSED = "Reversed",
   SUBMITTED = "Submitted",
   SUSPENDED = "Suspended",
-}
-
-export enum COMPARE_CONDITIONS {
-  MORE = "more than",
-  MORE_OR_EQUAL = "more or equal",
-  LESS = "less than",
-  LESS_OR_EQUAL = "less or equal",
 }
 
 export enum BALANCE_ENUM {
@@ -140,6 +136,7 @@ export enum URLs {
   REGISTER = "**/register/*",
   SETTINGS = "**/settings/waiveEmailConfirmation*",
   QUOTE = "**/quote/save*",
+  BASKET_QUOTE = "**/basketquote/save*",
   SAVE_TRADE = "**/trade/save*",
   PASSWORD = "**/security/password*",
   SECURITY = "**/2fa/otp*",
@@ -149,6 +146,9 @@ export enum URLs {
   POSTS = "**/post?category*",
   CURRENT = "**/accounts/current*",
   LIMIT = "**/user/limit*",
+  BASE_CURRENCY = "**/user/baseCurrency*",
+  DEFAULT_CURRENCY = "**/geo/defaultCurrencyPair*",
+  MEDIA = "**/media*",
 }
 
 export enum SETTINGS_TABS {
@@ -279,22 +279,23 @@ export enum FEATURES_OPTIONS {
   TRADE = "Trade",
 }
 
-export enum PAGES {
-  ABOUT = "about",
-  FEES = "fees",
-  SECURITY = "security",
-}
-
-export enum MEDIA {
-  TWITTER = "twitter",
-  FACEBOOK = "facebook",
-  YOUTUBE = "youtube",
-  QQ = "qq",
-}
-
 export enum LIMIT_ROWS {
   TYPE,
   EXPOSURE,
   TOTAL,
   USAGE,
+}
+
+export enum LANGUAGES {
+  ENGLISH = "English",
+  SIMPLIFIED_CHINESE = "Simplified Chinese",
+  TRADITIONAL_CHINESE = "Traditional Chinese",
+}
+
+export enum COLUMN_NAMES {
+  CURRENCY = "Currency",
+  PAYMENT_OUT_VIA = "Payment Out Via",
+  FEE = "Fee",
+  MIN_PAYMENT_OUT = "Min. Payment Out",
+  MAX_PAYMENT_OUT = "Max. Payment Out (Per Day)",
 }

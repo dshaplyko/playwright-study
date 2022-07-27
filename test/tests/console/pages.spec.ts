@@ -1,5 +1,5 @@
 import { test } from "../../po/pages";
-import { COMPARE_CONDITIONS, CONSOLE_ITEMS } from "../../config";
+import { CONSOLE_ITEMS } from "../../config";
 import {
   expectArraySorted,
   expectElementToHaveText,
@@ -62,7 +62,7 @@ test.describe("Console Page - Pages @jira(UCP-118)", () => {
     await consolePage.getTab(CONSOLE_ITEMS.PAGES).filter.clickByText("Published");
     const publishedCount = await consolePage.getTab(CONSOLE_ITEMS.PAGES).items.count();
 
-    expectNumbersComparison(publishedCount, outdatedCount, COMPARE_CONDITIONS.MORE);
+    expectNumbersComparison(publishedCount, outdatedCount, "MORE_THAN");
   });
 
   test("should sort pages @extended @jira(XRT-456)", async ({ consolePage }) => {

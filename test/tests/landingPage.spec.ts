@@ -25,38 +25,24 @@ test.describe.parallel("Landing Page @jira(PWU-313)", () => {
     await expectElementVisibility(landingPage.orderBook, false);
   });
 
-  landingPageFooterMap.forEach(
-    ({
-      name,
-      config,
-      disclaimer,
-      isAboutUsVisible,
-      isHelpVisible,
-      isContactUsVisible,
-      isAccountInformationVisible,
-      isContactUsBannerVisible,
-      isMarketInsightsVisible,
-      isAnnouncementsVisible,
-    }) => {
-      test(name, async ({ landingPage }) => {
-        await landingPage.api.useConfig(config);
-        await landingPage.goto();
-        await expectElementVisibility(landingPage.footer, true);
-        await expectElementVisibility(landingPage.getDisclaimer(disclaimer), true);
-        await expectElementVisibility(landingPage.getColumn("About Us"), isAboutUsVisible);
-        await expectElementVisibility(landingPage.getColumn("HELP"), isHelpVisible);
-        await expectElementVisibility(landingPage.getColumn("CONTACT US"), isContactUsVisible);
-        await expectElementVisibility(landingPage.getColumn("Account Information"), isAccountInformationVisible);
-        await expectElementVisibility(landingPage.marketInsights, isMarketInsightsVisible);
-        await expectElementVisibility(landingPage.announcements, isAnnouncementsVisible);
-        await expectElementVisibility(landingPage.contactUs, isContactUsBannerVisible);
-      });
-    }
-  );
+  landingPageFooterMap.forEach(({ config, name }) => {
+    test(name, async ({ landingPage }) => {
+      await landingPage.mockLandingPage(config);
+      await expectElementVisibility(landingPage.footer, true);
+      await expectElementVisibility(landingPage.getDisclaimer(config.disclaimer), true);
+      await expectElementVisibility(landingPage.getFooterLink("about"), config.aboutUs);
+      await expectElementVisibility(landingPage.getFooterLink("faq"), config.faq);
+      await expectElementVisibility(landingPage.getFooterLink("security"), config.security);
+      await expectElementVisibility(landingPage.getFooterLink("privacy"), config.privacy);
+      await expectElementVisibility(landingPage.getFooterLink("terms"), config.terms);
+      await expectElementVisibility(landingPage.marketInsights, config.marketInsight);
+      await expectElementVisibility(landingPage.announcements, config.announcements);
+    });
+  });
 
   landingPageMaintenanceMap.forEach(({ name, config, message }) => {
     test(name, async ({ landingPage }) => {
-      await landingPage.api.mockConfig(config);
+      await landingPage.api.mockFeaturesSiteData(config);
       await landingPage.goto();
       await expectElementVisibility(landingPage.maintenanceBanner, true);
       await expectElementToHaveText(landingPage.maintenanceBanner, message);

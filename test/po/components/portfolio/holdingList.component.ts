@@ -73,7 +73,7 @@ export class HoldingList extends Table {
   async checkSumOfEachColumn(): Promise<any> {
     const rowsCount: number = await this.getRowsCount();
 
-    for (let i = 0; i < rowsCount; i++) {
+    for (let i = 1; i < rowsCount; i++) {
       return expect(Math.trunc(getValueAsNumber(await this.getTotal(i)))).toEqual(
         Math.trunc(
           calculateSumFromTable([await this.getBrokerage(i), await this.getExchange(i), await this.getPrimary(i)])
@@ -87,9 +87,14 @@ export class HoldingList extends Table {
     return currencies.findIndex((cur: T | string) => cur === currency);
   }
 
-  async getCurrencyAmount<T>(currency: T): Promise<number> {
+  async getBrokerageAmount<T>(currency: T): Promise<number> {
     const index = await this.getCurrencyIndex(currency);
     return getValueAsNumber(await this.getBrokerage(index));
+  }
+
+  async getPrimaryAmount<T>(currency: T): Promise<number> {
+    const index = await this.getCurrencyIndex(currency);
+    return getValueAsNumber(await this.getPrimary(index));
   }
 
   async checkImagesVisibility(): Promise<void> {

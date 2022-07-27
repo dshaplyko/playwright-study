@@ -33,6 +33,8 @@ export class Main extends Element {
   readonly plusIcon: Element;
 
   readonly titles: Locator;
+  readonly uploadThisImageButton: Locator;
+  readonly fileInputField: Locator;
 
   constructor(locator: Locator, page: Page) {
     super(locator);
@@ -50,6 +52,10 @@ export class Main extends Element {
     this.errorMessage = this.rootEl.locator("[data-test-id='errors-block']");
     this.plusIcon = new Element(this.rootEl.locator("button:has(>svg[data-testid='AddIcon'])"));
     this.titles = this.items.locator(".MuiListItemText-primary");
+    this.uploadThisImageButton = this.rootEl.locator("button", {
+      has: page.locator("[data-testid='ArrowUpwardIcon']"),
+    });
+    this.fileInputField = this.rootEl.locator("input[type='file']");
   }
 
   publishItem(index: number): Promise<void> {
@@ -81,6 +87,18 @@ export class Main extends Element {
   }
 
   selectItemByText(text: string): Promise<void> {
-    return this.items.locator("span", { hasText: text }).click();
+    return this.getItemByText(text).click();
+  }
+
+  getItemByText(text: string): Locator {
+    return this.items.locator("span", { hasText: text });
+  }
+
+  getItemsCount(): Promise<number> {
+    return this.items.count();
+  }
+
+  uploadFile(fileName: string): Promise<void> {
+    return this.fileInputField.setInputFiles(`./test/config/images/${fileName}`);
   }
 }

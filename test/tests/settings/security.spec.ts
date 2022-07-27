@@ -17,14 +17,16 @@ test.describe.parallel("Settings Page -> Security tab @jira(PWU-330)", () => {
   });
 
   test("should turn off OTP method @criticalPath @jira(XRT-330)", async ({ settingsPage }) => {
-    await settingsPage.disableSecuritySetting(false, true);
+    await settingsPage.api.mockSecurityOptions(false, true);
+    await settingsPage.goto();
     await settingsPage.clickTab(SETTINGS_TABS.SECURITY);
     await expectElementVisibility(settingsPage.getTwoFactorBlock(TWO_FA_SETTINGS.OTP).rootEl, false);
     await expectElementVisibility(settingsPage.getTwoFactorBlock(TWO_FA_SETTINGS.YUBIKEY).rootEl, true);
   });
 
   test("should turn off Yubikey method @criticalPath @jira(XRT-363)", async ({ settingsPage }) => {
-    await settingsPage.disableSecuritySetting(true, false);
+    await settingsPage.api.mockSecurityOptions(true, false);
+    await settingsPage.goto();
     await settingsPage.clickTab(SETTINGS_TABS.SECURITY);
     await expectElementVisibility(settingsPage.getTwoFactorBlock(TWO_FA_SETTINGS.OTP).rootEl, true);
     await expectElementVisibility(settingsPage.getTwoFactorBlock(TWO_FA_SETTINGS.YUBIKEY).rootEl, false);
@@ -83,7 +85,7 @@ test.describe.parallel("Settings Page -> Security tab @jira(PWU-330)", () => {
   });
 
   test("should not delete OTP when 2FA is mandatory @criticalPath @jira(XRT-369)", async ({ settingsPage }) => {
-    await settingsPage.mockMandatory2FA();
+    await settingsPage.api.mockMandatory2FA(true);
     await settingsPage.mockSecurityKeys();
     await settingsPage.clickTab(SETTINGS_TABS.SECURITY);
     await settingsPage.getTwoFactorBlock(TWO_FA_SETTINGS.OTP).deleteExistingKey(1);

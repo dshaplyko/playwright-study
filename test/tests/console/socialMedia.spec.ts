@@ -1,10 +1,12 @@
 import { test } from "../../po/pages";
-import { CONSOLE_ITEMS, MEDIA } from "../../config";
+import { CONSOLE_ITEMS } from "../../config";
 import {
   expectElementToBeDisabled,
   expectElementToHaveText,
   expectElementVisibility,
   expectToHaveCount,
+  expectElementEquality,
+  generateRandomString,
 } from "../../utils";
 
 test.describe("Console Page - Social Media @jira(UCP-53)", () => {
@@ -22,7 +24,7 @@ test.describe("Console Page - Social Media @jira(UCP-53)", () => {
 
   test.skip("should add/remove social media @criticalPath @jira(XRT-482) @jira(XRT-483)", async ({ consolePage }) => {
     await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).selectItem(1);
-    await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).getSocialMedia(MEDIA.FACEBOOK).click();
+    await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).getSocialMedia("facebook").click();
     await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).hyperlinkInput.fill("https://www.test.com");
     await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).publishButton.click();
     await expectElementToHaveText(consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).getItemTitle(1), "www.test.com");
@@ -37,7 +39,7 @@ test.describe("Console Page - Social Media @jira(UCP-53)", () => {
 
   test("should display an error in case of missing hyperlink @extended @jira(XRT-485)", async ({ consolePage }) => {
     await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).selectItem(1);
-    await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).getSocialMedia(MEDIA.TWITTER).click();
+    await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).getSocialMedia("twitter").click();
     await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).publishButton.click();
     await expectElementVisibility(consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).errorMessage, true);
     await expectElementToHaveText(
@@ -48,7 +50,7 @@ test.describe("Console Page - Social Media @jira(UCP-53)", () => {
 
   test("should have possibility to add QR Code for QQ @criticalPath @jira(XRT-481)", async ({ consolePage }) => {
     await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).selectItem(1);
-    await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).getSocialMedia(MEDIA.QQ).click();
+    await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).getSocialMedia("qq").click();
     await expectElementVisibility(consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).browseForImageButton, true);
     await expectElementToHaveText(consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).getItemTitle(1), "Add QR Code");
 
@@ -56,5 +58,14 @@ test.describe("Console Page - Social Media @jira(UCP-53)", () => {
     await consolePage.modal.okButton.click();
     await expectElementVisibility(consolePage.modal.rootEl, false);
     await expectElementToHaveText(consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).getItemTitle(1), "Add New");
+  });
+
+  test("should edit social media @criticalPath @jira(XRT-480)", async ({ consolePage }) => {
+    await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).selectItem(2);
+    const initialHyperlinkValue = await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).hyperlinkInput.inputValue();
+    await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).hyperlinkInput.fill("www.test.com/" + generateRandomString(6));
+    await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).publishButton.click();
+    const newHyperlinkValue = await consolePage.getTab(CONSOLE_ITEMS.SOCIAL_MEDIA).hyperlinkInput.inputValue();
+    await expectElementEquality(initialHyperlinkValue, newHyperlinkValue, false);
   });
 });
